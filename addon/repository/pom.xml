@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.onehippo.forge.embargo</groupId>
+    <artifactId>embargo-addons</artifactId>
+    <version>1.01.01-SNAPSHOT</version>
+  </parent>
+
+  <name>Hippo Embargo Plugin Repository</name>
+  <artifactId>embargo-addon-repository</artifactId>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-repository-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-repository-engine</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>maven-datanucleus-plugin</artifactId>
+        <version>2.2.1</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-core</artifactId>
+            <version>${org.datanucleus.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>javax.jcr</groupId>
+            <artifactId>jcr</artifactId>
+            <version>${javax.jcr.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.onehippo.cms7</groupId>
+            <artifactId>hippo-repository-api</artifactId>
+            <version>${hippo.repository.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.onehippo.cms7</groupId>
+            <artifactId>hippo-repository-builtin</artifactId>
+            <version>${hippo.repository.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <!--mappingIncludes>**/*.jdo, **/*.class</mappingIncludes-->
+          <log4jConfiguration>log4j.xml</log4jConfiguration>
+          <verbose>true</verbose>
+          <enhancerName>ASM</enhancerName>
+          <props>jdo.properties</props>
+          <persistenceUnitName>Workflow</persistenceUnitName>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

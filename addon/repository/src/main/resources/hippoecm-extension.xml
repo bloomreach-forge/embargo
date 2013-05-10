@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="hippo:initialize">
+
+  <sv:property sv:name="jcr:primaryType" sv:type="Name">
+    <sv:value>hippo:initializefolder</sv:value>
+  </sv:property>
+
+  <sv:property sv:name="hippo:version" sv:type="String">
+    <sv:value>v1-embargo</sv:value>
+  </sv:property>
+
+  <sv:node sv:name="embargo">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20010</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:namespace" sv:type="String">
+      <sv:value>http://www.onehippo.org/embargo/nt/1.0</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:nodetypesresource" sv:type="String">
+      <sv:value>embargo.cnd</sv:value>
+    </sv:property>
+  </sv:node>
+
+  <sv:node sv:name="embargo-workflow">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentresource" sv:type="String">
+      <sv:value>workflow/embargo-workflow.xml</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20020</sv:value>
+    </sv:property>
+  </sv:node>
+
+  <sv:node sv:name="cms-preview-workflows-enable-embargo">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20030</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:frontend/cms/cms-preview/workflowPlugin/workflow.categories</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentpropadd" sv:type="String">
+      <sv:value>embargo</sv:value>
+    </sv:property>
+  </sv:node>
+
+  <sv:node sv:name="cms-compare-workflows-enable-embargo">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20031</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:frontend/cms/cms-compare/workflowPlugin/workflow.categories</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentpropadd" sv:type="String">
+      <sv:value>embargo</sv:value>
+    </sv:property>
+  </sv:node>
+
+  <sv:node sv:name="embargo-example-group">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentresource" sv:type="String">
+      <sv:value>security/embargo-example-group.xml</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:groups</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20040</sv:value>
+    </sv:property>
+  </sv:node>
+
+  <sv:node sv:name="embargo-domains-workflowcategories-hide-embargo">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentresource" sv:type="String">
+      <sv:value>domains/facetrule-embargo-workflowcategory.xml</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:domains/workflow/hippo-workflowcategory</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20050</sv:value>
+    </sv:property>
+  </sv:node>
+
+  <sv:node sv:name="embargo-domains-workflowcategories-show-embargo">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentresource" sv:type="String">
+      <sv:value>domains/embargo-workflowcategory.xml</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:domains</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20051</sv:value>
+    </sv:property>
+  </sv:node>
+
+</sv:node>

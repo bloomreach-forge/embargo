@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Hippo Embargo Plugin">
+
+  <publishDate format="d MMMM yyyy"/>
+
+  <bannerLeft>
+    <name>Hippo Embargo Plugin</name>
+  </bannerLeft>
+
+  <body>
+
+    <menu name="Embargo">
+      <item name="Overview" href="index.html"/>
+      <item name="Installation" href="install.html"/>
+      <item name="Release notes" href="release-notes.html"/>
+      <item name="API" href="apidocs/index.html"/>
+    </menu>
+
+    <menu name="Query component">
+      <item name="Overview" href="query-component-overview.html"/>
+      <item name="Usage" href="query-component-usage.html"/>
+      <item name="Configuration" href="query-component-configuration.html"/>
+      <item name="Examples" href="query-component-examples.html"/>
+    </menu>
+
+    <menu name="Search term documents">
+      <item name="Usage" href="search-term-documents-usage.html"/>
+      <item name="Examples" href="search-term-documents-examples.html"/>
+    </menu>
+
+    <menu ref="reports"/>
+
+  </body>
+
+</project>

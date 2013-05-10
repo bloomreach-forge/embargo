@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE document PUBLIC "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+  <properties>
+    <title>Installation</title>
+  </properties>
+  <body>
+    <section name="Install the query component">
+      <subsection name="Maven repository">
+        <p>Add the Maven repository to the root POM:</p>
+        <source><![CDATA[<repository>
+  <id>hippo-maven2-forge</id>
+  <name>Hippo Maven 2 Forge Repositories</name>
+  <url>http://maven.onehippo.com/maven2-forge</url>
+</repository>]]></source>
+      </subsection>
+    </section>
+    <section name="Install and run the demo project">
+      <p>A demo project is also available:</p>
+      <ol>
+        <li>Check out the demo source code form the SVN repository:
+          http://forge.onehippo.org/svn/embargo/embargo-demo/
+        </li>
+        <li>Install the demo project with Maven.</li>
+        <li>Run the CMS module (mvn jetty:run-war) and browse<a href="http://localhost:8080/">
+          http://localhost:8080/</a>.
+        </li>
+        <li>Run the site module (mvn jetty:run) and browse<a href="http://localhost:8085/site/preview/">
+          http://localhost:8085/site/preview/</a>.
+        </li>
+      </ol>
+    </section>
+    <section name="Install from sources">
+      <ol>
+        <li>Check out the source code from the SVN repository: http://forge.onehippo.org/svn/embargo/embargo/</li>
+        <li>Install the project with Maven.</li>
+      </ol>
+    </section>
+  </body>
+</document>
