@@ -3,12 +3,14 @@ package org.onehippo.forge.embargo.repository.workflow;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.Value;
 import javax.jcr.query.Query;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.Discriminator;
@@ -38,6 +40,7 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
     protected static final String EMBARGO_MIXIN_NAME = "embargo:embargo";
     protected static final String EMBARGO_GROUP_PROPERTY_NAME = "embargo:groups";
     protected static final String SELECT_GROUPS_QUERY = "SELECT * FROM hipposys:group WHERE jcr:primaryType='hipposys:group' AND hipposys:members='{}'";
+    protected static final String EMBARGO_GROUPS_MAPPING_NODE_PATH = "hippo:configuration/hippo:domains/embargo/hipposys:authrole";
 
 
     @Persistent(column = "jcr:uuid")
@@ -74,21 +77,37 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
                 SELECT_GROUPS_QUERY.replace("{}", userIdentity),
                 Query.SQL);
         NodeIterator groupNodes = selectGroupsQuery.execute().getNodes();
-
-
-        //     /hippo:configuration/hippo:domains/embargo/hipposys:authrole
-
-
         if (!groupNodes.hasNext()) {
             throw new RepositoryException("User does not have the permissions to set/remove embargo");
         }
 
         List<String> groupNames = new ArrayList<String>();
+        List<String> embargoEnabledGroupNames = getAllEmbargoEnabledGroups();
+
         while (groupNodes.hasNext()) {
-            groupNames.add(groupNodes.nextNode().getName());
+            String groupName = groupNodes.nextNode().getName();
+            if(embargoEnabledGroupNames.contains(groupName)){
+                groupNames.add(groupName);
+            }
         }
 
         return groupNames.toArray(new String[0]);
+    }
+
+    protected List<String> getAllEmbargoEnabledGroups(){
+        try {
+            Value[] embargoGroups = getWorkflowContext().getInternalWorkflowSession().getRootNode().getNode(EMBARGO_GROUPS_MAPPING_NODE_PATH).getProperty("hipposys:groups").getValues();
+            List<String> embargoGroupNames = new ArrayList<String>();
+            for(int i=0; i<embargoGroups.length; i++){
+                embargoGroupNames.add(embargoGroups[i].getString());
+            }
+            return embargoGroupNames;
+
+        } catch (RepositoryException e) {
+            log.error("Error while reading list of embargo enabled groups", e);
+        }
+
+        return Collections.EMPTY_LIST;
     }
 
 /*
