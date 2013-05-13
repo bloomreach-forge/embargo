@@ -4,18 +4,16 @@
 <'mix'='http://www.jcp.org/jcr/mix/1.0'>
 <'nt'='http://www.jcp.org/jcr/nt/1.0'>
 
-[embargo:embargo]
-  mixin
-  - embargo:groups (string) mandatory multiple
-
 [embargo:job] > hippo:request, mix:versionable
   - * (string)
   - * (binary)
   + * (hipposched:triggers) = hipposched:triggers
 
-[embargo:handle] mixin
- + embargo:request (embargo:job) multiple ignore
- - embargo:identity (string) mandatory
+[embargo:embargo]
+  mixin
+  - embargo:groups (string) mandatory multiple
+  - embargo:identity (string)
+  + embargo:request (embargo:job) multiple ignore
 
 
 

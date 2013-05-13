@@ -76,46 +76,92 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
      */
     private void createMenu(final Mode mode) {
 
-        add(new StdWorkflow<EmbargoWorkflow2>("set", new StringResourceModel("set-embargo-label", this, null), getPluginContext(), this) {
-            @Override
-            protected ResourceReference getIcon() {
-                return new ResourceReference(getClass(), "lock_add.png");
-            }
-
-            @Override
-            protected String execute(EmbargoWorkflow2 workflow) throws Exception {
-                WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
-                WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
-                if (workflowDescriptor != null) {
-                    Node documentNode = workflowDescriptorModel.getNode();
-                    Node handleNode = documentNode.getParent();
-                    workflow.addEmbargo();
-                    // workflow.setEmbargo(handleNode, true);
+        if(Mode.UNEMBARGOED.equals(mode)){
+            add(new StdWorkflow<EmbargoWorkflow2>("set", new StringResourceModel("set-embargo-label", this, null), getPluginContext(), this) {
+                @Override
+                protected ResourceReference getIcon() {
+                    return new ResourceReference(getClass(), "lock_add.png");
                 }
-                return null;
-            }
-        });
 
-        add(new StdWorkflow<EmbargoWorkflow2>("remove", new StringResourceModel("remove-embargo-label", this, null), getPluginContext(), this) {
-            @Override
-            protected ResourceReference getIcon() {
-                return new ResourceReference(getClass(), "lock_break.png");
-            }
-
-            @Override
-            protected String execute(EmbargoWorkflow2 workflow) throws Exception {
-                WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
-                WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
-                if (workflowDescriptor != null) {
-                    Node documentNode = workflowDescriptorModel.getNode();
-                    Node handleNode = documentNode.getParent();
-                    workflow.removeEmbargo();
-                    //workflow.setEmbargo(handleNode, false);
+                @Override
+                protected String execute(EmbargoWorkflow2 workflow) throws Exception {
+                    WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
+                    WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
+                    if (workflowDescriptor != null) {
+                        Node documentNode = workflowDescriptorModel.getNode();
+                        Node handleNode = documentNode.getParent();
+                        workflow.addEmbargo();
+                        // workflow.setEmbargo(handleNode, true);
+                    }
+                    return null;
                 }
-                return null;
-            }
-        });
+            });
+        }
 
+        if(Mode.EMBARGOED.equals(mode)){
+            add(new StdWorkflow<EmbargoWorkflow2>("remove", new StringResourceModel("remove-embargo-label", this, null), getPluginContext(), this) {
+                @Override
+                protected ResourceReference getIcon() {
+                    return new ResourceReference(getClass(), "lock_break.png");
+                }
+
+                @Override
+                protected String execute(EmbargoWorkflow2 workflow) throws Exception {
+                    WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
+                    WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
+                    if (workflowDescriptor != null) {
+                        Node documentNode = workflowDescriptorModel.getNode();
+                        Node handleNode = documentNode.getParent();
+                        workflow.removeEmbargo();
+                        //workflow.setEmbargo(handleNode, false);
+                    }
+                    return null;
+                }
+            });
+
+            add(new WorkflowAction("scheduleUnembargo", new StringResourceModel("schedule-unembargo-label", this, null).getString(), null) {
+                public Date date = new Date();
+
+                @Override
+                protected ResourceReference getIcon() {
+                    return new ResourceReference(getClass(), "clock_delete.png");
+                }
+
+                @Override
+                protected IDialogService.Dialog createRequestDialog() {
+                    return new ScheduleDialog(this, new PropertyModel(this, "date"), "unschedule-embargo-title", "unschedule-embargo-text");
+                }
+
+                @Override
+                protected String execute(final EmbargoWorkflow2 wf) throws Exception {
+                    //return super.execute(workflow);
+                    // EmbargoWorkflow2 workflow = (EmbargoWorkflow2) wf;
+                    final Calendar embargoDate = Calendar.getInstance();
+                    embargoDate.setTime(date);
+                    if (date != null) {
+                        wf.removeEmbargo(embargoDate);
+                    } else {
+                        wf.removeEmbargo();
+                    }
+                    return null;
+                }
+            });
+        }
+
+
+        if(Mode.SCHEDULED_UNEMBARGO.equals(mode)){
+            add(new StdWorkflow<EmbargoWorkflow2>("cancelScheduledUnembargo", new StringResourceModel("cancel-scheduled-unembargo-label", this, null), getPluginContext(), this) {
+                @Override
+                protected ResourceReference getIcon() {
+                    return new ResourceReference(getClass(), "cancel_schedule.png");
+                }
+
+                @Override
+                protected String execute(EmbargoWorkflow2 workflow) throws Exception {
+                    return null;
+                }
+            });
+        }
 
         /*add(new WorkflowAction("scheduleEmbargo", new StringResourceModel(
                 "schedule-embargo-label", this, null).getString(), null) {
@@ -148,36 +194,6 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
         })*/;
 
-        add(new WorkflowAction("unscheduleEmbargo", new StringResourceModel(
-                "unschedule-embargo-label", this, null).getString(), null) {
-            public Date date = new Date();
-
-            @Override
-            protected ResourceReference getIcon() {
-                return new ResourceReference(getClass(), "clock_delete.png");
-            }
-
-            @Override
-            protected IDialogService.Dialog createRequestDialog() {
-                return new ScheduleDialog(this, new PropertyModel(this, "date"), "unschedule-embargo-title", "unschedule-embargo-text");
-            }
-
-            @Override
-            protected String execute(final EmbargoWorkflow2 wf) throws Exception {
-                //return super.execute(workflow);
-                // EmbargoWorkflow2 workflow = (EmbargoWorkflow2) wf;
-                final Calendar embargoDate = Calendar.getInstance();
-                embargoDate.setTime(date);
-                if (date != null) {
-                    wf.removeEmbargo(embargoDate);
-                } else {
-                    wf.removeEmbargo();
-                }
-                return null;
-            }
-
-
-        });
 
     }
 
@@ -213,21 +229,20 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
      * @throws RepositoryException
      */
     private Mode resolveMode(Node handleNode) throws RepositoryException {
-        if (handleNode.isNodeType("embargo:embargo")) {
-            return Mode.EMBARGOED;
-        }
-        return Mode.UNEMBARGOED;
-        //todo resolve scheduled modes
+        return handleNode.hasNode("embargo:request") ?
+                Mode.SCHEDULED_UNEMBARGO:
+                handleNode.isNodeType("embargo:embargo") ?
+                        Mode.EMBARGOED :
+                        Mode.UNEMBARGOED;
+
+        //todo resolve scheduled-set mode of embargo
     }
 
     private enum Mode {
-
         UNEMBARGOED,
         EMBARGOED,
-        SCHEDULEDEMBARGO,
-        UNSCHEDULEDEMBARGO
-
+        SCHEDULED_EMBARGO,
+        SCHEDULED_UNEMBARGO
     }
-
 
 }

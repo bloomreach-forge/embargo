@@ -39,6 +39,7 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
 
     protected static final String EMBARGO_MIXIN_NAME = "embargo:embargo";
     protected static final String EMBARGO_GROUP_PROPERTY_NAME = "embargo:groups";
+    protected static final String EMBARGO_IDENTITY_PROPERTY_NAME = "embargo:identity";
     protected static final String SELECT_GROUPS_QUERY = "SELECT * FROM hipposys:group WHERE jcr:primaryType='hipposys:group' AND hipposys:members='{}'";
     protected static final String EMBARGO_GROUPS_MAPPING_NODE_PATH = "hippo:configuration/hippo:domains/embargo/hipposys:authrole";
 
@@ -62,12 +63,13 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
         handle.addMixin(EMBARGO_MIXIN_NAME);
+
         //Issue is it is scheduled the useridentity is system. So I have to check if user is system or else use the embargo identity property
-        if (workflowContext.getUserIdentity().equals("system") && handle.isNodeType("embargo:handle")) {
-            handle.setProperty(EMBARGO_GROUP_PROPERTY_NAME, getUserGroups(handle.getProperty("embargo:identity").getString()));
-        } else {
-            handle.setProperty(EMBARGO_GROUP_PROPERTY_NAME, getUserGroups(workflowContext.getUserIdentity()));
-        }
+        String userIdentity = workflowContext.getUserIdentity().equals("system") ?
+                handle.getProperty(EMBARGO_IDENTITY_PROPERTY_NAME).getString() :
+                workflowContext.getUserIdentity();
+
+        handle.setProperty(EMBARGO_GROUP_PROPERTY_NAME, getUserGroups(userIdentity));
 
         internalWorkflowSession.save();
     }
@@ -141,13 +143,15 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
-        handle.removeMixin(EMBARGO_MIXIN_NAME);
+
         if (handle.hasProperty(EMBARGO_GROUP_PROPERTY_NAME)) {
             handle.getProperty(EMBARGO_GROUP_PROPERTY_NAME).remove();
         }
-        if(handle.isNodeType("embargo:handle")){
-            handle.removeMixin("embargo:handle");
+        if (handle.hasProperty(EMBARGO_IDENTITY_PROPERTY_NAME)) {
+            handle.getProperty(EMBARGO_IDENTITY_PROPERTY_NAME).remove();
         }
+        handle.removeMixin(EMBARGO_MIXIN_NAME);
+
         internalWorkflowSession.save();
     }
 

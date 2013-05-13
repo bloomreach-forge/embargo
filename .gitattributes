@@ -1,4 +1,5 @@
 * text=auto !eol
+addon/frontend/src/main/java/org/onehippo/forge/embargo/frontend/plugins/cancel_schedule.png -text svneol=unset#image/png
 addon/frontend/src/main/java/org/onehippo/forge/embargo/frontend/plugins/clock_add.png -text svneol=unset#image/png
 addon/frontend/src/main/java/org/onehippo/forge/embargo/frontend/plugins/clock_delete.png -text svneol=unset#image/png
 addon/frontend/src/main/java/org/onehippo/forge/embargo/frontend/plugins/lock_add.png -text svneol=unset#image/png
