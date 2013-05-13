@@ -19,7 +19,7 @@ public interface EmbargoWorkflow2 extends Workflow{
 
     public void addEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException;
 
-    public void addEmbargo(Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException;
+    //public void addEmbargo(Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException;
 
     public void removeEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException;
 

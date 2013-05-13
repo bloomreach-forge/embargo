@@ -59,7 +59,7 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
         handle.addMixin(EMBARGO_MIXIN_NAME);
-        //fucking berry... issue is it is scheduled the useridentity is system. So I have to check if user is system or else use the embargo identity property
+        //Issue is it is scheduled the useridentity is system. So I have to check if user is system or else use the embargo identity property
         if (workflowContext.getUserIdentity().equals("system") && handle.isNodeType("embargo:handle")) {
             handle.setProperty(EMBARGO_GROUP_PROPERTY_NAME, getUserGroups(handle.getProperty("embargo:identity").getString()));
         } else {
@@ -75,6 +75,10 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
                 Query.SQL);
         NodeIterator groupNodes = selectGroupsQuery.execute().getNodes();
 
+
+        //     /hippo:configuration/hippo:domains/embargo/hipposys:authrole
+
+
         if (!groupNodes.hasNext()) {
             throw new RepositoryException("User does not have the permissions to set/remove embargo");
         }
@@ -87,6 +91,7 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
         return groupNames.toArray(new String[0]);
     }
 
+/*
     @Override
     public void addEmbargo(final Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
@@ -106,6 +111,7 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
         EmbargoWorkflow2 wf = (EmbargoWorkflow2) wfCtx.getWorkflow("embargo");
         wf.addEmbargo();
     }
+*/
 
     @Override
     public void removeEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException {

@@ -117,7 +117,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
         });
 
 
-        add(new WorkflowAction("scheduleEmbargo", new StringResourceModel(
+        /*add(new WorkflowAction("scheduleEmbargo", new StringResourceModel(
                 "schedule-embargo-label", this, null).getString(), null) {
             public Date date = new Date();
 
@@ -146,7 +146,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
             }
 
 
-        });
+        })*/;
 
         add(new WorkflowAction("unscheduleEmbargo", new StringResourceModel(
                 "unschedule-embargo-label", this, null).getString(), null) {
