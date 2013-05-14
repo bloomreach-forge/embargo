@@ -88,20 +88,20 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
 
         while (groupNodes.hasNext()) {
             String groupName = groupNodes.nextNode().getName();
-            if(embargoEnabledGroupNames.contains(groupName)){
+            if (embargoEnabledGroupNames.contains(groupName)) {
                 groupNames.add(groupName);
             }
         }
 
-        return groupNames.toArray(new String[0]);
+        return groupNames.toArray(new String[groupNames.size()]);
     }
 
-    protected List<String> getAllEmbargoEnabledGroups(){
+    protected List<String> getAllEmbargoEnabledGroups() {
         try {
             Value[] embargoGroups = getWorkflowContext().getInternalWorkflowSession().getRootNode().getNode(EMBARGO_GROUPS_MAPPING_NODE_PATH).getProperty("hipposys:groups").getValues();
             List<String> embargoGroupNames = new ArrayList<String>();
-            for(int i=0; i<embargoGroups.length; i++){
-                embargoGroupNames.add(embargoGroups[i].getString());
+            for (final Value embargoGroup : embargoGroups) {
+                embargoGroupNames.add(embargoGroup.getString());
             }
             return embargoGroupNames;
 
@@ -109,7 +109,7 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
             log.error("Error while reading list of embargo enabled groups", e);
         }
 
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
 /*

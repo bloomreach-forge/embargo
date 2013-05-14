@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 
 import org.hippoecm.repository.api.WorkflowManager;
 import org.hippoecm.repository.ext.WorkflowInvocation;
@@ -31,10 +32,12 @@ public class CalendarSchedulerInvocationModule implements WorkflowInvocationHand
             if (SchedulerModule.log.isDebugEnabled()) {
                 SchedulerModule.log.debug("Storing scheduled workflow {}", invocation.toString());
             }
-            Scheduler scheduler = SchedulerModule.getScheduler(invocation.getSubject().getSession());
+            final Session session = invocation.getSubject().getSession();
+            Scheduler scheduler = SchedulerModule.getScheduler(session);
             Node subject = invocation.getSubject();
             Node handle = subject.getParent();
             if (handle.isNodeType("mix:versionable") && !handle.isCheckedOut()) {
+                //TODO: Use version manager for this
                 handle.checkout();
             }
             Node request = handle.addNode("embargo:request", "embargo:job");
@@ -44,7 +47,7 @@ public class CalendarSchedulerInvocationModule implements WorkflowInvocationHand
             JobDetail jobDetail = new JobDetail(detail, null, WorkflowJob.class);
             JobDataMap jobDataMap = new JobDataMap();
             jobDataMap.put("invocation", invocation);
-            jobDataMap.put("document", invocation.getSubject().getUUID());
+            jobDataMap.put("document", invocation.getSubject().getIdentifier());
             jobDetail.setJobDataMap(jobDataMap);
 
             Trigger trigger = createTrigger(detail + "/default");

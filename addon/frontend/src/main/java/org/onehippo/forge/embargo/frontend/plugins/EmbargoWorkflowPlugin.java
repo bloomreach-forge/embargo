@@ -49,6 +49,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
             WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
             WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
             if (workflowDescriptor != null) {
+                //TODO: See if you can replace this with a non deprecated method call
                 Node documentNode = workflowDescriptorModel.getNode();
                 Workflow workflow = manager.getWorkflow(workflowDescriptor);
                 Map<String, Serializable> info = workflow.hints();
@@ -88,6 +89,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                     WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
                     WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
                     if (workflowDescriptor != null) {
+                        //TODO: See if you can replace this with a non deprecated method call
                         Node documentNode = workflowDescriptorModel.getNode();
                         Node handleNode = documentNode.getParent();
                         workflow.addEmbargo();
