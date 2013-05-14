@@ -21,7 +21,7 @@
 
 
 
-    <class name="EmbargoWorkflow2Impl" detachable="false" identity-type="datastore" table="documents">
+    <class name="EmbargoWorkflowImpl" detachable="false" identity-type="datastore" table="documents">
       <inheritance strategy="complete-table"/>
       <datastore-identity strategy="native"/>
       <field name="uuid" column="jcr:uuid" />

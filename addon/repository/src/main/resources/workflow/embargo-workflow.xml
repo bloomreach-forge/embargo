@@ -50,7 +50,7 @@
         <sv:value>frontend:workflow</sv:value>
       </sv:property>
       <sv:property sv:name="hipposys:classname" sv:type="String">
-        <sv:value>org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow2Impl</sv:value>
+        <sv:value>org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflowImpl</sv:value>
       </sv:property>
       <sv:property sv:name="hipposys:display" sv:type="String">
         <sv:value>Embargo settings</sv:value>

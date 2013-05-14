@@ -26,14 +26,14 @@ import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowDescriptor;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.api.WorkflowManager;
-import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow2;
+import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @version $Id$
  */
-public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWorkflow2> {
+public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWorkflow> {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowPlugin.class);
 
@@ -78,14 +78,14 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     private void createMenu(final Mode mode) {
 
         if(Mode.UNEMBARGOED.equals(mode)){
-            add(new StdWorkflow<EmbargoWorkflow2>("set", new StringResourceModel("set-embargo-label", this, null), getPluginContext(), this) {
+            add(new StdWorkflow<EmbargoWorkflow>("set", new StringResourceModel("set-embargo-label", this, null), getPluginContext(), this) {
                 @Override
                 protected ResourceReference getIcon() {
                     return new ResourceReference(getClass(), "lock_add.png");
                 }
 
                 @Override
-                protected String execute(EmbargoWorkflow2 workflow) throws Exception {
+                protected String execute(EmbargoWorkflow workflow) throws Exception {
                     WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
                     WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
                     if (workflowDescriptor != null) {
@@ -101,14 +101,14 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
         }
 
         if(Mode.EMBARGOED.equals(mode)){
-            add(new StdWorkflow<EmbargoWorkflow2>("remove", new StringResourceModel("remove-embargo-label", this, null), getPluginContext(), this) {
+            add(new StdWorkflow<EmbargoWorkflow>("remove", new StringResourceModel("remove-embargo-label", this, null), getPluginContext(), this) {
                 @Override
                 protected ResourceReference getIcon() {
                     return new ResourceReference(getClass(), "lock_break.png");
                 }
 
                 @Override
-                protected String execute(EmbargoWorkflow2 workflow) throws Exception {
+                protected String execute(EmbargoWorkflow workflow) throws Exception {
                     WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
                     WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
                     if (workflowDescriptor != null) {
@@ -135,9 +135,9 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                 }
 
                 @Override
-                protected String execute(final EmbargoWorkflow2 wf) throws Exception {
+                protected String execute(final EmbargoWorkflow wf) throws Exception {
                     //return super.execute(workflow);
-                    // EmbargoWorkflow2 workflow = (EmbargoWorkflow2) wf;
+                    // EmbargoWorkflow workflow = (EmbargoWorkflow) wf;
                     final Calendar embargoDate = Calendar.getInstance();
                     embargoDate.setTime(date);
                     if (date != null) {
@@ -152,14 +152,14 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
 
         if(Mode.SCHEDULED_UNEMBARGO.equals(mode)){
-            add(new StdWorkflow<EmbargoWorkflow2>("cancelScheduledUnembargo", new StringResourceModel("cancel-scheduled-unembargo-label", this, null), getPluginContext(), this) {
+            add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", new StringResourceModel("cancel-scheduled-unembargo-label", this, null), getPluginContext(), this) {
                 @Override
                 protected ResourceReference getIcon() {
                     return new ResourceReference(getClass(), "cancel_schedule.png");
                 }
 
                 @Override
-                protected String execute(EmbargoWorkflow2 workflow) throws Exception {
+                protected String execute(EmbargoWorkflow workflow) throws Exception {
                     return null;
                 }
             });
@@ -180,9 +180,9 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
             }
 
             @Override
-            protected String execute(final EmbargoWorkflow2 wf) throws Exception {
+            protected String execute(final EmbargoWorkflow wf) throws Exception {
                 //return super.execute(workflow);
-                // EmbargoWorkflow2 workflow = (EmbargoWorkflow2) wf;
+                // EmbargoWorkflow workflow = (EmbargoWorkflow) wf;
                 final Calendar embargoDate = Calendar.getInstance();
                 embargoDate.setTime(date);
                 if (date != null) {

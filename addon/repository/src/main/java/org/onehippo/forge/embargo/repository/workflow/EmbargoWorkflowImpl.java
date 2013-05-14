@@ -33,9 +33,9 @@ import org.slf4j.LoggerFactory;
 @PersistenceCapable(identityType = IdentityType.DATASTORE, cacheable = "true", detachable = "false", table = "documents")
 @DatastoreIdentity(strategy = IdGeneratorStrategy.NATIVE)
 @Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
-public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflow2 {
+public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow {
 
-    private static Logger log = LoggerFactory.getLogger(EmbargoWorkflow2Impl.class);
+    private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowImpl.class);
 
     protected static final String EMBARGO_MIXIN_NAME = "embargo:embargo";
     protected static final String EMBARGO_GROUP_PROPERTY_NAME = "embargo:groups";
@@ -50,7 +50,7 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
     /**
      * @throws java.rmi.RemoteException
      */
-    public EmbargoWorkflow2Impl() throws RemoteException {
+    public EmbargoWorkflowImpl() throws RemoteException {
     }
 
     @Override
@@ -129,7 +129,7 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
         WorkflowContext wfCtx = getWorkflowContext();
         wfCtx = wfCtx.getWorkflowContext(publicationDate);
 
-        EmbargoWorkflow2 wf = (EmbargoWorkflow2) wfCtx.getWorkflow("embargo");
+        EmbargoWorkflow wf = (EmbargoWorkflow) wfCtx.getWorkflow("embargo");
         wf.addEmbargo();
     }
 */
@@ -160,7 +160,7 @@ public class EmbargoWorkflow2Impl extends WorkflowImpl implements EmbargoWorkflo
         WorkflowContext wfCtx = getWorkflowContext();
         wfCtx = wfCtx.getWorkflowContext(publicationDate);
 
-        EmbargoWorkflow2 wf = (EmbargoWorkflow2) wfCtx.getWorkflow("embargo");
+        EmbargoWorkflow wf = (EmbargoWorkflow) wfCtx.getWorkflow("embargo");
         wf.removeEmbargo();
     }
 }

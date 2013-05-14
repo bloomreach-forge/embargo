@@ -15,7 +15,7 @@ import org.hippoecm.repository.standardworkflow.EditableWorkflow;
 /**
  * @version $Id$
  */
-public interface EmbargoWorkflow2 extends Workflow{
+public interface EmbargoWorkflow extends Workflow{
 
     public void addEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException;
 
