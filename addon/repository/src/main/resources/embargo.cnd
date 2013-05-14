@@ -12,7 +12,6 @@
 [embargo:embargo]
   mixin
   - embargo:groups (string) mandatory multiple
-  - embargo:identity (string)
   + embargo:request (embargo:job) multiple ignore
 
 

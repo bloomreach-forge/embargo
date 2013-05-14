@@ -39,7 +39,6 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
 
     protected static final String EMBARGO_MIXIN_NAME = "embargo:embargo";
     protected static final String EMBARGO_GROUP_PROPERTY_NAME = "embargo:groups";
-    protected static final String EMBARGO_IDENTITY_PROPERTY_NAME = "embargo:identity";
     protected static final String SELECT_GROUPS_QUERY = "SELECT * FROM hipposys:group WHERE jcr:primaryType='hipposys:group' AND hipposys:members='{}'";
     protected static final String EMBARGO_GROUPS_MAPPING_NODE_PATH = "hippo:configuration/hippo:domains/embargo/hipposys:authrole";
 
@@ -57,19 +56,13 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     public void addEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
-        final Node nodeByIdentifier = internalWorkflowSession.getNodeByIdentifier(uuid);
-        final Node handle = nodeByIdentifier.getParent();
+
+        final Node handle = internalWorkflowSession.getNodeByIdentifier(uuid).getParent();
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
         handle.addMixin(EMBARGO_MIXIN_NAME);
-
-        //Issue is it is scheduled the useridentity is system. So I have to check if user is system or else use the embargo identity property
-        String userIdentity = workflowContext.getUserIdentity().equals("system") ?
-                handle.getProperty(EMBARGO_IDENTITY_PROPERTY_NAME).getString() :
-                workflowContext.getUserIdentity();
-
-        handle.setProperty(EMBARGO_GROUP_PROPERTY_NAME, getUserGroups(userIdentity));
+        handle.setProperty(EMBARGO_GROUP_PROPERTY_NAME, getUserGroups(workflowContext.getUserIdentity()));
 
         internalWorkflowSession.save();
     }
@@ -98,7 +91,8 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
 
     protected List<String> getAllEmbargoEnabledGroups() {
         try {
-            Value[] embargoGroups = getWorkflowContext().getInternalWorkflowSession().getRootNode().getNode(EMBARGO_GROUPS_MAPPING_NODE_PATH).getProperty("hipposys:groups").getValues();
+            Value[] embargoGroups = getWorkflowContext().getInternalWorkflowSession().getRootNode()
+                    .getNode(EMBARGO_GROUPS_MAPPING_NODE_PATH).getProperty("hipposys:groups").getValues();
             List<String> embargoGroupNames = new ArrayList<String>();
             for (final Value embargoGroup : embargoGroups) {
                 embargoGroupNames.add(embargoGroup.getString());
@@ -112,43 +106,18 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         return Collections.emptyList();
     }
 
-/*
-    @Override
-    public void addEmbargo(final Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException {
-        final WorkflowContext workflowContext = getWorkflowContext();
-        final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
-        final Node nodeByIdentifier = internalWorkflowSession.getNodeByIdentifier(uuid);
-        final Node handle = nodeByIdentifier.getParent();
-        if (!handle.isCheckedOut()) {
-            internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
-        }
-        handle.addMixin("embargo:handle");
-        handle.setProperty("embargo:identity", workflowContext.getUserIdentity());
-        internalWorkflowSession.save();
-
-        WorkflowContext wfCtx = getWorkflowContext();
-        wfCtx = wfCtx.getWorkflowContext(publicationDate);
-
-        EmbargoWorkflow wf = (EmbargoWorkflow) wfCtx.getWorkflow("embargo");
-        wf.addEmbargo();
-    }
-*/
-
     @Override
     public void removeEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
-        final Node nodeByIdentifier = internalWorkflowSession.getNodeByIdentifier(uuid);
-        final Node handle = nodeByIdentifier.getParent();
+
+        final Node handle = internalWorkflowSession.getNodeByIdentifier(uuid).getParent();
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
 
         if (handle.hasProperty(EMBARGO_GROUP_PROPERTY_NAME)) {
             handle.getProperty(EMBARGO_GROUP_PROPERTY_NAME).remove();
-        }
-        if (handle.hasProperty(EMBARGO_IDENTITY_PROPERTY_NAME)) {
-            handle.getProperty(EMBARGO_IDENTITY_PROPERTY_NAME).remove();
         }
         handle.removeMixin(EMBARGO_MIXIN_NAME);
 
