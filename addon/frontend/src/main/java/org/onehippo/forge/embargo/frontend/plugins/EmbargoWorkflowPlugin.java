@@ -232,7 +232,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
      * @throws RepositoryException
      */
     private Mode resolveMode(Node handleNode) throws RepositoryException {
-        return handleNode.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUESTS_NODE_NAME) ?
+        return handleNode.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME) ?
                 Mode.SCHEDULED_UNEMBARGO:
                 handleNode.isNodeType(EmbargoConstants.EMBARGO_MIXIN_NAME) ?
                         Mode.EMBARGOED :
