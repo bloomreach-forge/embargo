@@ -26,6 +26,7 @@ import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowDescriptor;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.api.WorkflowManager;
+import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -231,9 +232,9 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
      * @throws RepositoryException
      */
     private Mode resolveMode(Node handleNode) throws RepositoryException {
-        return handleNode.hasNode("embargo:request") ?
+        return handleNode.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUESTS_NODE_NAME) ?
                 Mode.SCHEDULED_UNEMBARGO:
-                handleNode.isNodeType("embargo:embargo") ?
+                handleNode.isNodeType(EmbargoConstants.EMBARGO_MIXIN_NAME) ?
                         Mode.EMBARGOED :
                         Mode.UNEMBARGOED;
 
