@@ -20,10 +20,12 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import org.hippoecm.repository.api.HippoNodeType;
 import org.hippoecm.repository.api.MappingException;
 import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.ext.WorkflowImpl;
+import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,12 +38,6 @@ import org.slf4j.LoggerFactory;
 public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowImpl.class);
-
-    protected static final String EMBARGO_MIXIN_NAME = "embargo:embargo";
-    protected static final String EMBARGO_GROUP_PROPERTY_NAME = "embargo:groups";
-    protected static final String SELECT_GROUPS_QUERY = "SELECT * FROM hipposys:group WHERE jcr:primaryType='hipposys:group' AND hipposys:members='{}'";
-    protected static final String EMBARGO_GROUPS_MAPPING_NODE_PATH = "hippo:configuration/hippo:domains/embargo/hipposys:authrole";
-
 
     @Persistent(column = "jcr:uuid")
     protected String uuid;
@@ -61,15 +57,15 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
-        handle.addMixin(EMBARGO_MIXIN_NAME);
-        handle.setProperty(EMBARGO_GROUP_PROPERTY_NAME, getUserGroups(workflowContext.getUserIdentity()));
+        handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
+        handle.setProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME, getUserGroups(workflowContext.getUserIdentity()));
 
         internalWorkflowSession.save();
     }
 
     protected String[] getUserGroups(String userIdentity) throws RepositoryException {
         Query selectGroupsQuery = getWorkflowContext().getInternalWorkflowSession().getWorkspace().getQueryManager().createQuery(
-                SELECT_GROUPS_QUERY.replace("{}", userIdentity),
+                EmbargoConstants.SELECT_GROUPS_QUERY.replace("{}", userIdentity),
                 Query.SQL);
         NodeIterator groupNodes = selectGroupsQuery.execute().getNodes();
         if (!groupNodes.hasNext()) {
@@ -92,7 +88,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     protected List<String> getAllEmbargoEnabledGroups() {
         try {
             Value[] embargoGroups = getWorkflowContext().getInternalWorkflowSession().getRootNode()
-                    .getNode(EMBARGO_GROUPS_MAPPING_NODE_PATH).getProperty("hipposys:groups").getValues();
+                    .getNode(EmbargoConstants.EMBARGO_GROUPS_MAPPING_NODE_PATH).getProperty(HippoNodeType.HIPPO_GROUPS).getValues();
             List<String> embargoGroupNames = new ArrayList<String>();
             for (final Value embargoGroup : embargoGroups) {
                 embargoGroupNames.add(embargoGroup.getString());
@@ -116,10 +112,10 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
 
-        if (handle.hasProperty(EMBARGO_GROUP_PROPERTY_NAME)) {
-            handle.getProperty(EMBARGO_GROUP_PROPERTY_NAME).remove();
+        if (handle.hasProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME)) {
+            handle.getProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME).remove();
         }
-        handle.removeMixin(EMBARGO_MIXIN_NAME);
+        handle.removeMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
 
         internalWorkflowSession.save();
     }
