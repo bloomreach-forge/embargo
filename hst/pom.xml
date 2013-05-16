@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.onehippo.forge.embargo</groupId>
     <artifactId>embargo</artifactId>
-    <version>1.01.01-SNAPSHOT</version>
+    <version>1.01.01</version>
   </parent>
 
   <name>Hippo Embargo Plugin HST Client</name>
