@@ -25,7 +25,7 @@
   <name>Hippo Embargo Plugin</name>
   <groupId>org.onehippo.forge.embargo</groupId>
   <artifactId>embargo</artifactId>
-  <version>1.01.02-SNAPSHOT</version>
+  <version>1.01.01-SNAPSHOT</version>
   <packaging>pom</packaging>
   <url>http://forge.onehippo.org/gf/project/embargo/</url>
 
@@ -36,6 +36,12 @@
     <hippo.hst.version>2.24.14</hippo.hst.version>
 
     <org.datanucleus.version>2.2.2</org.datanucleus.version>
+    <extension.wagon-svn.version>1.9</extension.wagon-svn.version>
+
+    <plugin.compiler.version>2.3.2</plugin.compiler.version>
+    <plugin.deploy.version>2.7</plugin.deploy.version>
+    <plugin.jar.version>2.3.2</plugin.jar.version>
+    <plugin.source.version>2.1.2</plugin.source.version>
 <!--    <sonar-report-plugin.version>0.1</sonar-report-plugin.version>
     <sonar.host.url>http://sonar.onehippo.org/</sonar.host.url>-->
   </properties>
@@ -148,7 +154,24 @@
 
   <build>
     <defaultGoal>package</defaultGoal>
+    <extensions>
+      <extension>
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>${extension.wagon-svn.version}</version>
+      </extension>
+    </extensions>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${plugin.deploy.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${plugin.compiler.version}</version>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -163,6 +186,19 @@
             </manifestEntries>
           </archive>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${plugin.source.version}</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
