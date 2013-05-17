@@ -14,6 +14,7 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import org.hippoecm.frontend.session.UserSession;
 import org.hippoecm.repository.api.MappingException;
 import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
@@ -46,6 +47,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     public void addEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
+        String invokingUserId = ((UserSession) org.apache.wicket.Session.get()).getJcrSession().getUserID();
 
         final Node handle = internalWorkflowSession.getNodeByIdentifier(uuid).getParent();
         if (!handle.isCheckedOut()) {
@@ -54,7 +56,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
         handle.setProperty(
                 EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME,
-                EmbargoUtils.getCurrentUserEmbargoEnabledGroups(workflowContext.getInternalWorkflowSession(), workflowContext.getUserIdentity()));
+                EmbargoUtils.getCurrentUserEmbargoEnabledGroups(internalWorkflowSession, invokingUserId));
 
         internalWorkflowSession.save();
     }
