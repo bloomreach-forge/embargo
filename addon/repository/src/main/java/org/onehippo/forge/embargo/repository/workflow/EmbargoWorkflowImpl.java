@@ -53,12 +53,15 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
-        handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
-        handle.setProperty(
-                EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME,
-                EmbargoUtils.getCurrentUserEmbargoEnabledGroups(internalWorkflowSession, invokingUserId));
 
-        internalWorkflowSession.save();
+        String[] userEmbargoEnabledGroups = EmbargoUtils.getCurrentUserEmbargoEnabledGroups(internalWorkflowSession, invokingUserId);
+        if (userEmbargoEnabledGroups.length > 0) {
+            handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
+            handle.setProperty(
+                    EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME,
+                    userEmbargoEnabledGroups);
+            internalWorkflowSession.save();
+        }
     }
 
     @Override
