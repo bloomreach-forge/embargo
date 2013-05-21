@@ -132,7 +132,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
                 @Override
                 protected IDialogService.Dialog createRequestDialog() {
-                    return new ScheduleDialog(this, new PropertyModel(this, "date"), "unschedule-embargo-title", "unschedule-embargo-text");
+                    return new ScheduleDialog(this, new PropertyModel(this, "date"), "schedule-removal-embargo-title", "schedule-removal-embargo-text");
                 }
 
                 @Override
