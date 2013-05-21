@@ -35,6 +35,7 @@ import org.hippoecm.frontend.model.event.Observable;
 import org.hippoecm.repository.HippoStdNodeType;
 import org.hippoecm.repository.api.HippoNodeType;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
+import org.onehippo.forge.embargo.repository.EmbargoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,16 +137,7 @@ public class EmbargoDocumentView implements IObservable, IDetachable {
                             joinedEmbargoGroups = StringUtils.join(embargoGroups, ',');
                         }
 
-                        if (handleNode.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
-                            Node requestNode = handleNode.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME);
-
-                            if(requestNode.hasNode(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT)){
-                                Node defaultTriggerNode = requestNode.getNode(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT);
-                                if(defaultTriggerNode.hasProperty(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME)){
-                                    expirationDate = defaultTriggerNode.getProperty(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME).getDate();
-                                }
-                            }
-                        }
+                        expirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
                     }
                 }
             } catch (RepositoryException ex) {

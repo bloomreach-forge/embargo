@@ -15,6 +15,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import org.hippoecm.frontend.session.UserSession;
+import org.hippoecm.repository.api.HippoNodeType;
 import org.hippoecm.repository.api.MappingException;
 import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
@@ -73,21 +74,39 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
-
+        //remove embargo:groups
         if (handle.hasProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME)) {
             handle.getProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME).remove();
         }
+        //remove any embargo:request
+        if (handle.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
+            handle.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
+        }
         handle.removeMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
-
         internalWorkflowSession.save();
     }
 
     @Override
     public void removeEmbargo(final Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException {
-        WorkflowContext wfCtx = getWorkflowContext();
-        wfCtx = wfCtx.getWorkflowContext(publicationDate);
-
+        cancelSchedule();
+        WorkflowContext wfCtx = getWorkflowContext().getWorkflowContext(publicationDate);
         EmbargoWorkflow wf = (EmbargoWorkflow) wfCtx.getWorkflow("embargo");
         wf.removeEmbargo();
+    }
+
+    @Override
+    public void cancelSchedule() throws WorkflowException, RepositoryException, MappingException, RemoteException {
+        final WorkflowContext workflowContext = getWorkflowContext();
+        final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
+        final Node handle = internalWorkflowSession.getNodeByIdentifier(uuid).getParent();
+        if (!handle.isCheckedOut()) {
+            internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
+        }
+
+        if (handle.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
+            handle.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
+            internalWorkflowSession.save();
+        }
+
     }
 }

@@ -17,9 +17,11 @@
 package org.onehippo.forge.embargo.repository;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -71,4 +73,41 @@ public class EmbargoUtils {
 
     }
 
+
+    public static Calendar getEmbargoExpirationDate(Node hippoHandleNode) throws RepositoryException {
+        if (hippoHandleNode.isNodeType(HippoNodeType.NT_HANDLE) && hippoHandleNode.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
+            Node requestNode = hippoHandleNode.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME);
+            if (requestNode.hasNode(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT)) {
+                Node defaultTriggerNode = requestNode.getNode(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT);
+                if (defaultTriggerNode.hasProperty(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME)) {
+                    return defaultTriggerNode.getProperty(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME).getDate();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * TODO add support for images and assets instead of publishable documents
+     *
+     * @param documentNode
+     * @return
+     */
+    public static boolean isVisibleInPreview(Node documentNode) {
+        try {
+            if (documentNode.hasProperty(HippoNodeType.HIPPO_AVAILABILITY)) {
+                for (Value availability : documentNode.getProperty(HippoNodeType.HIPPO_AVAILABILITY).getValues()) {
+                    if ("preview".equals(availability.getString())) {
+                        return true;
+                    }
+                }
+            } else {
+                log.warn("Document '{}' does not contain the property '{}'. No 'View' menu items will be shown.",
+                        documentNode.getPath(), HippoNodeType.HIPPO_AVAILABILITY);
+            }
+        } catch (RepositoryException e) {
+            log.error("Error getting " + HippoNodeType.HIPPO_AVAILABILITY + " property from document", e);
+        }
+        return false;
+    }
 }
