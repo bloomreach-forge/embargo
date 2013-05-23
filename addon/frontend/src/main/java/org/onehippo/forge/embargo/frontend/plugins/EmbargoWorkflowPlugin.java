@@ -73,13 +73,13 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
 
     /**
-     *TODO Adding all menu items for test purposes. Menu items should be visible according to the MODE
+     * TODO Adding all menu items for test purposes. Menu items should be visible according to the MODE
      *
      * @param mode
      */
     private void createMenu(final Mode mode) {
 
-        if(Mode.UNEMBARGOED.equals(mode)){
+        if (Mode.UNEMBARGOED.equals(mode)) {
             add(new StdWorkflow<EmbargoWorkflow>("set", new StringResourceModel("set-embargo-label", this, null), getPluginContext(), this) {
                 @Override
                 protected ResourceReference getIcon() {
@@ -99,7 +99,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
             });
         }
 
-        if(Mode.EMBARGOED.equals(mode)){
+        if (Mode.EMBARGOED.equals(mode)) {
             add(new StdWorkflow<EmbargoWorkflow>("remove", new StringResourceModel("remove-embargo-label", this, null), getPluginContext(), this) {
                 @Override
                 protected ResourceReference getIcon() {
@@ -144,7 +144,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
         }
 
 
-        if(Mode.SCHEDULED_UNEMBARGO.equals(mode)){
+        if (Mode.SCHEDULED_UNEMBARGO.equals(mode)) {
 
             add(new WorkflowAction("rescheduledUnembargo", new StringResourceModel("reschedule-unembargo-label", this, null).getString(), null) {
 
@@ -234,7 +234,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
             }
 
 
-        })*/;
+        })*/
+        ;
 
 
     }
@@ -249,7 +250,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
      */
     private Mode resolveMode(Node handleNode) throws RepositoryException {
         return handleNode.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME) ?
-                Mode.SCHEDULED_UNEMBARGO:
+                Mode.SCHEDULED_UNEMBARGO :
                 handleNode.isNodeType(EmbargoConstants.EMBARGO_MIXIN_NAME) ?
                         Mode.EMBARGOED :
                         Mode.UNEMBARGOED;
