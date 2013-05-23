@@ -57,7 +57,6 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                 Map<String, Serializable> info = workflow.hints();
 
                 final Mode mode = resolveMode(documentNode.getParent());
-                //only create single menu
                 if (EmbargoUtils.isVisibleInPreview(documentNode)) {
                     createMenu(mode);
                 }
@@ -73,7 +72,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
 
     /**
-     * TODO Adding all menu items for test purposes. Menu items should be visible according to the MODE
+     * Creates the proper menu items based on the mode the document is in
      *
      * @param mode
      */
@@ -88,12 +87,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
                 @Override
                 protected String execute(EmbargoWorkflow workflow) throws Exception {
-                    //TODO Are these checks needed?
-                    WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
-                    WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
-                    if (workflowDescriptor != null) {
-                        workflow.addEmbargo();
-                    }
+                    workflow.addEmbargo();
                     return null;
                 }
             });
@@ -108,12 +102,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
                 @Override
                 protected String execute(EmbargoWorkflow workflow) throws Exception {
-                    //TODO Are these checks needed?
-                    WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
-                    WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
-                    if (workflowDescriptor != null) {
-                        workflow.removeEmbargo();
-                    }
+                    workflow.removeEmbargo();
                     return null;
                 }
             });
@@ -145,9 +134,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
 
         if (Mode.SCHEDULED_UNEMBARGO.equals(mode)) {
-
             add(new WorkflowAction("rescheduledUnembargo", new StringResourceModel("reschedule-unembargo-label", this, null).getString(), null) {
-
                 public Date date = new Date();
 
                 @Override
@@ -163,16 +150,17 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                     WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
                     if (workflowDescriptor != null) {
                         try {
-                            Node documentNode = workflowDescriptorModel.getNode();
-                            Node handleNode = documentNode.getParent();
-                            date = EmbargoUtils.getEmbargoExpirationDate(handleNode).getTime();
+                            Node handleNode = workflowDescriptorModel.getNode().getParent();
+                            Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
+                            if (existingExpirationDate != null) {
+                                date = existingExpirationDate.getTime();
+                            }
                         } catch (RepositoryException e) {
                             log.error("Error while retrieving embargo schedule", e);
                         }
                     }
                     return new ScheduleDialog(this, new PropertyModel(this, "date"), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
                 }
-
 
                 @Override
                 protected String execute(EmbargoWorkflow embargoWorkflow) throws Exception {
@@ -194,50 +182,11 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
                 @Override
                 protected String execute(EmbargoWorkflow workflow) throws Exception {
-                    //TODO Are these checks needed?
-                    WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
-                    WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
-                    if (workflowDescriptor != null) {
-                        workflow.cancelSchedule();
-                    }
+                    workflow.cancelSchedule();
                     return null;
                 }
             });
         }
-
-        /*add(new WorkflowAction("scheduleEmbargo", new StringResourceModel(
-                "schedule-embargo-label", this, null).getString(), null) {
-            public Date date = new Date();
-
-            @Override
-            protected ResourceReference getIcon() {
-                return new ResourceReference(getClass(), "clock_add.png");
-            }
-
-            @Override
-            protected IDialogService.Dialog createRequestDialog() {
-                return new ScheduleDialog(this, new PropertyModel(this, "date"), "schedule-embargo-title", "schedule-embargo-text");
-            }
-
-            @Override
-            protected String execute(final EmbargoWorkflow wf) throws Exception {
-                //return super.execute(workflow);
-                // EmbargoWorkflow workflow = (EmbargoWorkflow) wf;
-                final Calendar embargoDate = Calendar.getInstance();
-                embargoDate.setTime(date);
-                if (date != null) {
-                    wf.addEmbargo(embargoDate);
-                } else {
-                    wf.addEmbargo();
-                }
-                return null;
-            }
-
-
-        })*/
-        ;
-
-
     }
 
 
@@ -254,14 +203,11 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                 handleNode.isNodeType(EmbargoConstants.EMBARGO_MIXIN_NAME) ?
                         Mode.EMBARGOED :
                         Mode.UNEMBARGOED;
-
-        //todo resolve scheduled-set mode of embargo
     }
 
     private enum Mode {
         UNEMBARGOED,
         EMBARGOED,
-        SCHEDULED_EMBARGO,
         SCHEDULED_UNEMBARGO
     }
 
