@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<!DOCTYPE document PUBLIC
+  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+  <properties>
+      <title>Introduction</title>
+  </properties>
+  <body>
+    <section name="Introduction">
+        <subsection name="What is the Embargo plugin?">
+            <p>
+              The embargo plugin allows you to put CMS documents under embargo, that is, it adds a flag that sets the documents in a confidential state.
+              No one has access to a document under embargo unless he belongs to the group that set the embargo flag. Groups can be given the embargo privilege by
+              adding them to the embargo security domain. Thus, new users and new groups can be added and enabled for embargo operations. These groups don't see each other's embargo.
+            </p>
+        </subsection>
+        <subsection name="Screenshots">
+          <p>
+            <a href="screenshots.html"><img src="images/set-embargo.png" alt="Set embargo"/></a><br/><br/><br/>
+            <a href="screenshots.html"><img src="images/remove-embargo.png" alt="Remove embargo"/></a><br/>
+            <a href="screenshots.html">See more screenshots here</a>.
+          </p>
+        </subsection>
+        <subsection name="Project status">
+          <p>
+            The latest version of the embargo plugin is running on Hippo CMS 7.7.
+            The matrix below shows against which versions the plugin is developed. Which does not mean
+            that version doesn't run against an earlier (or later) version of the CMS and HST.
+          </p>
+          <table border="1" cellpadding="0" cellspacing="5">
+            <tbody><tr>
+              <th>Version</th>
+              <th>CMS</th>
+              <th>HST</th>
+            </tr>
+              <tr>
+                <td>1.01.02</td>
+                <td>7.7 (2.22.xx)</td>
+                <td>2.24.xx</td>
+              </tr>
+              <tr>
+                <td>1.01.01</td>
+                <td>7.7 (2.22.xx)</td>
+                <td>2.24.xx</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            See the <a href="https://forge.onehippo.org/gf/project/embargo/tracker/">project tracker</a>
+            for a list of bugs and feature requests.
+          </p>
+        </subsection>
+      </section>
+  </body>
+</document>

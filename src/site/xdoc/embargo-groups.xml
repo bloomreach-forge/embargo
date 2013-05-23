@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<document>
+  <properties>
+    <title>Managing embargo users and groups</title>
+    <subtitle>Managing embargo users and groups</subtitle>
+  </properties>
+  <body>
+    <section name="Managing embargo user and groups">
+      <subsection name="General">
+        <p>The plugin installs with an example usergroup that is embargo enabled, that is, users from that group can set and remove the embargo flag.
+        It is possible to define more groups and users, as this page describes.</p>
+      </subsection>
+      <subsection name="Using the existing example group">
+        <p>The name of the existing embargo-enabled group is named 'embargo-example-group' and initially no user belongs to it. As an admin, you can add users to this group.
+        In the following image, a user with username 'Ed' is being added to 2 groups: 'editor', so he can login and act an an editor, and 'embargo-example-group' so he can
+        manage the embargo flag on documents. When this user sets an embargo, that embargo is specific to his usergroup. All users in the same group can see and edit this embargo, but no other group can.</p>
+        <img src="images/new-embargo-user.png" alt="new embargo user"/>
+      </subsection>
+      <subsection name="Adding more embargo-enabled groups">
+        <p>An admin can create more groups that have the embargo privilege. To do that, create a new group and under Permissions, add the group to the embargo security domain and grant to it the 'readonly' role:</p>
+        <img src="images/embargo-domain-details.png" alt="Embargo domain details"/>
+      </subsection>
+    </section>
+  </body>
+</document>

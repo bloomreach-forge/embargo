@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<document>
+  <properties>
+    <title>Release Notes</title>
+    <subtitle>Release Notes</subtitle>
+  </properties>
+  <body>
+    <section name="Release Notes">
+      <subsection name="1.01.02">
+        <ul>
+          <li>New content created by an embargo enabled user, is automatically put under embargo</li>
+          <li>Rescheduling/ cancelling embargo schedule</li>
+          <li>Embargo content does not appear anywhere for non embargo users/ or in site</li>
+          <li>i18n for properties</li>
+          <li>Documentation/ licensing</li>
+        </ul>
+      </subsection>
+      <subsection name="1.01.01">
+        <ul>
+          <li>Initial commit</li>
+          <li>Set/remove embargo features</li>
+          <li>Embargo domain declaration</li>
+          <li>Workflow in place</li>
+          <li>Admin can create more embargo groups/ users</li>
+          <li>Embargo for images and assets additionally to documents</li>
+        </ul>
+      </subsection>
+    </section>
+  </body>
+</document>
