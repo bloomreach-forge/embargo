@@ -38,9 +38,6 @@
     <org.datanucleus.version>2.2.2</org.datanucleus.version>
     <extension.wagon-svn.version>1.9</extension.wagon-svn.version>
 
-    <maven.plugin.compiler.version>2.3.2</maven.plugin.compiler.version>
-    <maven.plugin.deploy.version>2.7</maven.plugin.deploy.version>
-    <maven.plugin.jar.version>2.3.2</maven.plugin.jar.version>
     <maven.plugin.site.version>3.0-beta-3</maven.plugin.site.version>
     <maven.plugin.jxr.version>2.2</maven.plugin.jxr.version>
 
