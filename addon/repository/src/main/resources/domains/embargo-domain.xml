@@ -109,7 +109,7 @@ limitations under the License.
       </sv:property>
     </sv:node>
   </sv:node>
-  <sv:node sv:name="embargo-events-workflowcategory">
+  <sv:node sv:name="embargo-events-gallery-workflowcategory">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hipposys:domainrule</sv:value>
     </sv:property>
@@ -154,7 +154,7 @@ limitations under the License.
       </sv:property>
     </sv:node>
   </sv:node>
-  <sv:node sv:name="embargo-events-workflowcategory">
+  <sv:node sv:name="embargo-events-assets-workflowcategory">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hipposys:domainrule</sv:value>
     </sv:property>
