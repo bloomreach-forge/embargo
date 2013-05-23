@@ -184,6 +184,7 @@
             <groupId>org.apache.rat</groupId>
             <artifactId>apache-rat-plugin</artifactId>
             <version>${maven.plugin.rat.version}</version>
+            <inherited>false</inherited>
             <executions>
               <execution>
                 <phase>validate</phase>
@@ -212,8 +213,7 @@
                 <exclude>**/MANIFEST.MF</exclude>
                 <!-- exclude IntelliJ module files of sub-projects -->
                 <exclude>**/*.iml</exclude>
-                <!-- TODO This excludes even the pom files... But changing to addon/repository/src/main/resources/**/*.xml does not work. This seems to be a bug -->
-                <exclude>**/*.xml</exclude>
+                <exclude>addon/repository/src/main/resources/**/*.xml</exclude>
               </excludes>
             </configuration>
           </plugin>
