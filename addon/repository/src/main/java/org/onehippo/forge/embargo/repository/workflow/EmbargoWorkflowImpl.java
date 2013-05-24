@@ -102,7 +102,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     }
 
     @Override
-    public void removeEmbargo(final Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException {
+    public void scheduleRemoveEmbargo(final Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException {
         cancelSchedule();
         WorkflowContext wfCtx = getWorkflowContext().getWorkflowContext(publicationDate);
         EmbargoWorkflow wf = (EmbargoWorkflow) wfCtx.getWorkflow("embargo");

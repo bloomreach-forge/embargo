@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
-import javax.jcr.Value;
 
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.Session;
@@ -36,7 +35,6 @@ import org.hippoecm.frontend.dialog.IDialogService;
 import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.hippoecm.frontend.session.UserSession;
-import org.hippoecm.repository.api.HippoNodeType;
 import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowDescriptor;
 import org.hippoecm.repository.api.WorkflowException;
@@ -140,7 +138,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                     final Calendar embargoDate = Calendar.getInstance();
                     embargoDate.setTime(date);
                     if (date != null) {
-                        embargoWorkflow.removeEmbargo(embargoDate);
+                        embargoWorkflow.scheduleRemoveEmbargo(embargoDate);
                     }
                     return null;
                 }
@@ -182,7 +180,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                     final Calendar embargoDate = Calendar.getInstance();
                     embargoDate.setTime(date);
                     if (date != null) {
-                        embargoWorkflow.removeEmbargo(embargoDate);
+                        embargoWorkflow.scheduleRemoveEmbargo(embargoDate);
                     }
                     return null;
                 }

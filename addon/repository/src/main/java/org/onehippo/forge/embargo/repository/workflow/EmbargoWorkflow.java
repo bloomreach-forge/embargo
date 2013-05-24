@@ -36,7 +36,7 @@ public interface EmbargoWorkflow extends Workflow{
 
     public void removeEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException;
 
-    public void removeEmbargo(Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException;
+    public void scheduleRemoveEmbargo(Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException;
 
     public void cancelSchedule() throws WorkflowException, RepositoryException, MappingException, RemoteException;
 
