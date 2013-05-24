@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<document>
+  <properties>
+    <title>Integrating the plugin with your project</title>
+    <subtitle>Integrating the plugin with your project</subtitle>
+  </properties>
+  <body>
+    <section name="Integrating the plugin with your project">
+      <subsection name="General">
+        <p>This section describes all the configuration that this plugin adds to your CMS system. This way you can examine and analyze the impact
+          installing this plugin will have on your existing project.</p>
+      </subsection>
+      <subsection name="Changes in security domains">
+        <p>The following configuration is added to the security domains:</p>
+        <ul>
+          <li>Security domain 'everywhere' is hidden from the 'siteusers' group. A new domain called 'everywhere-siteusers' is created which forbids access to embargo documents</li>
+          <li>Security domain 'defaultread' and 'defaultwrite', domain rules 'hippo:handle', do not allow access to embargo documents</li>
+          <li>Security domain 'hippogallery' is also enhanced to only allow access to non embargo documents</li>
+          <li>Domain 'hippolog' is only accessible for log items that are don't belong to the 'embargo' category</li>
+          <li>Domain 'workflow', rule 'hippo-workflowcategory', does not allow access to embargo related workflows</li>
+          <li>Security domain 'frontend-plugins' is used for showing the embargo columns. This is also enhanced to only show those columns to embargo enabled users</li>
+          <li>Security domain 'embargo' is added to allow access to all the above, for embargo enabled users only</li>
+        </ul>
+      </subsection>
+      <subsection name="Changes in workflow configuration">
+        <p>The following configuration is added to the hippo:workflows section</p>
+        <ul>
+          <li>Workflowcategory 'embargo' is added, it provided the embargo menu in the toolbar</li>
+          <li>Workflow categories 'events-embargo', 'events-embargo-gallery' and 'events-embargo-assets' are added, these are used for automatically putting a document/image/asset under embargo when
+            the user that created them belongs to an embargo enabled group</li>
+        </ul>
+      </subsection>
+    </section>
+  </body>
+</document>
