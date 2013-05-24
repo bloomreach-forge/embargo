@@ -49,6 +49,7 @@ import org.slf4j.LoggerFactory;
 public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowImpl.class);
+    private static final long serialVersionUID = 1L;
 
     @Persistent(column = "jcr:uuid")
     protected String uuid;

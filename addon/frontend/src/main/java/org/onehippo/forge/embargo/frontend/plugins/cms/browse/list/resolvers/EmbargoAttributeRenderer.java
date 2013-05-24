@@ -29,7 +29,7 @@ import org.hippoecm.frontend.plugins.standards.list.resolvers.AbstractNodeRender
  */
 public abstract class EmbargoAttributeRenderer extends AbstractNodeRenderer {
 
-    private static final long serialVersionUID = -2853371369162994945L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected Component getViewer(String id, final Node node) throws RepositoryException {
@@ -40,6 +40,7 @@ public abstract class EmbargoAttributeRenderer extends AbstractNodeRenderer {
 
     class EmbargoDocumentViewModel extends AbstractReadOnlyModel<String> {
 
+        private static final long serialVersionUID = 1L;
         EmbargoDocumentView embargoDocumentView;
 
         public EmbargoDocumentViewModel(Node node) {

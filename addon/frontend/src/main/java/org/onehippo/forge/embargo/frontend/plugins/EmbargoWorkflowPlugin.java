@@ -51,6 +51,7 @@ import org.slf4j.LoggerFactory;
 public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWorkflow> {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowPlugin.class);
+    private static final long serialVersionUID = 1L;
 
     public EmbargoWorkflowPlugin(final IPluginContext context, IPluginConfig config) {
         super(context, config);
@@ -93,6 +94,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
         if (Mode.UNEMBARGOED.equals(mode)) {
             add(new StdWorkflow<EmbargoWorkflow>("set", new StringResourceModel("set-embargo-label", this, null), getPluginContext(), this) {
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 protected ResourceReference getIcon() {
                     return new ResourceReference(getClass(), "lock_add.png");
@@ -108,6 +111,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
         if (Mode.EMBARGOED.equals(mode)) {
             add(new StdWorkflow<EmbargoWorkflow>("remove", new StringResourceModel("remove-embargo-label", this, null), getPluginContext(), this) {
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 protected ResourceReference getIcon() {
                     return new ResourceReference(getClass(), "lock_break.png");
@@ -121,6 +126,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
             });
 
             add(new WorkflowAction("scheduleUnembargo", new StringResourceModel("schedule-unembargo-label", this, null).getString(), null) {
+                private static final long serialVersionUID = 1L;
                 public Date date = new Date();
 
                 @Override
@@ -148,6 +154,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
         if (Mode.SCHEDULED_UNEMBARGO.equals(mode)) {
             add(new WorkflowAction("rescheduledUnembargo", new StringResourceModel("reschedule-unembargo-label", this, null).getString(), null) {
+                private static final long serialVersionUID = 1L;
                 public Date date = new Date();
 
                 @Override
@@ -188,6 +195,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
 
             add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", new StringResourceModel("cancel-scheduled-unembargo-label", this, null), getPluginContext(), this) {
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 protected ResourceReference getIcon() {
                     return new ResourceReference(getClass(), "cancel_schedule.png");

@@ -51,6 +51,8 @@ import org.hippoecm.repository.standardworkflow.WorkflowEventWorkflow;
 @Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
 public class EmbargoEventsAddDocumentWorkflow extends WorkflowImpl implements WorkflowEventWorkflow {
 
+    private static final long serialVersionUID = 1L;
+
     public EmbargoEventsAddDocumentWorkflow() throws RemoteException {
         super();
     }
