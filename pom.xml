@@ -37,6 +37,7 @@
 
     <org.datanucleus.version>2.2.2</org.datanucleus.version>
     <extension.wagon-svn.version>1.9</extension.wagon-svn.version>
+    <junit.version>4.10</junit.version>
 
     <maven.plugin.site.version>3.0-beta-3</maven.plugin.site.version>
     <maven.plugin.jxr.version>2.2</maven.plugin.jxr.version>
@@ -103,15 +104,22 @@
       <dependency>
         <groupId>org.onehippo.cms7</groupId>
         <artifactId>hippo-repository-api</artifactId>
-        <version>${hippo.cms.version}</version>
+        <version>${hippo.repository.version}</version>
         <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.onehippo.cms7</groupId>
         <artifactId>hippo-repository-engine</artifactId>
-        <version>${hippo.cms.version}</version>
+        <version>${hippo.repository.version}</version>
         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.onehippo.cms7</groupId>
+        <artifactId>hippo-repository-connector</artifactId>
+        <version>${hippo.repository.version}</version>
+        <scope>test</scope>
       </dependency>
 
       <dependency>
@@ -139,6 +147,13 @@
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${slf4j.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
       </dependency>
 
     </dependencies>
@@ -265,6 +280,7 @@
 
   <modules>
     <module>addon</module>
+    <module>integration-tests</module>
   </modules>
 
 </project>
