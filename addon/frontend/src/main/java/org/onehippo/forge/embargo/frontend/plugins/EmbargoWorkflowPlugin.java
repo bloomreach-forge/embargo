@@ -15,17 +15,13 @@
  */
 package org.onehippo.forge.embargo.frontend.plugins;
 
-import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
 import org.apache.wicket.ResourceReference;
-import org.apache.wicket.Session;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.hippoecm.addon.workflow.CompatibilityWorkflowPlugin;
@@ -34,11 +30,7 @@ import org.hippoecm.addon.workflow.WorkflowDescriptorModel;
 import org.hippoecm.frontend.dialog.IDialogService;
 import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
-import org.hippoecm.frontend.session.UserSession;
-import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowDescriptor;
-import org.hippoecm.repository.api.WorkflowException;
-import org.hippoecm.repository.api.WorkflowManager;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
@@ -61,25 +53,17 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     protected void onModelChanged() {
         super.onModelChanged();
         try {
-            WorkflowManager manager = ((UserSession) Session.get()).getWorkflowManager();
             WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
             WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
             if (workflowDescriptor != null) {
                 //TODO: See if you can replace this with a non deprecated method call
                 Node documentNode = workflowDescriptorModel.getNode();
-                Workflow workflow = manager.getWorkflow(workflowDescriptor);
-                Map<String, Serializable> info = workflow.hints();
-
-                final Mode mode = resolveMode(documentNode.getParent());
                 if (EmbargoUtils.isVisibleInPreview(documentNode)) {
+                    final Mode mode = resolveMode(documentNode.getParent());
                     createMenu(mode);
                 }
             }
         } catch (RepositoryException ex) {
-            log.error(ex.getMessage(), ex);
-        } catch (WorkflowException ex) {
-            log.error(ex.getMessage(), ex);
-        } catch (RemoteException ex) {
             log.error(ex.getMessage(), ex);
         }
     }

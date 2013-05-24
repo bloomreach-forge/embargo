@@ -52,8 +52,7 @@ public class CalendarSchedulerInvocationModule implements WorkflowInvocationHand
             Node subject = invocation.getSubject();
             Node handle = subject.getParent();
             if (handle.isNodeType("mix:versionable") && !handle.isCheckedOut()) {
-                //TODO: Use version manager for this
-                handle.checkout();
+                session.getWorkspace().getVersionManager().checkout(handle.getPath());
             }
             Node request = handle.addNode("embargo:request", "embargo:job");
             request.addMixin("mix:referenceable");

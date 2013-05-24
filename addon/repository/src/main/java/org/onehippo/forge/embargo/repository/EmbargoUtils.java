@@ -87,7 +87,7 @@ public class EmbargoUtils {
     }
 
     /**
-     * TODO add support for images and assets instead of publishable documents
+     * We only want to show the menu for the 'preview' variant of a document
      *
      * @param documentNode
      * @return
