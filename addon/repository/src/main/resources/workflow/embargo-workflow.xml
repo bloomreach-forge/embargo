@@ -45,7 +45,7 @@
         <sv:value>Embargo</sv:value>
       </sv:property>
     </sv:node>
-    <sv:node sv:name="button">
+    <sv:node sv:name="embargo-workflow">
       <sv:property sv:name="jcr:primaryType" sv:type="Name">
         <sv:value>frontend:workflow</sv:value>
       </sv:property>

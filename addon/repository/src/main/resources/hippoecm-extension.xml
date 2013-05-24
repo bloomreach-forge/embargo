@@ -262,6 +262,21 @@
     </sv:property>
   </sv:node>
 
+  <sv:node sv:name="domains-hippolog-hide-embargo-logs">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentresource" sv:type="String">
+      <sv:value>domains/filter-embargo-hippolog.xml</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:domains/hippolog/hippolog-item</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20151</sv:value>
+    </sv:property>
+  </sv:node>
+
   <sv:node sv:name="cms-folder-views-embargo-columns">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
