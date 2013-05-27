@@ -6,8 +6,8 @@ addon/frontend/src/main/java/org/onehippo/forge/embargo/frontend/plugins/clock_a
 addon/frontend/src/main/java/org/onehippo/forge/embargo/frontend/plugins/clock_delete.png -text svneol=unset#image/png
 addon/frontend/src/main/java/org/onehippo/forge/embargo/frontend/plugins/lock_add.png -text svneol=unset#image/png
 addon/frontend/src/main/java/org/onehippo/forge/embargo/frontend/plugins/lock_break.png -text svneol=unset#image/png
+addon/repository/src/main/resources/domains/hide-embargo-document.xml -text
 addon/repository/src/main/resources/embargo.cnd -text
-addon/repository/src/main/resources/org/onehippo/forge/embargo/repository/workflow/package.j_d_o -text
 src/site/resources/images/embargo-columns.png -text svneol=unset#image/png
 src/site/resources/images/embargo-domain-details.png -text svneol=unset#image/png
 src/site/resources/images/embargo-domain.png -text svneol=unset#image/png
