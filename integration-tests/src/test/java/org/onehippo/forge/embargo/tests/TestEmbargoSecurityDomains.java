@@ -46,7 +46,8 @@ public class TestEmbargoSecurityDomains {
     public void setUp() throws Exception {
         sessionBuilder = new RepositorySessionBuilder();
 
-        //Skip all tests if we can't reach the repository. These tests need to run on an existing repository (integration tests)
+        //Skip all tests if we can't reach the repository.
+        //These tests need to run on an existing repository (integration tests)
         assumeTrue(sessionBuilder.getRepository() != null);
     }
 
@@ -69,13 +70,13 @@ public class TestEmbargoSecurityDomains {
 
     }
 
-    private boolean queryReturnMultipleNodes(String s, SimpleCredentials credentials) {
+    private boolean queryReturnMultipleNodes(String xpathQuery, SimpleCredentials credentials) {
         boolean returnsMultipleNodes = false;
         HippoQuery query = null;
         Session session = sessionBuilder.build(credentials);
         try {
             if (session != null) {
-                query = (HippoQuery) session.getWorkspace().getQueryManager().createQuery(s, Query.XPATH);
+                query = (HippoQuery) session.getWorkspace().getQueryManager().createQuery(xpathQuery, Query.XPATH);
                 QueryResult queryResult = query.execute();
                 NodeIterator nodes = queryResult.getNodes();
                 returnsMultipleNodes = nodes.hasNext();
