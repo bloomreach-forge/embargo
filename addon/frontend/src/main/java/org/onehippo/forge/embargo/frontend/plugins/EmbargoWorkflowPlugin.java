@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @version $Id$
  */
+//TODO: CompatibilityWorkflowPlugin is deprecated, please change (when the API supports it)
 public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWorkflow> {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowPlugin.class);
@@ -56,7 +57,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
             WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
             WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
             if (workflowDescriptor != null) {
-                //TODO: See if you can replace this with a non deprecated method call
+                //TODO: Change this with a non deprecated call (when the API supports it)
                 Node documentNode = workflowDescriptorModel.getNode();
                 if (EmbargoUtils.isVisibleInPreview(documentNode)) {
                     final Mode mode = resolveMode(documentNode.getParent());
@@ -154,6 +155,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                     WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
                     if (workflowDescriptor != null) {
                         try {
+                            //TODO: Change this with a non deprecated call (when the API supports it)
                             Node handleNode = workflowDescriptorModel.getNode().getParent();
                             Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
                             if (existingExpirationDate != null) {
