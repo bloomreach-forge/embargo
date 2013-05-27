@@ -15,7 +15,6 @@
   + embargo:request (embargo:job) multiple ignore
 
 [embargo:document]
-  - embargo:groups (string)  multiple
   mixin
 
 
