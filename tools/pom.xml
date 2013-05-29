@@ -28,6 +28,7 @@
 
   <modules>
     <module>integration-tests</module>
+    <module>jcr-runners</module>
   </modules>
 
 </project>
