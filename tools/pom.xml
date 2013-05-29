@@ -27,8 +27,7 @@
   <packaging>pom</packaging>
 
   <modules>
-   <!-- <module>frontend</module>
-    <module>repository</module>-->
+    <module>integration-tests</module>
   </modules>
 
 </project>
