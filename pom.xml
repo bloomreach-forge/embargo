@@ -280,7 +280,7 @@
 
   <modules>
     <module>addon</module>
-    <module>integration-tests</module>
+    <module>tools</module>
   </modules>
 
 </project>
