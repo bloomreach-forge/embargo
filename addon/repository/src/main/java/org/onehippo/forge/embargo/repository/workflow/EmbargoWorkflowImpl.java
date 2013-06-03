@@ -72,10 +72,18 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
 
         String[] userEmbargoEnabledGroups = EmbargoUtils.getCurrentUserEmbargoEnabledGroups(internalWorkflowSession, invokingUserId);
         if (userEmbargoEnabledGroups.length > 0) {
+
+            //Set embargo mixin on handle & add group information
             handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
             handle.setProperty(
                     EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME,
                     userEmbargoEnabledGroups);
+
+            //Set embargo mixin on the document
+            for(Node documentNode : EmbargoUtils.getDocumentVariants(handle)){
+                documentNode.addMixin(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
+            }
+
             internalWorkflowSession.save();
         }
     }
@@ -97,7 +105,14 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         if (handle.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
             handle.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
         }
+        //remove embargo mixin from handle
         handle.removeMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
+
+        //remove embargo mixin from document(s)
+        for(Node documentNode : EmbargoUtils.getDocumentVariants(handle)){
+            documentNode.removeMixin(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
+        }
+
         internalWorkflowSession.save();
     }
 

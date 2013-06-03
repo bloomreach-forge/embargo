@@ -109,4 +109,16 @@ public class EmbargoUtils {
         }
         return false;
     }
+
+    public static Node[] getDocumentVariants(Node documentHandleNode) throws RepositoryException{
+        NodeIterator nodeIterator = documentHandleNode.getNodes();
+        List<Node> documentNodes = new ArrayList<Node>();
+        while(nodeIterator.hasNext()){
+            Node documentNode = nodeIterator.nextNode();
+            if(documentNode.isNodeType(HippoNodeType.NT_HARDDOCUMENT)){
+                documentNodes.add(documentNode);
+            }
+        }
+        return documentNodes.toArray(new Node[documentNodes.size()]);
+    }
 }
