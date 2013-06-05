@@ -17,13 +17,13 @@ src/site/resources/images/new-embargo-user.png -text svneol=unset#image/png
 src/site/resources/images/remove-embargo.png -text svneol=unset#image/png
 src/site/resources/images/reschedule-embargo.png -text svneol=unset#image/png
 src/site/resources/images/set-embargo.png -text svneol=unset#image/png
-tools/integration-tests/pom.xml -text
-tools/integration-tests/src/test/java/org/onehippo/forge/embargo/tests/TestEmbargoSecurityDomains.java -text
-tools/integration-tests/src/test/java/org/onehippo/forge/embargo/tests/TestEmbargoWorkflow.java -text
-tools/integration-tests/src/test/java/org/onehippo/forge/embargo/tests/helpers/RepositorySessionBuilder.java -text
-tools/integration-tests/src/test/java/org/onehippo/forge/embargo/tests/helpers/TestConstants.java -text
-tools/integration-tests/src/test/resources/log4j.dtd -text
-tools/integration-tests/src/test/resources/log4j.xml -text
+tools/embargo-tests/pom.xml -text
+tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/EmbargoSecurityDomainsTest.java -text
+tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/EmbargoWorkflowTest.java -text
+tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/helpers/RepositorySessionBuilder.java -text
+tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/helpers/TestConstants.java -text
+tools/embargo-tests/src/test/resources/log4j.dtd -text
+tools/embargo-tests/src/test/resources/log4j.xml -text
 tools/jcr-runners/README.txt -text
 tools/jcr-runners/pom.xml -text
 tools/jcr-runners/runner-embargo-documents-remover.properties -text

@@ -27,7 +27,7 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>integration-tests</module>
+    <module>embargo-tests</module>
     <module>jcr-runners</module>
   </modules>
 

@@ -23,7 +23,7 @@
   </parent>
 
   <name>Integration Tests</name>
-  <artifactId>integration-tests</artifactId>
+  <artifactId>embargo-tests</artifactId>
 
   <dependencies>
 
@@ -37,6 +37,27 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-engine</artifactId>
+      <version>${hippo.cms.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-api</artifactId>
+      <version>${hippo.cms.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.forge.embargo</groupId>
+      <artifactId>embargo-addon-frontend</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
     </dependency>
 
   </dependencies>

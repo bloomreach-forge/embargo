@@ -34,11 +34,11 @@ import org.slf4j.LoggerFactory;
 import static org.junit.Assume.assumeTrue;
 
 /**
- * @version $Id: TestEmbargoSecurityDomains.java 84 2013-05-27 09:01:12Z mchatzidakis $
+ * @version $Id: EmbargoSecurityDomainsTest.java 84 2013-05-27 09:01:12Z mchatzidakis $
  */
-public class TestEmbargoSecurityDomains {
+public class EmbargoSecurityDomainsTest {
 
-    private static Logger log = LoggerFactory.getLogger(TestEmbargoSecurityDomains.class);
+    private static Logger log = LoggerFactory.getLogger(EmbargoSecurityDomainsTest.class);
     private RepositorySessionBuilder sessionBuilder;
 
 
