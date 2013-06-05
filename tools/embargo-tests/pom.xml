@@ -22,7 +22,7 @@
     <version>1.01.02-SNAPSHOT</version>
   </parent>
 
-  <name>Integration Tests</name>
+  <name>Embargo Tests</name>
   <artifactId>embargo-tests</artifactId>
 
   <dependencies>
