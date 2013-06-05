@@ -81,6 +81,9 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
 
             //Set embargo mixin on the document
             for(Node documentNode : EmbargoUtils.getDocumentVariants(handle)){
+                if (!documentNode.isCheckedOut()) {
+                    internalWorkflowSession.getWorkspace().getVersionManager().checkout(documentNode.getPath());
+                }
                 documentNode.addMixin(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
             }
 
@@ -110,6 +113,9 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
 
         //remove embargo mixin from document(s)
         for(Node documentNode : EmbargoUtils.getDocumentVariants(handle)){
+            if (!documentNode.isCheckedOut()) {
+                internalWorkflowSession.getWorkspace().getVersionManager().checkout(documentNode.getPath());
+            }
             documentNode.removeMixin(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
         }
 
@@ -129,6 +135,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
         final Node handle = internalWorkflowSession.getNodeByIdentifier(uuid).getParent();
+        
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
