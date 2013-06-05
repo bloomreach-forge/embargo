@@ -54,6 +54,14 @@
     </dependency>
 
     <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-test</artifactId>
+      <version>${hippo.cms.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+
+    <dependency>
       <groupId>org.onehippo.forge.embargo</groupId>
       <artifactId>embargo-addon-frontend</artifactId>
       <version>${project.version}</version>

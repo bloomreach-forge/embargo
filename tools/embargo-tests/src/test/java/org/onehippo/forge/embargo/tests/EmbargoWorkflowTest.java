@@ -17,6 +17,7 @@ package org.onehippo.forge.embargo.tests;
 
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.model.IModel;
+import org.hippoecm.frontend.PluginTest;
 import org.hippoecm.frontend.model.JcrNodeModel;
 import org.hippoecm.frontend.model.event.EventCollection;
 import org.hippoecm.frontend.model.event.IEvent;
@@ -37,7 +38,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @version $Id: EmbargoWorkflowTest.java 79 2013-05-24 14:49:42Z mchatzidakis $
  */
-public class EmbargoWorkflowTest extends PluginTest{
+public class EmbargoWorkflowTest extends PluginTest {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowTest.class);
 /*
