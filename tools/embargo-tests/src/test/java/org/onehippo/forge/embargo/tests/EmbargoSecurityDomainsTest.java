@@ -15,51 +15,81 @@
  */
 package org.onehippo.forge.embargo.tests;
 
-import javax.jcr.NodeIterator;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.jcr.Node;
+import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
-import javax.jcr.query.Query;
-import javax.jcr.query.QueryResult;
+import javax.jcr.Value;
+import javax.jcr.ValueFactory;
 
-import org.hippoecm.repository.api.HippoQuery;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.onehippo.forge.embargo.tests.helpers.RepositorySessionBuilder;
 import org.onehippo.forge.embargo.tests.helpers.TestConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeTrue;
 
 /**
  * @version $Id: EmbargoSecurityDomainsTest.java 84 2013-05-27 09:01:12Z mchatzidakis $
  */
-public class EmbargoSecurityDomainsTest {
+public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
 
+    public static final String EMBARGO_USER_NAME = "embargouser";
     private static Logger log = LoggerFactory.getLogger(EmbargoSecurityDomainsTest.class);
-    private RepositorySessionBuilder sessionBuilder;
-
 
     @Before
     public void setUp() throws Exception {
-        sessionBuilder = new RepositorySessionBuilder();
-
+        super.setUp();
         //Skip all tests if we can't reach the repository.
         //These tests need to run on an existing repository (integration tests)
-        assumeTrue(sessionBuilder.getRepository() != null);
+        assumeTrue(repository.getRepository() != null);
+
+        /*final Node usersNode = session.getNode("/hippo:configuration/hippo:users");
+        if (!usersNode.hasNode(EMBARGO_USER_NAME)) {
+            final Node embargoUserNode = usersNode.addNode(EMBARGO_USER_NAME, "hipposys:user");
+            embargoUserNode.setProperty("hipposys:password", EMBARGO_USER_NAME);
+            final Node groupsNode = session.getNode("/hippo:configuration/hippo:groups");
+            final Node embargoGroup = groupsNode.getNode("embargo-example-group");
+            final Property property = embargoGroup.getProperty("hipposys:members");
+
+            final List<Value> valueList = Arrays.asList(property.getValues());
+            final ValueFactory instance = org.apache.jackrabbit.value.ValueFactoryImpl.getInstance();
+            valueList.add(instance.createValue(EMBARGO_USER_NAME));
+            property.setValue(valueList.toArray(new Value[valueList.size()]));
+            session.save();
+        }*/
+
     }
 
     @Test
     public void testConnectToRepository() {
-        Session adminSession = sessionBuilder.build(TestConstants.ADMIN_CREDENTIALS);
-        Assert.assertNotNull(adminSession);
-        sessionBuilder.destroy();
+        Session localSession = null;
+        try {
+            localSession = repository.login(TestConstants.ADMIN_CREDENTIALS);
+        } catch (RepositoryException e) {
+            e.printStackTrace();
+        } finally {
+            localSession.logout();
+        }
+        Assert.assertNotNull(localSession);
     }
 
     @Test
-    public void testDeniedAccess() {
+    public void testEmbargoTestNamespaceAvailable() throws RepositoryException {
+        String expectedUri = "http://forge.onehippo.org/jcr/embargotest/nt/1.0";
+        final String uri = session.getWorkspace().getNamespaceRegistry().getURI("embargotest");
+        assertEquals(expectedUri, uri);
+    }
+
+    @Test
+    public void testDeniedAccess() throws RepositoryException {
         //Assert.assertFalse(queryReturnMultipleNodes("//formdata", TestConstants.AUTHOR_CREDENTIALS));
 
     }
@@ -70,29 +100,10 @@ public class EmbargoSecurityDomainsTest {
 
     }
 
-    private boolean queryReturnMultipleNodes(String xpathQuery, SimpleCredentials credentials) {
-        boolean returnsMultipleNodes = false;
-        HippoQuery query = null;
-        Session session = sessionBuilder.build(credentials);
-        try {
-            if (session != null) {
-                query = (HippoQuery) session.getWorkspace().getQueryManager().createQuery(xpathQuery, Query.XPATH);
-                QueryResult queryResult = query.execute();
-                NodeIterator nodes = queryResult.getNodes();
-                returnsMultipleNodes = nodes.hasNext();
-            } else {
-                Assert.fail("Could not open session");
-            }
-
-        } catch (RepositoryException e) {
-            Assert.fail();
-            log.warn("Could not execute query", e);
-
-        } finally {
-            sessionBuilder.destroy();
-        }
-
-        return returnsMultipleNodes;
+    @Override
+    @After
+    public void tearDown() throws Exception {
+        super.tearDown();
     }
 
 }

@@ -1,0 +1,5 @@
+<hippo='http://www.onehippo.org/jcr/hippo/nt/2.0'>
+<embargotest='http://forge.onehippo.org/jcr/embargotest/nt/1.0'>
+
+[embargotest:document] > hippo:document
+- embargotest:title (string)

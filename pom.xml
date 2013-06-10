@@ -34,6 +34,7 @@
     <hippo.repository.version>2.22.15</hippo.repository.version>
     <hippo.cms.version>2.22.15</hippo.cms.version>
     <hippo.hst.version>2.24.14</hippo.hst.version>
+    <hippo.addon-publication-workflow.version>2.22.06</hippo.addon-publication-workflow.version>
 
     <org.datanucleus.version>2.2.2</org.datanucleus.version>
     <extension.wagon-svn.version>1.9</extension.wagon-svn.version>
@@ -44,6 +45,7 @@
     <maven.plugin.rat.version>0.9.RAT125</maven.plugin.rat.version>
 
     <java.version>1.6</java.version>
+
 
   </properties>
 

@@ -60,12 +60,75 @@
       <scope>compile</scope>
     </dependency>
 
-
     <dependency>
       <groupId>org.onehippo.forge.embargo</groupId>
       <artifactId>embargo-addon-frontend</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
+    </dependency>
+
+    <!-- test dependencies -->
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-repository-engine</artifactId>
+      <classifier>tests</classifier>
+      <version>${hippo.repository.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.forge.embargo</groupId>
+      <artifactId>embargo-addon-repository</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-gallery-repository</artifactId>
+      <version>${hippo.cms.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-editor-repository</artifactId>
+      <version>${hippo.cms.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-translation-repository</artifactId>
+      <version>${hippo.cms.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-config</artifactId>
+      <version>${hippo.cms.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-perspectives</artifactId>
+      <version>${hippo.cms.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-xinha-integration</artifactId>
+      <version>${hippo.cms.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-addon-publication-workflow-repository</artifactId>
+      <version>${hippo.addon-publication-workflow.version}</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -80,6 +143,12 @@
         <configuration>
           <forkMode>always</forkMode>
           <workingDirectory>${project.build.directory}</workingDirectory>
+          <systemProperties>
+            <property>
+              <name>repopath</name>
+              <value>${project.build.directory}/repository</value>
+            </property>
+          </systemProperties>
         </configuration>
       </plugin>
     </plugins>
