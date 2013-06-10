@@ -23,14 +23,10 @@ public class SessionRefreshEventListener implements EventListener {
 
     @Override
     public void onEvent(final EventIterator events) {
-
-        if(repository.containsRepositoryByCredentials(credentials)){
-            final Repository repositoryByCredentials = repository.getRepositoryByCredentials(credentials);
-
-            if (repositoryByCredentials instanceof BasicPoolingRepository) {
-                final BasicPoolingRepository reinitRepo = (BasicPoolingRepository) repositoryByCredentials;
+        for(Repository aRepository : repository.getRepositoryMap().values()){
+            if (aRepository instanceof BasicPoolingRepository) {
                 try {
-                    reinitRepo.initialize();
+                    ((BasicPoolingRepository) aRepository).initialize();
                 } catch (RepositoryException e) {
                     log.error("", e);
                 }
