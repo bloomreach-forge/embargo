@@ -30,33 +30,12 @@ limitations under the License.
 
     <dependency>
       <groupId>org.onehippo.cms7.hst</groupId>
-      <artifactId>hst-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.onehippo.cms7.hst</groupId>
       <artifactId>hst-commons</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.jcr</groupId>
-      <artifactId>jcr</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.onehippo.cms7.hst.components</groupId>
       <artifactId>hst-session-pool</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.onehippo.cms7.hst.components</groupId>
-      <artifactId>hst-core</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.onehippo.cms7.hst.dependencies</groupId>
-      <artifactId>hst-spring-dependencies</artifactId>
-      <type>pom</type>
     </dependency>
 
   </dependencies>
