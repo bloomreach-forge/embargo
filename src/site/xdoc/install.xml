@@ -65,6 +65,15 @@
 </dependency>]]></source>
           </li>
           <li>
+            <p>Add this dependency to the pom.xml of your <i>site</i> module:</p>
+            <source><![CDATA[
+<dependency>
+  <groupId>org.onehippo.forge.embargo</groupId>
+  <artifactId>embargo-hst-addons</artifactId>
+  <version>...</version>
+</dependency>]]></source>
+          </li>
+          <li>
             <p>
               Rebuild your project. After startup, you should have the embargo workflow and an example embargo-enabled usergroup.
             </p>

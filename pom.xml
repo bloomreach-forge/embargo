@@ -163,6 +163,34 @@
         <scope>test</scope>
       </dependency>
 
+      <dependency>
+        <groupId>org.onehippo.cms7.hst</groupId>
+        <artifactId>hst-commons</artifactId>
+        <version>${hippo.hst.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.onehippo.cms7.hst.components</groupId>
+        <artifactId>hst-session-pool</artifactId>
+        <version>${hippo.hst.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.onehippo.cms7.hst.components</groupId>
+        <artifactId>hst-core</artifactId>
+        <version>${hippo.hst.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.onehippo.cms7.hst.dependencies</groupId>
+        <artifactId>hst-spring-dependencies</artifactId>
+        <version>${hippo.hst.version}</version>
+        <type>pom</type>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
@@ -287,6 +315,7 @@
 
   <modules>
     <module>cms-addon</module>
+    <module>hst-addon</module>
     <module>tools</module>
   </modules>
 
