@@ -15,6 +15,7 @@
  */
 package org.onehippo.forge.embargo.tests;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         //These tests need to run on an existing repository (integration tests)
         assumeTrue(repository.getRepository() != null);
 
-        /*final Node usersNode = session.getNode("/hippo:configuration/hippo:users");
+        final Node usersNode = session.getNode("/hippo:configuration/hippo:users");
         if (!usersNode.hasNode(EMBARGO_USER_NAME)) {
             final Node embargoUserNode = usersNode.addNode(EMBARGO_USER_NAME, "hipposys:user");
             embargoUserNode.setProperty("hipposys:password", EMBARGO_USER_NAME);
@@ -59,12 +60,16 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
             final Node embargoGroup = groupsNode.getNode("embargo-example-group");
             final Property property = embargoGroup.getProperty("hipposys:members");
 
-            final List<Value> valueList = Arrays.asList(property.getValues());
+            List<Value> valueList = new ArrayList<Value>(property.getValues().length);
+            for(Value value : property.getValues()) {
+                valueList.add(value);
+            }
+
             final ValueFactory instance = org.apache.jackrabbit.value.ValueFactoryImpl.getInstance();
             valueList.add(instance.createValue(EMBARGO_USER_NAME));
             property.setValue(valueList.toArray(new Value[valueList.size()]));
             session.save();
-        }*/
+        }
 
     }
 
