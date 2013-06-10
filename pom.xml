@@ -286,7 +286,7 @@
 
 
   <modules>
-    <module>addon</module>
+    <module>cms-addon</module>
     <module>tools</module>
   </modules>
 
