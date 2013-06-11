@@ -485,6 +485,21 @@
     </sv:property>
   </sv:node>
 
+  <sv:node sv:name="domains-everywhere-hide-embargo-indicator">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentresource" sv:type="String">
+      <sv:value>domains/exclude-embargoindicator-everywhere.xml</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:domains/everywhere/all-nodes</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20300</sv:value>
+    </sv:property>
+  </sv:node>
+
   <sv:node sv:name="cms-embargo-indicator-plugin">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>

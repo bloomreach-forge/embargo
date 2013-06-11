@@ -20,7 +20,6 @@ import org.apache.wicket.markup.html.CSSPackageResource;
 import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.hippoecm.frontend.service.render.RenderPlugin;
-import org.hippoecm.frontend.session.UserSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,12 +34,6 @@ public class EmbargoIndicatorPlugin extends RenderPlugin {
     public EmbargoIndicatorPlugin(IPluginContext context, IPluginConfig config) {
         super(context, config);
         context.registerService(this, EmbargoIndicatorPlugin.class.getName());
-
-        //Hide indicator if the user is admin
-        String userIdentity = ((UserSession) org.apache.wicket.Session.get()).getJcrSession().getUserID();
-        if (!"admin".equals(userIdentity)) {
-            add(CSSPackageResource.getHeaderContribution(EmbargoIndicatorPlugin.class, "EmbargoIndicatorPlugin.css"));
-        }
-
+        add(CSSPackageResource.getHeaderContribution(EmbargoIndicatorPlugin.class, "EmbargoIndicatorPlugin.css"));
     }
 }
