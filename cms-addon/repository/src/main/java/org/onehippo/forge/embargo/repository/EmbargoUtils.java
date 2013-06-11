@@ -62,16 +62,21 @@ public class EmbargoUtils {
     }
 
     public static List<String> getAllEmbargoEnabledGroups(Session session) throws RepositoryException {
-        Value[] embargoGroups = session.getRootNode()
-                .getNode(EmbargoConstants.EMBARGO_GROUPS_MAPPING_NODE_PATH).getProperty(HippoNodeType.HIPPO_GROUPS).getValues();
+        NodeIterator embargoGroupMappingNodes = session.getRootNode().getNode(EmbargoConstants.EMBARGO_GROUPS_MAPPING_NODE_PATH)
+                .getNodes(EmbargoConstants.EMBARGO_GROUPS_MAPPING_NODE_NAMES);
+
         List<String> embargoGroupNames = new ArrayList<String>();
-        for (final Value embargoGroup : embargoGroups) {
-            embargoGroupNames.add(embargoGroup.getString());
+        while (embargoGroupMappingNodes.hasNext()) {
+            Node embargoGroupMappingNode = embargoGroupMappingNodes.nextNode();
+            if (embargoGroupMappingNode.hasProperty(HippoNodeType.HIPPO_GROUPS)) {
+                Value[] embargoGroups = embargoGroupMappingNode.getProperty(HippoNodeType.HIPPO_GROUPS).getValues();
+                for (final Value embargoGroup : embargoGroups) {
+                    embargoGroupNames.add(embargoGroup.getString());
+                }
+            }
         }
         return embargoGroupNames;
-
     }
-
 
     public static Calendar getEmbargoExpirationDate(Node hippoHandleNode) throws RepositoryException {
         if (hippoHandleNode.isNodeType(HippoNodeType.NT_HANDLE) && hippoHandleNode.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
@@ -110,12 +115,12 @@ public class EmbargoUtils {
         return false;
     }
 
-    public static Node[] getDocumentVariants(Node documentHandleNode) throws RepositoryException{
+    public static Node[] getDocumentVariants(Node documentHandleNode) throws RepositoryException {
         NodeIterator nodeIterator = documentHandleNode.getNodes();
         List<Node> documentNodes = new ArrayList<Node>();
-        while(nodeIterator.hasNext()){
+        while (nodeIterator.hasNext()) {
             Node documentNode = nodeIterator.nextNode();
-            if(documentNode.isNodeType(HippoNodeType.NT_HARDDOCUMENT)){
+            if (documentNode.isNodeType(HippoNodeType.NT_HARDDOCUMENT)) {
                 documentNodes.add(documentNode);
             }
         }
