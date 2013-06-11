@@ -63,7 +63,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
             final Node embargoUserNode = usersNode.addNode(EMBARGO_USER_NAME, "hipposys:user");
             embargoUserNode.setProperty("hipposys:password", EMBARGO_USER_NAME);
             final Node groupsNode = session.getNode("/hippo:configuration/hippo:groups");
-            final Node embargoGroup = groupsNode.getNode("embargo-example-group");
+            final Node embargoGroup = groupsNode.getNode("embargo-editors-example-group");
             final Property property = embargoGroup.getProperty("hipposys:members");
 
             List<Value> valueList = new ArrayList<Value>(property.getValues().length);

@@ -22,17 +22,17 @@
   <body>
     <section name="Managing embargo user and groups">
       <subsection name="General">
-        <p>The plugin installs with an example usergroup that is embargo enabled, that is, users from that group can set and remove the embargo flag.
+        <p>The plugin installs with 2 example usergroups that are embargo enabled, that is, users from those group can set and remove the embargo flag.
         It is possible to define more groups and users, as this page describes.</p>
       </subsection>
-      <subsection name="Using the existing example group">
-        <p>The name of the existing embargo-enabled group is named 'embargo-example-group' and initially no user belongs to it. As an admin, you can add users to this group.
-        In the following image, a user with username 'Ed' is being added to 2 groups: 'editor', so he can login and act an an editor, and 'embargo-example-group' so he can
+      <subsection name="Using the existing example groups">
+        <p>The names of the existing embargo-enabled groups are 'embargo-editors-example-group' and 'embargo-authors-example-group' and initially no user belongs to them. As an admin, you can add users to the groups.
+        In the following image, a user with username 'Ed' is being added to 2 groups: 'editor', so he can login and act an an editor, and 'embargo-editors-example-group' so he can
         manage the embargo flag on documents. When this user sets an embargo, that embargo is specific to his usergroup. All users in the same group can see and edit this embargo, but no other group can.</p>
         <img src="images/new-embargo-user.png" alt="new embargo user"/>
       </subsection>
       <subsection name="Adding more embargo-enabled groups">
-        <p>An admin can create more groups that have the embargo privilege. To do that, create a new group and under Permissions, add the group to the embargo security domain and grant to it the 'readonly' role:</p>
+        <p>An admin can create more groups that have the embargo privilege. To do that, create a new group and under Permissions, add the group to the embargo security domain and grant to it the 'editor' or 'author' role, depending what other privileges you wish to give:</p>
         <img src="images/embargo-domain-details.png" alt="Embargo domain details"/>
       </subsection>
     </section>
