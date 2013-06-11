@@ -41,27 +41,27 @@
   <!-- ====================================================================== -->
   <category additivity="false" name="org.apache.jackrabbit.core">
     <level value="warn"/>
-    <appender-ref ref="root"/>
+    <appender-ref ref="console"/>
   </category>
 
-  <!-- category additivity="true" name="org.hippoecm.repository.LocalHippoRepository">
-    <level value="debug"/>
+   <category additivity="true" name="org.hippoecm.repository.LocalHippoRepository">
+    <level value="info"/>
     <appender-ref ref="console"/>
-  </category -->
+  </category>
 
   <category additivity="true" name="org.hippoecm.repository.security.HippoAccessManager">
     <level value="warn"/>
-    <appender-ref ref="root"/>
+    <appender-ref ref="console"/>
   </category>
   <category additivity="true" name="org.hippoecm.repository.security.HippoLoginModule">
     <level value="warn"/>
-    <appender-ref ref="root"/>
+    <appender-ref ref="console"/>
   </category>
   
 
   <category additivity="false" name="org.hippoecm.frontend.editor">
     <level value="info"/>
-    <appender-ref ref="root"/>
+    <appender-ref ref="console"/>
   </category>
   
   <root>

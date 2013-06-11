@@ -15,17 +15,20 @@
  */
 package org.onehippo.forge.embargo.tests;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.ValueFactory;
 
+import org.hippoecm.repository.api.WorkflowException;
+import org.hippoecm.repository.standardworkflow.FolderWorkflow;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assume.assumeTrue;
 
 /**
@@ -43,6 +47,8 @@ import static org.junit.Assume.assumeTrue;
 public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
 
     public static final String EMBARGO_USER_NAME = "embargouser";
+    public static final String CONTENT_DOCUMENTS_PATH = "/content/documents";
+    public static final String TEST_DOCUMENT_NAME = "test";
     private static Logger log = LoggerFactory.getLogger(EmbargoSecurityDomainsTest.class);
 
     @Before
@@ -94,9 +100,49 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
     }
 
     @Test
-    public void testDeniedAccess() throws RepositoryException {
-        //Assert.assertFalse(queryReturnMultipleNodes("//formdata", TestConstants.AUTHOR_CREDENTIALS));
+    public void testDeniedAccess() throws RepositoryException, WorkflowException, RemoteException {
+        final Session embargoSession = repository.login(EMBARGO_USER_NAME, EMBARGO_USER_NAME.toCharArray());
+        final Node documentsFolder = embargoSession.getNode(CONTENT_DOCUMENTS_PATH);
+        final FolderWorkflow folderWorkflow = (FolderWorkflow) getWorkflow(documentsFolder, "threepane");
+        final String test = folderWorkflow.add("new-document", "embargotest:document", TEST_DOCUMENT_NAME);
 
+        printTree(embargoSession.getNode("/hippo:configuration/hippo:workflows"));
+
+        final Session editorSession = repository.login(TestConstants.EDITOR_CREDENTIALS);
+        final Node documentsNode = editorSession.getNode(CONTENT_DOCUMENTS_PATH);
+
+        final boolean condition = documentsNode.hasNode(TEST_DOCUMENT_NAME);
+        //assertFalse("editor user has access to document: ",condition);
+
+        editorSession.logout();
+        embargoSession.getNode("/content/documents/test").remove();
+        embargoSession.logout();
+    }
+
+    private void printTree(Node node) throws RepositoryException {
+        printTree(node, 1);
+    }
+
+    private void printTree(Node node, int depth) throws RepositoryException {
+        final NodeIterator nodeIterator = node.getNodes();
+        while(nodeIterator.hasNext()) {
+            final Node node1 = nodeIterator.nextNode();
+
+            System.out.println(printDash(depth) + node1.getName());
+            if(node1.hasNodes()) {
+                printTree(node1, depth + 1);
+            }
+        }
+    }
+
+    private String printDash(int depth) {
+        String dashes = "";
+        for(int i=0;i<depth;i++) {
+            if(i!=depth) {
+                dashes +="-";
+            }
+        }
+        return dashes;
     }
 
     @Test
