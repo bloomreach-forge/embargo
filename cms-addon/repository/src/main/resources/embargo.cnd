@@ -9,15 +9,10 @@
   - * (binary)
   + * (hipposched:triggers) = hipposched:triggers
 
-[embargo:embargo]
+[embargo:handle]
   mixin
   - embargo:groups (string) mandatory multiple
   + embargo:request (embargo:job) multiple ignore
 
 [embargo:document]
   mixin
-
-
-
-
-

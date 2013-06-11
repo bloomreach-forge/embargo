@@ -97,7 +97,7 @@
           <property name="propertyAddedEnabled" value="true"/>
           <property name="propertyChangedEnabled" value="true"/>
           <property name="propertyRemovedEnabled" value="true"/>
-          <property name="nodeTypeNames" value="embargo:embargo"/>
+          <property name="nodeTypeNames" value="embargo:handle"/>
           <property name="absolutePath" value="/content"/>
           <property name="deep" value="true"/>
           <property name="eventListener">

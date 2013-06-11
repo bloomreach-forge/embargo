@@ -20,7 +20,7 @@ package org.onehippo.forge.embargo.repository;
  */
 public class EmbargoConstants {
 
-    public static final String EMBARGO_MIXIN_NAME = "embargo:embargo";
+    public static final String EMBARGO_MIXIN_NAME = "embargo:handle";
     public static final String EMBARGO_DOCUMENT_MIXIN_NAME = "embargo:document";
     public static final String EMBARGO_GROUP_PROPERTY_NAME = "embargo:groups";
     public static final String EMBARGO_SCHEDULE_REQUEST_NODE_NAME = "embargo:request";
