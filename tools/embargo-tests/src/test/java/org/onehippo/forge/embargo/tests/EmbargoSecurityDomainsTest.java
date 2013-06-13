@@ -15,14 +15,11 @@
  */
 package org.onehippo.forge.embargo.tests;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 
 import javax.jcr.Node;
-import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.Value;
 
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.standardworkflow.FolderWorkflow;
