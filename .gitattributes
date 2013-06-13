@@ -20,9 +20,7 @@ src/site/resources/images/set-embargo.png -text svneol=unset#image/png
 tools/embargo-tests/pom.xml -text
 tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/BaseRepositoryTest.java -text
 tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/EmbargoSecurityDomainsTest.java -text
-tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/EmbargoWorkflowTest.java -text
-tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/helpers/RepositorySessionBuilder.java -text
-tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/helpers/TestConstants.java -text
+tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/TestConstants.java -text
 tools/embargo-tests/src/test/resources/content.xml -text
 tools/embargo-tests/src/test/resources/embargotest-namespace.xml -text
 tools/embargo-tests/src/test/resources/embargotest.cnd -text

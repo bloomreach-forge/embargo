@@ -166,8 +166,8 @@
           <workingDirectory>${project.build.directory}</workingDirectory>
           <systemProperties>
             <property>
-              <name>repopath</name>
-              <value>${project.build.directory}/repository</value>
+              <name>testrepopath</name>
+              <value>${project.build.directory}/testrepository</value>
             </property>
           </systemProperties>
         </configuration>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onehippo.forge.embargo.tests.helpers;
+package org.onehippo.forge.embargo.tests;
 
 import javax.jcr.SimpleCredentials;
 
@@ -24,6 +24,11 @@ public class TestConstants {
 
     public static final SimpleCredentials ADMIN_CREDENTIALS = new SimpleCredentials("admin", "admin".toCharArray());
     public static final SimpleCredentials EDITOR_CREDENTIALS = new SimpleCredentials("editor", "editor".toCharArray());
-    public static final SimpleCredentials AUTHOR_CREDENTIALS = new SimpleCredentials("author", "author".toCharArray());
-    public static final String HIPPO_RMI_CONNECTION = "rmi://localhost:1099/hipporepository";
+    //public static final SimpleCredentials AUTHOR_CREDENTIALS = new SimpleCredentials("author", "author".toCharArray());
+    public static final SimpleCredentials EMBARGO_USER_CREDENTIALS = new SimpleCredentials("embargouser", "embargouser".toCharArray());
+
+    public static final String CONTENT_DOCUMENTS_PATH = "/content/documents";
+    public static final String TEST_DOCUMENT_NAME = "test";
+
+    public static final String REPOSITORY_PATH_SYSTEM_PROPERTY = "testrepopath";
 }

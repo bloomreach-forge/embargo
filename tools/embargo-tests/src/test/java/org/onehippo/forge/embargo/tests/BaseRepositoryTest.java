@@ -19,18 +19,15 @@ import org.junit.Before;
  */
 public class BaseRepositoryTest {
 
-    private static final String SYSTEMUSER_ID = "admin";
-    private static final char[] SYSTEMUSER_PASSWORD = "admin".toCharArray();
-
     protected HippoRepository repository;
-    protected Session session;
-    protected WorkflowManager workflowMgr = null;
+    protected Session adminSession;
+//    protected WorkflowManager workflowMgr = null;
 
     @Before
     public void setUp() throws Exception {
-        HippoRepositoryFactory.setDefaultRepository(System.getProperty("repopath"));
+        HippoRepositoryFactory.setDefaultRepository(System.getProperty(TestConstants.REPOSITORY_PATH_SYSTEM_PROPERTY));
         repository = HippoRepositoryFactory.getHippoRepository();
-        session = repository.login(SYSTEMUSER_ID, SYSTEMUSER_PASSWORD);
+        adminSession = repository.login(TestConstants.ADMIN_CREDENTIALS);
     }
 
     @After
@@ -41,24 +38,21 @@ public class BaseRepositoryTest {
     }
 
     protected Workflow getWorkflow(Node node, String category) throws RepositoryException {
-        if (workflowMgr == null) {
-            HippoWorkspace wsp = (HippoWorkspace) node.getSession().getWorkspace();
-            workflowMgr = wsp.getWorkflowManager();
-        }
+        WorkflowManager workflowManager = ((HippoWorkspace) node.getSession().getWorkspace()).getWorkflowManager();
         Node canonicalNode = ((HippoNode) node).getCanonicalNode();
-        return workflowMgr.getWorkflow(category, canonicalNode);
+        return workflowManager.getWorkflow(category, canonicalNode);
     }
 
-    protected Workflow getWorkflow(Document document, String category) throws RepositoryException {
+    /*protected Workflow getWorkflowAsAdmin(Document document, String category) throws RepositoryException {
         if (workflowMgr == null) {
-            HippoWorkspace wsp = (HippoWorkspace) session.getWorkspace();
+            HippoWorkspace wsp = (HippoWorkspace) adminSession.getWorkspace();
             workflowMgr = wsp.getWorkflowManager();
         }
         return workflowMgr.getWorkflow(category, document);
     }
 
     protected Node getNode(String path) throws RepositoryException {
-        return ((HippoWorkspace)session.getWorkspace()).getHierarchyResolver().getNode(session.getRootNode(), path);
-    }
+        return ((HippoWorkspace) adminSession.getWorkspace()).getHierarchyResolver().getNode(adminSession.getRootNode(), path);
+    }*/
 
 }

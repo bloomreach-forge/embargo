@@ -65,7 +65,8 @@
   </category>
   
   <root>
-    <level value="warn"/>
+    <!-- TODO Change back to warn -->
+    <level value="info"/>
     <appender-ref ref="console"/>
     <appender-ref ref="root"/>
   </root>
