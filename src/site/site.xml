@@ -41,7 +41,7 @@
       <item name="Installation" href="install.html" />
       <item name="User/groups configuration" href="embargo-groups.html" />
       <item name="Usage" href="usage.html" />
-      <item name="Integration" href="integration.html" />
+      <item name="Integration" href="plugin-integration.html" />
       <item name="Build from source" href="build-from-source.html" />
     </menu>
 
