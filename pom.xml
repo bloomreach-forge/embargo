@@ -251,7 +251,8 @@
                 <exclude>**/MANIFEST.MF</exclude>
                 <!-- exclude IntelliJ module files of sub-projects -->
                 <exclude>**/*.iml</exclude>
-                <exclude>addon/repository/src/main/resources/**/*.xml</exclude>
+                <exclude>cms-addon/repository/src/main/resources/**/*.xml</exclude>
+                <exclude>tools/embargo-tests/src/test/resources/**/*.xml</exclude>
               </excludes>
             </configuration>
           </plugin>
