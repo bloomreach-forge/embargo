@@ -31,9 +31,9 @@
 
   <properties>
 
-    <hippo.repository.version>2.22.15</hippo.repository.version>
+    <hippo.repository.version>2.22.19-r39575</hippo.repository.version>
+    <hippo.hst.version>2.24.15-r39602</hippo.hst.version>
     <hippo.cms.version>2.22.15</hippo.cms.version>
-    <hippo.hst.version>2.24.14</hippo.hst.version>
     <hippo.addon-publication-workflow.version>2.22.06</hippo.addon-publication-workflow.version>
 
     <org.datanucleus.version>2.2.2</org.datanucleus.version>
@@ -304,7 +304,6 @@
 
   <modules>
     <module>cms-addon</module>
-    <module>hst-addon</module>
     <module>tools</module>
   </modules>
 
