@@ -31,8 +31,9 @@
 
   <properties>
 
-    <hippo.repository.version>2.22.19-r39575</hippo.repository.version>
-    <hippo.hst.version>2.24.15-r39602</hippo.hst.version>
+    <hippo.repository.beta.version>2.22.19-r39575</hippo.repository.beta.version>
+    <hippo.hst.beta.version>2.24.15-r39602</hippo.hst.beta.version>
+    <hippo.repository.version>2.22.18</hippo.repository.version>
     <hippo.cms.version>2.22.15</hippo.cms.version>
     <hippo.addon-publication-workflow.version>2.22.06</hippo.addon-publication-workflow.version>
 
@@ -106,42 +107,42 @@
       <dependency>
         <groupId>org.onehippo.cms7</groupId>
         <artifactId>hippo-repository-api</artifactId>
-        <version>${hippo.repository.version}</version>
+        <version>${hippo.repository.beta.version}</version>
         <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.onehippo.cms7</groupId>
         <artifactId>hippo-repository-engine</artifactId>
-        <version>${hippo.repository.version}</version>
+        <version>${hippo.repository.beta.version}</version>
         <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.onehippo.cms7</groupId>
         <artifactId>hippo-repository-connector</artifactId>
-        <version>${hippo.repository.version}</version>
+        <version>${hippo.repository.beta.version}</version>
         <scope>test</scope>
       </dependency>
 
       <dependency>
         <groupId>org.onehippo.cms7.hst</groupId>
         <artifactId>hst-api</artifactId>
-        <version>${hippo.hst.version}</version>
+        <version>${hippo.hst.beta.version}</version>
         <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.onehippo.cms7.hst</groupId>
         <artifactId>hst-content-beans</artifactId>
-        <version>${hippo.hst.version}</version>
+        <version>${hippo.hst.beta.version}</version>
         <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.onehippo.cms7.hst</groupId>
         <artifactId>hst-client</artifactId>
-        <version>${hippo.hst.version}</version>
+        <version>${hippo.hst.beta.version}</version>
         <scope>provided</scope>
       </dependency>
 
@@ -168,14 +169,14 @@
       <dependency>
         <groupId>org.onehippo.cms7.hst</groupId>
         <artifactId>hst-commons</artifactId>
-        <version>${hippo.hst.version}</version>
+        <version>${hippo.hst.beta.version}</version>
         <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.onehippo.cms7.hst.components</groupId>
         <artifactId>hst-session-pool</artifactId>
-        <version>${hippo.hst.version}</version>
+        <version>${hippo.hst.beta.version}</version>
         <scope>provided</scope>
       </dependency>
 
