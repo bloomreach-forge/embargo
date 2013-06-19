@@ -28,6 +28,27 @@
   <dependencies>
 
     <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>1.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-easymock</artifactId>
+      <version>1.5</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>3.1</version>
+      <scope>test</scope>
+    </dependency>
+
+
+    <dependency>
       <groupId>org.onehippo.cms7</groupId>
       <artifactId>hippo-repository-connector</artifactId>
       <scope>test</scope>
@@ -64,7 +85,14 @@
       <groupId>org.onehippo.forge.embargo</groupId>
       <artifactId>embargo-addon-frontend</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
+      <!--<scope>test</scope>-->
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.forge.embargo</groupId>
+      <artifactId>embargo-addon-repository</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <!-- test dependencies -->
@@ -164,12 +192,12 @@
         <configuration>
           <forkMode>always</forkMode>
           <workingDirectory>${project.build.directory}</workingDirectory>
-          <systemProperties>
-            <property>
-              <name>testrepopath</name>
-              <value>${project.build.directory}/testrepository</value>
-            </property>
-          </systemProperties>
+          <!--<systemProperties>-->
+            <!--<property>-->
+              <!--<name>testrepopath</name>-->
+              <!--<value>${project.build.directory}/testrepository</value>-->
+            <!--</property>-->
+          <!--</systemProperties>-->
         </configuration>
       </plugin>
     </plugins>

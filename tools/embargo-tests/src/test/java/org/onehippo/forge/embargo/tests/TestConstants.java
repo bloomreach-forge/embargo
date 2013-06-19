@@ -24,11 +24,11 @@ public class TestConstants {
 
     public static final SimpleCredentials ADMIN_CREDENTIALS = new SimpleCredentials("admin", "admin".toCharArray());
     public static final SimpleCredentials EDITOR_CREDENTIALS = new SimpleCredentials("editor", "editor".toCharArray());
-    //public static final SimpleCredentials AUTHOR_CREDENTIALS = new SimpleCredentials("author", "author".toCharArray());
-    public static final SimpleCredentials EMBARGO_USER_CREDENTIALS = new SimpleCredentials("embargouser", "embargouser".toCharArray());
 
-    public static final String CONTENT_DOCUMENTS_PATH = "/content/documents";
+    public static final SimpleCredentials EMBARGO_EDITOR_CREDENTIALS = new SimpleCredentials("embargo-editor", "embargo-editor".toCharArray());
+    public static final SimpleCredentials EMBARGO_AUTHOR_CREDENTIALS = new SimpleCredentials("embargo-author", "embargo-author".toCharArray());
+
+    public static final String CONTENT_DOCUMENTS_EMBARGODEMO_PATH = "/content/documents/embargodemo";
     public static final String TEST_DOCUMENT_NAME = "test";
 
-    public static final String REPOSITORY_PATH_SYSTEM_PROPERTY = "testrepopath";
 }
