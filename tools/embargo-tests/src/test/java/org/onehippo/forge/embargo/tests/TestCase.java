@@ -73,8 +73,8 @@ public class TestCase {
         if (path.exists()) {
             if (path.isDirectory()) {
                 File[] files = path.listFiles();
-                for (int i = 0; i < files.length; i++) {
-                    delete(files[i]);
+                for (final File file : files) {
+                    delete(file);
                 }
             }
             path.delete();
@@ -92,8 +92,8 @@ public class TestCase {
             // a shutdown command always raises a SQLException
         }
         String[] files = new String[]{".lock", "repository", "version", "workspaces"};
-        for (int i = 0; i < files.length; i++) {
-            File file = new File(files[i]);
+        for (final String file1 : files) {
+            File file = new File(file1);
             delete(file);
         }
     }

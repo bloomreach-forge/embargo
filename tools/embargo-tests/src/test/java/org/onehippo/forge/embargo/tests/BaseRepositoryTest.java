@@ -19,19 +19,14 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
-import org.hippoecm.frontend.session.UserSession;
 import org.hippoecm.repository.HippoRepository;
 import org.hippoecm.repository.HippoRepositoryFactory;
-import org.hippoecm.repository.LocalHippoRepository;
 import org.hippoecm.repository.api.HippoNode;
 import org.hippoecm.repository.api.HippoWorkspace;
 import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowManager;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * @author Jeroen Reijn, Minos and Kenan..
@@ -46,8 +41,8 @@ public class BaseRepositoryTest {
     public void setUp() throws Exception {
         this.testCase = new TestCase() {
         };
-        testCase.setUpClass(true);
-        testCase.fixture();
+        TestCase.setUpClass(true);
+        TestCase.fixture();
         this.repository = HippoRepositoryFactory.getHippoRepository();
         adminSession = repository.login(TestConstants.ADMIN_CREDENTIALS);
     }
@@ -57,7 +52,7 @@ public class BaseRepositoryTest {
         if (repository != null) {
             repository.close();
         }
-        testCase.tearDownClass(true);
+        TestCase.tearDownClass(true);
     }
 
     protected Workflow getWorkflow(Node node, String category) throws RepositoryException {
