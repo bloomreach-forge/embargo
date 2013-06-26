@@ -17,7 +17,6 @@ package org.onehippo.forge.embargo.repository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import javax.jcr.Node;
@@ -33,8 +32,12 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @version $Id$
+ *
+ * TODO: Add tests for this class, there's quite some complex logic here that needs to be covered.
  */
-public class EmbargoUtils {
+public final class EmbargoUtils {
+
+    private EmbargoUtils() {}
 
     private static Logger log = LoggerFactory.getLogger(EmbargoUtils.class);
 
