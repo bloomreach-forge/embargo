@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
@@ -29,6 +30,12 @@ import javax.jcr.query.Query;
 import org.hippoecm.repository.api.HippoNodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.onehippo.forge.embargo.repository.EmbargoConstants.EMBARGO_GROUPS_MAPPING_NODE_NAMES;
+import static org.onehippo.forge.embargo.repository.EmbargoConstants.EMBARGO_DOMAIN_PATH;
+import static org.onehippo.forge.embargo.repository.EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME;
+import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT;
+import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME;
 
 /**
  * @version $Id$
@@ -41,7 +48,8 @@ public final class EmbargoUtils {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoUtils.class);
 
-    public static String[] getCurrentUserEmbargoEnabledGroups(Session session, String userIdentity) throws RepositoryException {
+    public static String[] getCurrentUserEmbargoEnabledGroups(Session session, String userIdentity)
+            throws RepositoryException {
 
         Query selectGroupsQuery = session.getWorkspace().getQueryManager().createQuery(
                 EmbargoConstants.SELECT_GROUPS_QUERY.replace("{}", userIdentity),
@@ -65,8 +73,14 @@ public final class EmbargoUtils {
     }
 
     public static List<String> getAllEmbargoEnabledGroups(Session session) throws RepositoryException {
-        NodeIterator embargoGroupMappingNodes = session.getRootNode().getNode(EmbargoConstants.EMBARGO_GROUPS_MAPPING_NODE_PATH)
-                .getNodes(EmbargoConstants.EMBARGO_GROUPS_MAPPING_NODE_NAMES);
+        Node embargoGroupsMappingNode;
+        try {
+            embargoGroupsMappingNode = session.getRootNode().getNode(EMBARGO_DOMAIN_PATH);
+        } catch (PathNotFoundException e) {
+            log.error("Embargo domain does not exist at {}", EMBARGO_DOMAIN_PATH);
+            throw e;
+        }
+        NodeIterator embargoGroupMappingNodes = embargoGroupsMappingNode.getNodes(EMBARGO_GROUPS_MAPPING_NODE_NAMES);
 
         List<String> embargoGroupNames = new ArrayList<String>();
         while (embargoGroupMappingNodes.hasNext()) {
@@ -82,12 +96,13 @@ public final class EmbargoUtils {
     }
 
     public static Calendar getEmbargoExpirationDate(Node hippoHandleNode) throws RepositoryException {
-        if (hippoHandleNode.isNodeType(HippoNodeType.NT_HANDLE) && hippoHandleNode.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
-            Node requestNode = hippoHandleNode.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME);
-            if (requestNode.hasNode(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT)) {
-                Node defaultTriggerNode = requestNode.getNode(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT);
-                if (defaultTriggerNode.hasProperty(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME)) {
-                    return defaultTriggerNode.getProperty(EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME).getDate();
+        if (hippoHandleNode.isNodeType(HippoNodeType.NT_HANDLE)
+                && hippoHandleNode.hasNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
+            Node requestNode = hippoHandleNode.getNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME);
+            if (requestNode.hasNode(HIPPOSCHED_TRIGGERS_DEFAULT)) {
+                Node defaultTriggerNode = requestNode.getNode(HIPPOSCHED_TRIGGERS_DEFAULT);
+                if (defaultTriggerNode.hasProperty(HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME)) {
+                    return defaultTriggerNode.getProperty(HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME).getDate();
                 }
             }
         }
