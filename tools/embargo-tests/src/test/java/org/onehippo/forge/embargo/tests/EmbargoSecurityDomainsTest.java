@@ -40,8 +40,10 @@ import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
 import static org.powermock.api.easymock.PowerMock.mockStatic;
 import static org.powermock.api.easymock.PowerMock.replay;
@@ -55,12 +57,43 @@ import static org.powermock.api.easymock.PowerMock.replay;
 public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoSecurityDomainsTest.class);
+    private Session adminSession;
+    private Session embargoEditor;
+    private Session embargoAuthor;
+    private Session editor;
+
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         //Skip all tests if we can't reach the repository.These tests need to run on an existing repository (integration tests)
         assumeTrue(repository.getRepository() != null);
+        //load internal workflow before we can use any other one (needed to split up functionality in different methods)
+        adminSession = repository.login(TestConstants.ADMIN_CREDENTIALS);
+        assumeNotNull(adminSession);
+        final Node adminDocumentsFolder = adminSession.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
+        final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(adminDocumentsFolder, "internal");
+        //(normal) admin creates a news document
+        final String adminDocumentLocation = adminFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        //quick check if document exitst, and now the threepane workflow is enabled for some jdo reason...
+        assumeTrue(adminSession.itemExists(adminDocumentLocation));
+        //prepare sessions:
+        editor = repository.login(TestConstants.EDITOR_CREDENTIALS);
+        embargoEditor = repository.login(TestConstants.EMBARGO_EDITOR_CREDENTIALS);
+        embargoAuthor = repository.login(TestConstants.EMBARGO_AUTHOR_CREDENTIALS);
+
+        /**
+         *  Need powermock to mock the wicket Usersession: org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflowImpl#addEmbargo()
+         */
+        UserSession userSession = createNiceMock(UserSession.class);
+        mockStatic(org.apache.wicket.Session.class);
+        expect(org.apache.wicket.Session.get()).andReturn(userSession).anyTimes();
+        expect(userSession.getJcrSession()).andReturn(embargoEditor).anyTimes();
+        replay(org.apache.wicket.Session.class, userSession);
+        /**
+         *  end powermock code
+         */
+
     }
 
     /**
@@ -70,8 +103,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
      */
     @Test
     public void testAdminRightsToEmbargo() throws Exception {
-        final Session editor = repository.login("admin", "admin".toCharArray());
-        final boolean b = editor.itemExists("/hippo:configuration/hippo:workflows/embargo");
+        final boolean b = adminSession.itemExists("/hippo:configuration/hippo:workflows/embargo");
         assertTrue(b);
     }
 
@@ -82,12 +114,10 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
      */
     @Test
     public void testEmbargoUserRightsToEmbargoDomain() throws Exception {
-        final Session editor = repository.login(TestConstants.EMBARGO_EDITOR_CREDENTIALS);
-        final boolean a = editor.itemExists("/hippo:configuration/hippo:workflows/embargo");
+        final boolean a = embargoEditor.itemExists("/hippo:configuration/hippo:workflows/embargo");
         assertTrue(a);
 
-        final Session author = repository.login(TestConstants.EMBARGO_AUTHOR_CREDENTIALS);
-        final boolean b = author.itemExists("/hippo:configuration/hippo:workflows/embargo");
+        final boolean b = embargoAuthor.itemExists("/hippo:configuration/hippo:workflows/embargo");
         assertTrue(b);
     }
 
@@ -98,7 +128,6 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
      */
     @Test
     public void testEditorRightsToEmbargo() throws Exception {
-        final Session editor = repository.login("editor", "editor".toCharArray());
         final boolean b = editor.itemExists("/hippo:configuration/hippo:workflows/embargo");
         assertFalse(b);
     }
@@ -133,111 +162,152 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         assertEquals(expectedUri, uri);
     }
 
-
     /**
-     * Testing embargo rights, functionally.
+     * We need to test if the threepane workflow works (jdo complains) because the embargo is tied to the three pane
+     * workflow to execute the workflow event on embargo users.
      *
-     * Mostly with #itemExists to check if the authenticated session has access to the embargoed document
      * @throws Exception
      */
     @Test
-    public void testEmbargoWorkflowAccessLevels() throws Exception {
-        final Session editorSession = repository.login(TestConstants.EDITOR_CREDENTIALS);
-        final Node editorsDocumentsFolder = editorSession.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
+    public void testDocumentCreationWithThreePaneWorkflow() throws Exception {
+        //testing creating a document with the embargo user.
+        final Node embargoEditorFolderNode = embargoEditor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
+        final FolderWorkflow embargoEditorFolderWorkflow = (FolderWorkflow) getWorkflow(embargoEditorFolderNode, "threepane");
+        final String embargoEditorDocumentLocation = embargoEditorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        assertTrue(embargoEditor.itemExists(embargoEditorDocumentLocation));
+    }
 
-        final Session adminSession = repository.login(TestConstants.ADMIN_CREDENTIALS);
-        final Node adminDocumentsFolder = adminSession.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
 
-        final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorsDocumentsFolder, "internal");
-        final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(adminDocumentsFolder, "internal");
+    /**
+     * We now test if a document created by an embargo editor is viewable by an ordinary editor without embargo rights.
+     * We are also testing the workflow event.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testDocumentCreationWorkflowAccessLevelAndWorkflowEventOnCreationWithEmbargoUser() throws Exception {
+        //testing creating a document with the embargo user.
+        final Node embargoEditorFolderNode = embargoEditor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
+        final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(embargoEditorFolderNode, "threepane");
+        final String embargoEditorDocumentLocation = adminFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        assertTrue(embargoEditor.itemExists(embargoEditorDocumentLocation));
+        assertFalse(editor.itemExists(embargoEditorDocumentLocation));
+    }
 
-        //(normal) editor creates a news document
+
+    /**
+     * Test if we can successfully retrieve the right embargo workflow with different users, embargo and non embargo
+     * users.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testEmbargoWorkflowExistenceOnDocumentForDifferentUsers() throws Exception {
+        //testing creating a document with the embargo user.
+        final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
+        final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
         final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
-        //(normal) admin creates a news document
-        final String adminDocumentLocation = adminFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        assertTrue(editor.itemExists(editorDocumentLocation));
 
-        final Node testDocumentNode = editorsDocumentsFolder.getNode(TestConstants.TEST_DOCUMENT_NAME);
-        //test if editor is allowed to view created document
-        assertTrue(editorSession.itemExists(editorDocumentLocation));
-        //test if editor is allowed to see document created by admin.
-        assertTrue(editorSession.itemExists(adminDocumentLocation));
-
-        final EmbargoWorkflow editorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(testDocumentNode, "embargo");
+        final Workflow editorsEmbargoWorkflow = getWorkflow(editor.getNode(editorDocumentLocation), "embargo");
         //test is editor is allowed to have the embargo workflow
         assertNull(editorsEmbargoWorkflow);
 
+        final Workflow embargoEditorsEmbargoWorkflow = getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
+        //test is embargo editor is allowed to have the embargo workflow
+        assertNotNull(embargoEditorsEmbargoWorkflow);
 
-        final Workflow workflow = getWorkflow(adminSession.getNode(adminDocumentLocation), "embargo");
-        //test if admin is allowed to retrieve embargo workflow
-        assertTrue(workflow instanceof EmbargoWorkflow);// just can not do anything with it because the admin is not part of the embargo domain. So we continue.
+        //check if instance type is embargo workflow
+        assertTrue(embargoEditorsEmbargoWorkflow instanceof EmbargoWorkflow);
+    }
 
-        final Session embargoEditorSession = repository.login(TestConstants.EMBARGO_EDITOR_CREDENTIALS);
-        final Workflow embargoEditorWorkflow = getWorkflow(embargoEditorSession.getNode(adminDocumentLocation), "embargo");
 
-        //test if embargo editor is allowed to retrieve embargo workflow
-        assertTrue(embargoEditorWorkflow instanceof EmbargoWorkflow);
+    /**
+     * Test if we can add an embargo on a document created by somebody else and see if it is accessible afterwards for non
+     * embargo users.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testAddEmbargoOnDocumentAndCheckAccessibilityWithDifferentUsers() throws Exception {
+        //testing creating a document with the embargo user.
+        final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
+        final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
+        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        assertTrue(editor.itemExists(editorDocumentLocation));
 
-        EmbargoWorkflow embargoWorkflow = (EmbargoWorkflow) embargoEditorWorkflow;
+        final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
 
-        /**
-         * Need powermock to mock the wicket Usersession: org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflowImpl#addEmbargo()
-         */
-        UserSession userSession = createNiceMock(UserSession.class);
-        mockStatic(org.apache.wicket.Session.class);
-        expect(org.apache.wicket.Session.get()).andReturn(userSession).anyTimes();
-        expect(userSession.getJcrSession()).andReturn(embargoEditorSession).anyTimes();
-        replay(org.apache.wicket.Session.class, userSession);
-        /**
-         * end powermock code
-         */
+        embargoEditorsEmbargoWorkflow.addEmbargo();
 
-        //execute adding embargo on the document the admin created as the embargo-editor: /content/documents/embargodemo/test[2]...
-        embargoWorkflow.addEmbargo();
+        assertTrue(embargoEditor.itemExists(editorDocumentLocation));
+        assertFalse(editor.itemExists(editorDocumentLocation));
 
-        //admin has access to the document (because it has access to everything)
-        assertTrue(adminSession.itemExists(adminDocumentLocation));
+    }
 
-        //editor does not have access to the document anymore because it is now under embargo.
-        assertFalse(editorSession.itemExists(adminDocumentLocation));
+    /**
+     * Test if we can add an embargo on a document created by somebody else and see if it is accessible afterwards for non
+     * embargo users.. and then remove it.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testRemovalOfEmbargoAndCheckAccessibilityWithDifferentUsers() throws Exception {
+        //testing creating a document with the embargo user.
+        final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
+        final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
+        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        assertTrue(editor.itemExists(editorDocumentLocation));
 
-        //removing embargo, editor should be able to see it again afterwards
-        embargoWorkflow.removeEmbargo();
-        assertTrue(editorSession.itemExists(adminDocumentLocation));
+        final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
 
-        //adding embargo, editor should not be able to see it again afterwards...  preparing for scheduling removal embargo
-        embargoWorkflow.addEmbargo();
-        assertFalse(editorSession.itemExists(adminDocumentLocation));
+        embargoEditorsEmbargoWorkflow.addEmbargo();
+
+        assertTrue(embargoEditor.itemExists(editorDocumentLocation));
+        assertFalse(editor.itemExists(editorDocumentLocation));
+
+        embargoEditorsEmbargoWorkflow.removeEmbargo();
+
+        assertTrue(embargoEditor.itemExists(editorDocumentLocation));
+        assertTrue(editor.itemExists(editorDocumentLocation));
+    }
+
+
+    /**
+     * Test if we can add an embargo on a document created by somebody else and see if it is visible afterwards for non
+     * embargo users.. and then schedule to remove embargo and check accessibility.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testScheduledRemovalOfEmbargoAndCheckAccessibilityWithDifferentUsers() throws Exception {
+        //testing creating a document with the embargo user.
+        final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
+        final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
+        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        assertTrue(editor.itemExists(editorDocumentLocation));
+
+        final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
+
+        embargoEditorsEmbargoWorkflow.addEmbargo();
+
+        assertTrue(embargoEditor.itemExists(editorDocumentLocation));
+        assertFalse(editor.itemExists(editorDocumentLocation));
 
         //creating a calendar object which removes embargo 10 seconds in the future
+
         final Calendar tenSecondFuture = Calendar.getInstance();
         tenSecondFuture.add(Calendar.SECOND, 10);
 
-        //schedule remove embargo with the 10 second in the future rule
-        embargoWorkflow.scheduleRemoveEmbargo(tenSecondFuture);
-        assertFalse(editorSession.itemExists(adminDocumentLocation));
+        embargoEditorsEmbargoWorkflow.scheduleRemoveEmbargo(tenSecondFuture);
+
+        assertFalse(editor.itemExists(editorDocumentLocation));
 
         //wait 11 seconds just to be sure
         Thread.sleep(11000);
 
-        //poof the document is visible again...  magic? awesomeness?
-        assertTrue(editorSession.itemExists(adminDocumentLocation));
-
-        //testing creating a document with the embargo user.
-        final Node embargoEditorDocumentsFolder = embargoEditorSession.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
-        final FolderWorkflow embargoEditorFolderWorkflow = (FolderWorkflow) getWorkflow(embargoEditorDocumentsFolder, "threepane");
-
-        //(embargo) editor creates a news document, it should automatically trigger the workflow event..
-        final String embargoEditorDocumentLocation = embargoEditorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
-
-        assertFalse(editorSession.itemExists(embargoEditorDocumentLocation)); //not visible is it??!
-
-        //it should be visible for the embargo editor ofcourse
-        assertTrue(embargoEditorSession.itemExists(embargoEditorDocumentLocation));
-
-        //logging out.. tests all passed..!!!
-        editorSession.logout();
-        adminSession.logout();
-        embargoEditorSession.logout();
+        assertTrue(embargoEditor.itemExists(editorDocumentLocation));
+        assertTrue(editor.itemExists(editorDocumentLocation));
     }
 
 
@@ -245,6 +315,11 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
     @After
     public void tearDown() throws Exception {
         super.tearDown();
+        //logging out all sessions.. tests all passed!!!
+        editor.logout();
+        adminSession.logout();
+        embargoAuthor.logout();
+        embargoEditor.logout();
     }
 
 }
