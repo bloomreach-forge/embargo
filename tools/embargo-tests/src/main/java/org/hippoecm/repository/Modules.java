@@ -34,6 +34,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Hacking...
+ *
+ * Unable to get the Embargo Workflow Module picked up. So I fork the Modules class just to add it.
+ *
  * @param <T>
  */
 public final class Modules<T extends Object> implements Iterable<T> {

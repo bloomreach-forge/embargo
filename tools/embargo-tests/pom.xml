@@ -173,6 +173,58 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.sling</groupId>
+      <artifactId>org.apache.sling.commons.testing</artifactId>
+      <version>2.0.14</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-simple</artifactId>
+        </exclusion>
+
+        <exclusion>
+          <groupId>org.apache.sling</groupId>
+          <artifactId>org.apache.sling.api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.sling</groupId>
+          <artifactId>org.apache.sling.jcr.api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>javax.jcr</groupId>
+          <artifactId>jcr</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.jackrabbit</groupId>
+          <artifactId>jackrabbit-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.jackrabbit</groupId>
+          <artifactId>jackrabbit-jcr-commons</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.jackrabbit</groupId>
+          <artifactId>jackrabbit-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.sling</groupId>
+          <artifactId>org.apache.sling.adapter</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>rhino</groupId>
+          <artifactId>js</artifactId>
+        </exclusion>
+
+      </exclusions>
+      <scope>test</scope>
+    </dependency>
+
+
   </dependencies>
 
 
@@ -185,12 +237,7 @@
         <configuration>
           <forkMode>always</forkMode>
           <workingDirectory>${project.build.directory}</workingDirectory>
-          <!--<systemProperties>-->
-            <!--<property>-->
-              <!--<name>testrepopath</name>-->
-              <!--<value>${project.build.directory}/testrepository</value>-->
-            <!--</property>-->
-          <!--</systemProperties>-->
+          <!--<systemProperties>--><!--<property>--><!--<name>testrepopath</name>--><!--<value>${project.build.directory}/testrepository</value>--><!--</property>--><!--</systemProperties>-->
         </configuration>
       </plugin>
     </plugins>
