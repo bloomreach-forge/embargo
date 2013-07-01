@@ -203,7 +203,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
      */
     @Test
     public void testEmbargoWorkflowExistenceOnDocumentForDifferentUsers() throws Exception {
-        //testing creating a document with the embargo user.
+        //testing creating a document with the editor user.
         final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
         final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
@@ -230,7 +230,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
      */
     @Test
     public void testAddEmbargoOnDocumentAndCheckAccessibilityWithDifferentUsers() throws Exception {
-        //testing creating a document with the embargo user.
+        //testing creating a document with the editor user.
         final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
         final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
@@ -253,7 +253,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
      */
     @Test
     public void testRemovalOfEmbargoAndCheckAccessibilityWithDifferentUsers() throws Exception {
-        //testing creating a document with the embargo user.
+        //testing creating a document with the editor user.
         final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
         final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
@@ -281,7 +281,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
      */
     @Test
     public void testScheduledRemovalOfEmbargoAndCheckAccessibilityWithDifferentUsers() throws Exception {
-        //testing creating a document with the embargo user.
+        //testing creating a document with the editor user.
         final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
         final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
