@@ -3,8 +3,10 @@ package org.onehippo.forge.embargo.repository;
 import java.util.Calendar;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 
 import org.apache.sling.commons.testing.jcr.MockNode;
+import org.apache.sling.commons.testing.jcr.MockNodeIterator;
 import org.apache.sling.commons.testing.jcr.MockProperty;
 import org.hippoecm.repository.api.HippoNodeType;
 import org.junit.Test;
@@ -62,20 +64,43 @@ public class EmbargoUtilsTest {
 
     @Test
     public void testIsVisibleInPreview() throws Exception {
-        Node mockedeNode = new MockNode("/content");
-        mockedeNode.setProperty(HippoNodeType.HIPPO_AVAILABILITY, new String[]{"preview", "live"});
+        Node mockedNode = new MockNode("/content");
+        mockedNode.setProperty(HippoNodeType.HIPPO_AVAILABILITY, new String[]{"preview", "live"});
 
-        final boolean visibleInPreview = EmbargoUtils.isVisibleInPreview(mockedeNode);
+        final boolean visibleInPreview = EmbargoUtils.isVisibleInPreview(mockedNode);
         assertTrue(visibleInPreview);
     }
 
     @Test
     public void testIsNotVisibleInPreview() throws Exception {
-        Node mockedeNode = new MockNode("/content");
-        mockedeNode.setProperty(HippoNodeType.HIPPO_AVAILABILITY, new String[]{"live"});
+        Node mockedNode = new MockNode("/content");
+        mockedNode.setProperty(HippoNodeType.HIPPO_AVAILABILITY, new String[]{"live"});
 
-        final boolean visibleInPreview = EmbargoUtils.isVisibleInPreview(mockedeNode);
+        final boolean visibleInPreview = EmbargoUtils.isVisibleInPreview(mockedNode);
         assertFalse(visibleInPreview);
+    }
+
+    @Test
+    public void testGetEmptyArrayForDocumentVariants() throws Exception {
+        Node mockedeNode = new MockNode("/content");
+        final Node[] documentVariants = EmbargoUtils.getDocumentVariants(mockedeNode);
+        assertEquals(documentVariants.length,0);
+    }
+
+    @Test
+    public void testGetNonEmptyArrayForDocumentVariants() throws Exception {
+        Node mockHandleNode = createMock(Node.class);
+        Node mockedChildNode = createMock(Node.class);
+        NodeIterator mockNodeIterator = new MockNodeIterator(new Node[] {mockedChildNode});
+
+        expect(mockHandleNode.getNodes()).andReturn(mockNodeIterator);
+        expect(mockedChildNode.isNodeType(HippoNodeType.NT_HARDDOCUMENT)).andReturn(true);
+
+        replay(mockHandleNode,mockedChildNode);
+
+        final Node[] documentVariants = EmbargoUtils.getDocumentVariants(mockHandleNode);
+
+        assertEquals(documentVariants.length,1);
     }
 
 }
