@@ -22,7 +22,8 @@
     <version>1.01.05-SNAPSHOT</version>
   </parent>
 
-  <name>Embargo Tests</name>
+  <name>Hippo Embargo Plugin Tests</name>
+
   <artifactId>embargo-tests</artifactId>
 
   <dependencies>

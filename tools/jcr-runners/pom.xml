@@ -22,7 +22,7 @@
     <version>1.01.05-SNAPSHOT</version>
   </parent>
 
-  <name>Embargo Jcr Runners</name>
+  <name>Hippo Embargo Plugin JCR Runners</name>
   <artifactId>jcr-runners</artifactId>
 
   <properties>
