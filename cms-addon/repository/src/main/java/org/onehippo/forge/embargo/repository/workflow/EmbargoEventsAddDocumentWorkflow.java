@@ -40,6 +40,8 @@ import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.ext.WorkflowImpl;
 import org.hippoecm.repository.standardworkflow.WorkflowEventWorkflow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @version $Id$
@@ -52,6 +54,7 @@ import org.hippoecm.repository.standardworkflow.WorkflowEventWorkflow;
 public class EmbargoEventsAddDocumentWorkflow extends WorkflowImpl implements WorkflowEventWorkflow {
 
     private static final long serialVersionUID = 1L;
+    private final static Logger log = LoggerFactory.getLogger(EmbargoEventsAddDocumentWorkflow.class);
 
     public EmbargoEventsAddDocumentWorkflow() throws RemoteException {
         super();
@@ -70,8 +73,25 @@ public class EmbargoEventsAddDocumentWorkflow extends WorkflowImpl implements Wo
         if (newDocumentNode.isNodeType(HippoNodeType.NT_DOCUMENT) && !newDocumentNode.isNodeType(HippoStdNodeType.NT_FOLDER)) {
             HippoWorkspace workspace = (HippoWorkspace) internalWorkflowSession.getWorkspace();
             Workflow embargo = workspace.getWorkflowManager().getWorkflow("embargo", newDocumentNode);
-            ((EmbargoWorkflow) embargo).addEmbargo();
+            if(isInCMSContext()) {
+                ((EmbargoWorkflow) embargo).addEmbargo();
+            }
         }
+    }
+
+    private boolean isInCMSContext() {
+        boolean isValidCMSContext = true;
+        try {
+            org.apache.wicket.Session.get();
+        } catch (IllegalStateException ise) {
+            if(ise.getMessage().contains("in the context of a request cycle")) {
+                log.debug("Workflow event triggered in a non CMS context. The embargo plugin needs to have a CMS user (and groups) to add the necessary information.");
+                isValidCMSContext = false;
+            } else {
+                throw new IllegalStateException(ise.getMessage());
+            }
+        }
+        return isValidCMSContext;
     }
 
     @Override

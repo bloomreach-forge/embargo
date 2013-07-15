@@ -32,7 +32,7 @@
   <properties>
 
     <hippo.repository.beta.version>2.22.19-r39575</hippo.repository.beta.version>
-    <hippo.hst.beta.version>2.24.15-r39602</hippo.hst.beta.version>
+    <hippo.hst.beta.version>2.24.15-r39822</hippo.hst.beta.version>
     <hippo.repository.version>2.22.18</hippo.repository.version>
     <hippo.cms.version>2.22.15</hippo.cms.version>
     <hippo.addon-publication-workflow.version>2.22.06</hippo.addon-publication-workflow.version>

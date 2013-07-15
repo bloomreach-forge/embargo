@@ -21,6 +21,14 @@
   </properties>
   <body>
     <section name="Release Notes">
+<!--
+      <subsection name="1.01.05">
+        <ul>
+          <li>Embargo workflow event may be fired from a non-cms context, so we don't call the embargo feature from a remote (RMI) application.</li>
+          <li>Increased code coverage</li>
+        </ul>
+      </subsection>
+-->
       <subsection name="1.01.02">
         <ul>
           <li>New content created by an embargo enabled user, is automatically put under embargo</li>
