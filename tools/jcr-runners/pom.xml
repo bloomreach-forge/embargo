@@ -27,7 +27,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jcrrunner.version>1.02.04</jcrrunner.version>
+    <jcrrunner.version>1.02.06</jcrrunner.version>
   </properties>
 
   <dependencies>

@@ -35,9 +35,4 @@ public class EmbargoDocumentsRemover extends AbstractRunnerPlugin {
             getLogger().error("Could not remove document " + path, e);
         }
     }
-
-    @Override
-    public void visitEnd(final Node node) {
-        //TODO Remove when https://issues.onehippo.com/browse/HIPPLUG-656 is resolved
-    }
 }

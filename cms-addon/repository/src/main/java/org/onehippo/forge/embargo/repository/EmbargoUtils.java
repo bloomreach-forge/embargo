@@ -39,8 +39,6 @@ import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_
 
 /**
  * @version $Id$
- *
- * TODO: Add tests for this class, there's quite some complex logic here that needs to be covered.
  */
 public final class EmbargoUtils {
 
