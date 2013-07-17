@@ -29,6 +29,7 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import org.apache.wicket.RequestCycle;
 import org.hippoecm.frontend.session.UserSession;
 import org.hippoecm.repository.api.MappingException;
 import org.hippoecm.repository.api.WorkflowContext;
@@ -63,31 +64,34 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     public void addEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
-        String invokingUserId = ((UserSession) org.apache.wicket.Session.get()).getJcrSession().getUserID();
+        //Check for the Wicket requestContext. The user will be fetched from the Wicket Session.
+        if(RequestCycle.get()!=null) {
+            String invokingUserId = ((UserSession) org.apache.wicket.Session.get()).getJcrSession().getUserID();
 
-        final Node handle = internalWorkflowSession.getNodeByIdentifier(uuid).getParent();
-        if (!handle.isCheckedOut()) {
-            internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
-        }
-
-        String[] userEmbargoEnabledGroups = EmbargoUtils.getCurrentUserEmbargoEnabledGroups(internalWorkflowSession, invokingUserId);
-        if (userEmbargoEnabledGroups.length > 0) {
-
-            //Set embargo mixin on handle & add group information
-            handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
-            handle.setProperty(
-                    EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME,
-                    userEmbargoEnabledGroups);
-
-            //Set embargo mixin on the document
-            for(Node documentNode : EmbargoUtils.getDocumentVariants(handle)){
-                if (!documentNode.isCheckedOut()) {
-                    internalWorkflowSession.getWorkspace().getVersionManager().checkout(documentNode.getPath());
-                }
-                documentNode.addMixin(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
+            final Node handle = internalWorkflowSession.getNodeByIdentifier(uuid).getParent();
+            if (!handle.isCheckedOut()) {
+                internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
             }
 
-            internalWorkflowSession.save();
+            String[] userEmbargoEnabledGroups = EmbargoUtils.getCurrentUserEmbargoEnabledGroups(internalWorkflowSession, invokingUserId);
+            if (userEmbargoEnabledGroups.length > 0) {
+
+                //Set embargo mixin on handle & add group information
+                handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
+                handle.setProperty(
+                        EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME,
+                        userEmbargoEnabledGroups);
+
+                //Set embargo mixin on the document
+                for(Node documentNode : EmbargoUtils.getDocumentVariants(handle)){
+                    if (!documentNode.isCheckedOut()) {
+                        internalWorkflowSession.getWorkspace().getVersionManager().checkout(documentNode.getPath());
+                    }
+                    documentNode.addMixin(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
+                }
+
+                internalWorkflowSession.save();
+            }
         }
     }
 

@@ -20,6 +20,8 @@ package org.onehippo.forge.embargo.repository;
  */
 public class EmbargoConstants {
 
+    private EmbargoConstants() {}
+
     public static final String EMBARGO_MIXIN_NAME = "embargo:handle";
     public static final String EMBARGO_DOCUMENT_MIXIN_NAME = "embargo:document";
     public static final String EMBARGO_GROUP_PROPERTY_NAME = "embargo:groups";
@@ -31,7 +33,5 @@ public class EmbargoConstants {
 
     public static final String HIPPOSCHED_TRIGGERS_DEFAULT = "hipposched:triggers/default";
     public static final String HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME = "hipposched:fireTime";
-
-
 
 }
