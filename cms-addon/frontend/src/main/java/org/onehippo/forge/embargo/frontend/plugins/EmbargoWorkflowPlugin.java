@@ -78,131 +78,146 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
      * @param mode
      */
     private void createMenu(final Mode mode) {
-
-        if (Mode.UNEMBARGOED.equals(mode)) {
-            add(new StdWorkflow<EmbargoWorkflow>("set", new StringResourceModel("set-embargo-label", this, null), getPluginContext(), this) {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                protected ResourceReference getIcon() {
-                    return new ResourceReference(getClass(), "lock_add.png");
-                }
-
-                @Override
-                protected String execute(EmbargoWorkflow workflow) throws Exception {
-                    final String userID = ((UserSession) Session.get()).getJcrSession().getUserID();
-                    workflow.addEmbargo(userID);
-                    return null;
-                }
-            });
+        switch (mode) {
+            case UNEMBARGOED:
+                addSetEmbargoOption();
+                break;
+            case EMBARGOED:
+                addRemoveEmbargoOption();
+                addScheduleUnembargoOption();
+                break;
+            case SCHEDULED_UNEMBARGO:
+                addRescheduleUnembargoOption();
+                addCancelScheduledUnembargoOption();
+                break;
         }
+    }
 
-        if (Mode.EMBARGOED.equals(mode)) {
-            add(new StdWorkflow<EmbargoWorkflow>("remove", new StringResourceModel("remove-embargo-label", this, null), getPluginContext(), this) {
-                private static final long serialVersionUID = 1L;
+    private void addCancelScheduledUnembargoOption() {
+        add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", new StringResourceModel("cancel-scheduled-unembargo-label", this, null), getPluginContext(), this) {
+            private static final long serialVersionUID = 1L;
 
-                @Override
-                protected ResourceReference getIcon() {
-                    return new ResourceReference(getClass(), "lock_break.png");
-                }
+            @Override
+            protected ResourceReference getIcon() {
+                return new ResourceReference(getClass(), "cancel_schedule.png");
+            }
 
-                @Override
-                protected String execute(EmbargoWorkflow workflow) throws Exception {
-                    workflow.removeEmbargo();
-                    return null;
-                }
-            });
+            @Override
+            protected String execute(EmbargoWorkflow workflow) throws Exception {
+                workflow.cancelSchedule();
+                return null;
+            }
+        });
+    }
 
-            add(new WorkflowAction("scheduleUnembargo", new StringResourceModel("schedule-unembargo-label", this, null).getString(), null) {
-                private static final long serialVersionUID = 1L;
-                public Date date = new Date();
+    private void addRescheduleUnembargoOption() {
+        add(new WorkflowAction("rescheduledUnembargo", new StringResourceModel("reschedule-unembargo-label", this, null).getString(), null) {
+            private static final long serialVersionUID = 1L;
+            public Date date = new Date();
 
-                @Override
-                protected ResourceReference getIcon() {
-                    return new ResourceReference(getClass(), "clock_delete.png");
-                }
+            @Override
+            protected ResourceReference getIcon() {
+                return new ResourceReference(getClass(), "clock_delete.png");
+            }
 
-                @Override
-                protected IDialogService.Dialog createRequestDialog() {
-                    return new ScheduleDialog(this, new PropertyModel(this, "date"), "schedule-removal-embargo-title", "schedule-removal-embargo-text");
-                }
+            @Override
+            protected IDialogService.Dialog createRequestDialog() {
 
-                @Override
-                protected String execute(final EmbargoWorkflow embargoWorkflow) throws Exception {
-                    final Calendar embargoDate = Calendar.getInstance();
-                    embargoDate.setTime(date);
-                    if (date != null) {
-                        embargoWorkflow.scheduleRemoveEmbargo(embargoDate);
-                    }
-                    return null;
-                }
-            });
-        }
-
-
-        if (Mode.SCHEDULED_UNEMBARGO.equals(mode)) {
-            add(new WorkflowAction("rescheduledUnembargo", new StringResourceModel("reschedule-unembargo-label", this, null).getString(), null) {
-                private static final long serialVersionUID = 1L;
-                public Date date = new Date();
-
-                @Override
-                protected ResourceReference getIcon() {
-                    return new ResourceReference(getClass(), "clock_delete.png");
-                }
-
-                @Override
-                protected IDialogService.Dialog createRequestDialog() {
-
-                    //Set the date to that of the existing embargo:request
-                    WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
-                    WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
-                    if (workflowDescriptor != null) {
-                        try {
-                            //TODO: Change this with a non deprecated call (when the API supports it)
-                            Node handleNode = workflowDescriptorModel.getNode().getParent();
-                            Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
-                            if (existingExpirationDate != null) {
-                                date = existingExpirationDate.getTime();
-                            }
-                        } catch (RepositoryException e) {
-                            log.error("Error while retrieving embargo schedule", e);
+                //Set the date to that of the existing embargo:request
+                WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
+                WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
+                if (workflowDescriptor != null) {
+                    try {
+                        //TODO: Change this with a non deprecated call (when the API supports it)
+                        Node handleNode = workflowDescriptorModel.getNode().getParent();
+                        Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
+                        if (existingExpirationDate != null) {
+                            date = existingExpirationDate.getTime();
                         }
+                    } catch (RepositoryException e) {
+                        log.error("Error while retrieving embargo schedule", e);
                     }
-                    return new ScheduleDialog(this, new PropertyModel(this, "date"), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
                 }
+                return new ScheduleDialog(this, new PropertyModel(this, "date"), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
+            }
 
-                @Override
-                protected String execute(EmbargoWorkflow embargoWorkflow) throws Exception {
-                    final Calendar embargoDate = Calendar.getInstance();
-                    embargoDate.setTime(date);
-                    if (date != null) {
-                        embargoWorkflow.scheduleRemoveEmbargo(embargoDate);
-                    }
-                    return null;
+            @Override
+            protected String execute(EmbargoWorkflow embargoWorkflow) throws Exception {
+                final Calendar embargoDate = Calendar.getInstance();
+                embargoDate.setTime(date);
+                if (date != null) {
+                    embargoWorkflow.scheduleRemoveEmbargo(embargoDate);
                 }
-            });
+                return null;
+            }
+        });
+    }
 
+    private void addScheduleUnembargoOption() {
+        add(new WorkflowAction("scheduleUnembargo", new StringResourceModel("schedule-unembargo-label", this, null).getString(), null) {
+            private static final long serialVersionUID = 1L;
+            public Date date = new Date();
 
-            add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", new StringResourceModel("cancel-scheduled-unembargo-label", this, null), getPluginContext(), this) {
-                private static final long serialVersionUID = 1L;
+            @Override
+            protected ResourceReference getIcon() {
+                return new ResourceReference(getClass(), "clock_delete.png");
+            }
 
-                @Override
-                protected ResourceReference getIcon() {
-                    return new ResourceReference(getClass(), "cancel_schedule.png");
+            @Override
+            protected IDialogService.Dialog createRequestDialog() {
+                return new ScheduleDialog(this, new PropertyModel(this, "date"), "schedule-removal-embargo-title", "schedule-removal-embargo-text");
+            }
+
+            @Override
+            protected String execute(final EmbargoWorkflow embargoWorkflow) throws Exception {
+                final Calendar embargoDate = Calendar.getInstance();
+                embargoDate.setTime(date);
+                if (date != null) {
+                    embargoWorkflow.scheduleRemoveEmbargo(embargoDate);
                 }
+                return null;
+            }
+        });
+    }
 
-                @Override
-                protected String execute(EmbargoWorkflow workflow) throws Exception {
-                    workflow.cancelSchedule();
-                    return null;
-                }
-            });
-        }
+    private void addRemoveEmbargoOption() {
+        add(new StdWorkflow<EmbargoWorkflow>("remove", new StringResourceModel("remove-embargo-label", this, null), getPluginContext(), this) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected ResourceReference getIcon() {
+                return new ResourceReference(getClass(), "lock_break.png");
+            }
+
+            @Override
+            protected String execute(EmbargoWorkflow workflow) throws Exception {
+                workflow.removeEmbargo();
+                return null;
+            }
+        });
+    }
+
+    private void addSetEmbargoOption() {
+        add(new StdWorkflow<EmbargoWorkflow>("set", new StringResourceModel("set-embargo-label", this, null), getPluginContext(), this) {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected ResourceReference getIcon() {
+                return new ResourceReference(getClass(), "lock_add.png");
+            }
+
+            @Override
+            protected String execute(EmbargoWorkflow workflow) throws Exception {
+                final String userID = ((UserSession) Session.get()).getJcrSession().getUserID();
+                workflow.addEmbargo(userID);
+                return null;
+            }
+        });
     }
 
 
     /**
-     * Resolve the mode the handle is currenlty in for the menu
+     * Resolve the mode the handle is currently in for the menu
      *
      * @param handleNode
      * @return
