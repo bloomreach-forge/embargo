@@ -75,7 +75,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     /**
      * Creates the proper menu items based on the mode the document is in
      *
-     * @param mode
+     * @param mode which {@link Mode} to create the menu for
      */
     private void createMenu(final Mode mode) {
         switch (mode) {
@@ -138,7 +138,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                         log.error("Error while retrieving embargo schedule", e);
                     }
                 }
-                return new ScheduleDialog(this, new PropertyModel(this, "date"), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
+                return new ScheduleDialog(this, new PropertyModel<Date>(this, "date"), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
             }
 
             @Override
@@ -165,7 +165,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
             @Override
             protected IDialogService.Dialog createRequestDialog() {
-                return new ScheduleDialog(this, new PropertyModel(this, "date"), "schedule-removal-embargo-title", "schedule-removal-embargo-text");
+                return new ScheduleDialog(this, new PropertyModel<Date>(this, "date"), "schedule-removal-embargo-title", "schedule-removal-embargo-text");
             }
 
             @Override
@@ -219,8 +219,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     /**
      * Resolve the mode the handle is currently in for the menu
      *
-     * @param handleNode
-     * @return
+     * @param handleNode the handle of the document
+     * @return the {@link Mode} this document is in, embargo wise
      * @throws RepositoryException
      */
     private Mode resolveMode(Node handleNode) throws RepositoryException {
