@@ -29,7 +29,16 @@ import org.hippoecm.repository.api.WorkflowException;
  */
 public interface EmbargoWorkflow extends Workflow{
 
-    public void addEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException;
+    /**
+     * Adds the embargo to the current document. The user ID used to fetch the group of the user and mark the document
+     * so that it will only be available for users in the same group.
+     * @param userId the ID of the user.
+     * @throws WorkflowException
+     * @throws RepositoryException
+     * @throws MappingException
+     * @throws RemoteException
+     */
+    public void addEmbargo(String userId) throws WorkflowException, RepositoryException, MappingException, RemoteException;
 
     public void removeEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException;
 

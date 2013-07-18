@@ -10,8 +10,6 @@ import org.apache.sling.commons.testing.jcr.MockNodeIterator;
 import org.apache.sling.commons.testing.jcr.MockProperty;
 import org.hippoecm.repository.api.HippoNodeType;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -26,8 +24,6 @@ import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_
 /**
  * @author Jeroen Reijn
  */
-
-@RunWith(PowerMockRunner.class)
 public class EmbargoUtilsTest {
 
     @Test

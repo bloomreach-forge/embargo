@@ -15,29 +15,26 @@
  */
 package org.onehippo.forge.embargo.tests;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.nodetype.NodeType;
 
-import org.hippoecm.frontend.session.UserSession;
 import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.standardworkflow.FolderWorkflow;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -45,15 +42,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
-import static org.powermock.api.easymock.PowerMock.mockStatic;
-import static org.powermock.api.easymock.PowerMock.replay;
 
 /**
  * @version $Id: EmbargoSecurityDomainsTest.java 84 2013-05-27 09:01:12Z mchatzidakis $
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({org.apache.wicket.Session.class})
-@PowerMockIgnore("javax.management.*")
 public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoSecurityDomainsTest.class);
@@ -61,7 +53,6 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
     private Session embargoEditor;
     private Session embargoAuthor;
     private Session editor;
-
 
     @Before
     public void setUp() throws Exception {
@@ -81,18 +72,6 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         editor = repository.login(TestConstants.EDITOR_CREDENTIALS);
         embargoEditor = repository.login(TestConstants.EMBARGO_EDITOR_CREDENTIALS);
         embargoAuthor = repository.login(TestConstants.EMBARGO_AUTHOR_CREDENTIALS);
-
-        /**
-         *  Need powermock to mock the wicket Usersession: org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflowImpl#addEmbargo()
-         */
-        UserSession userSession = createNiceMock(UserSession.class);
-        mockStatic(org.apache.wicket.Session.class);
-        expect(org.apache.wicket.Session.get()).andReturn(userSession).anyTimes();
-        expect(userSession.getJcrSession()).andReturn(embargoEditor).anyTimes();
-        replay(org.apache.wicket.Session.class, userSession);
-        /**
-         *  end powermock code
-         */
 
     }
 
@@ -177,6 +156,27 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         assertTrue(embargoEditor.itemExists(embargoEditorDocumentLocation));
     }
 
+    /**
+     * We now test if a document created by a normal editor does not put the mixins on the documents.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testDocumentCreationWorkflowWithoutSettingEmbargoMixinForNormalUser() throws Exception {
+        //testing creating a document with the embargo user.
+        final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
+        final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "threepane");
+        final String documentLocation = adminFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        assertTrue(embargoEditor.itemExists(documentLocation));
+        assertTrue(editor.itemExists(documentLocation));
+        final NodeType[] mixinNodeTypes = editor.getNode(documentLocation).getMixinNodeTypes();
+        List nodetypes = new ArrayList<String>();
+        for(NodeType nodeType : mixinNodeTypes) {
+            nodetypes.add(nodeType.getName());
+        }
+        assertFalse(nodetypes.contains(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME));
+        assertFalse(nodetypes.contains(EmbargoConstants.EMBARGO_MIXIN_NAME));
+    }
 
     /**
      * We now test if a document created by an embargo editor is viewable by an ordinary editor without embargo rights.
@@ -238,7 +238,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
 
         final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
 
-        embargoEditorsEmbargoWorkflow.addEmbargo();
+        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID());
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertFalse(editor.itemExists(editorDocumentLocation));
@@ -261,7 +261,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
 
         final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
 
-        embargoEditorsEmbargoWorkflow.addEmbargo();
+        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID());
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertFalse(editor.itemExists(editorDocumentLocation));
@@ -289,7 +289,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
 
         final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
 
-        embargoEditorsEmbargoWorkflow.addEmbargo();
+        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID());
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertFalse(editor.itemExists(editorDocumentLocation));
@@ -314,12 +314,14 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
     @Override
     @After
     public void tearDown() throws Exception {
-        super.tearDown();
-        //logging out all sessions.. tests all passed!!!
         editor.logout();
         adminSession.logout();
         embargoAuthor.logout();
         embargoEditor.logout();
+        //logging out all sessions.. tests all passed!!!
+
+        super.tearDown();
+
     }
 
 }
