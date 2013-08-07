@@ -31,9 +31,8 @@
 
   <properties>
 
-    <hippo.repository.beta.version>2.22.19-r39575</hippo.repository.beta.version>
     <hippo.hst.beta.version>2.24.15-r39822</hippo.hst.beta.version>
-    <hippo.repository.version>2.22.18</hippo.repository.version>
+    <hippo.repository.version>2.22.19</hippo.repository.version>
     <hippo.cms.version>2.22.15</hippo.cms.version>
     <hippo.addon-publication-workflow.version>2.22.06</hippo.addon-publication-workflow.version>
 
@@ -107,21 +106,21 @@
       <dependency>
         <groupId>org.onehippo.cms7</groupId>
         <artifactId>hippo-repository-api</artifactId>
-        <version>${hippo.repository.beta.version}</version>
+        <version>${hippo.repository.version}</version>
         <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.onehippo.cms7</groupId>
         <artifactId>hippo-repository-engine</artifactId>
-        <version>${hippo.repository.beta.version}</version>
+        <version>${hippo.repository.version}</version>
         <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.onehippo.cms7</groupId>
         <artifactId>hippo-repository-connector</artifactId>
-        <version>${hippo.repository.beta.version}</version>
+        <version>${hippo.repository.version}</version>
         <scope>test</scope>
       </dependency>
 
@@ -193,14 +192,6 @@
       <id>hippo-maven2-forge</id>
       <name>Hippo Maven 2 Forge Repositories</name>
       <url>http://maven.onehippo.com/maven2-forge</url>
-    </repository>
-    <repository>
-      <id>hippo-maven2-enterprise</id>
-      <name>Hippo Enterprise Maven 2</name>
-      <url>https://maven.onehippo.com/maven2-enterprise</url>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
     </repository>
   </repositories>
 
