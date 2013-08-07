@@ -142,6 +142,8 @@ public class TestCase {
                     }
                 }
             }
+        } else {
+            throw new IllegalStateException("Cannot setup test case fixture, dump.zip is missing from the jar file");
         }
     }
 
