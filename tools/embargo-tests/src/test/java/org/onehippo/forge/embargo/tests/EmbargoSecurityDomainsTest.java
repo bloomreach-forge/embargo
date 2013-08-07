@@ -72,7 +72,6 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         editor = repository.login(TestConstants.EDITOR_CREDENTIALS);
         embargoEditor = repository.login(TestConstants.EMBARGO_EDITOR_CREDENTIALS);
         embargoAuthor = repository.login(TestConstants.EMBARGO_AUTHOR_CREDENTIALS);
-
     }
 
     /**
@@ -314,14 +313,18 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
     @Override
     @After
     public void tearDown() throws Exception {
-        editor.logout();
-        adminSession.logout();
-        embargoAuthor.logout();
-        embargoEditor.logout();
-        //logging out all sessions.. tests all passed!!!
+        logoutIfNotNull(editor);
+        logoutIfNotNull(adminSession);
+        logoutIfNotNull(embargoAuthor);
+        logoutIfNotNull(embargoEditor);
 
         super.tearDown();
+    }
 
+    private static void logoutIfNotNull(final Session session) {
+        if (session != null) {
+            session.logout();
+        }
     }
 
 }
