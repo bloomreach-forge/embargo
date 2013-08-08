@@ -26,23 +26,6 @@
       <sv:value>new-folder</sv:value>
       <sv:value>new-translated-folder</sv:value>
     </sv:property>
-    <sv:node sv:name="embargotest">
-      <sv:property sv:name="jcr:primaryType" sv:type="Name">
-        <sv:value>hippostd:directory</sv:value>
-      </sv:property>
-      <sv:property sv:name="jcr:mixinTypes" sv:type="Name">
-        <sv:value>hippo:harddocument</sv:value>
-      </sv:property>
-      <sv:property sv:name="jcr:uuid" sv:type="String">
-        <sv:value>383aa7c6-9a6b-4473-b912-c7f41bfb48cb</sv:value>
-      </sv:property>
-      <sv:property sv:name="hippo:paths" sv:type="String">
-      </sv:property>
-      <sv:property sv:name="hippostd:foldertype" sv:type="String">
-        <sv:value>new-folder</sv:value>
-        <sv:value>new-translated-folder</sv:value>
-      </sv:property>
-    </sv:node>
   </sv:node>
   <sv:node sv:name="gallery">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">

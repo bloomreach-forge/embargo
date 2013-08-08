@@ -100,6 +100,8 @@ public class TestCase {
 
     static protected void fixture() {
         final URL resource = TestCase.class.getResource("/dump.zip"); //a clean dump...
+        final String repositoryPath = getRepositoryPath();
+        System.out.println("Unpacking repository fixture at " + repositoryPath);
         if (resource != null) {
             File fixtureDump = new File(resource.getFile());
             if (fixtureDump.exists()) {
@@ -113,7 +115,7 @@ public class TestCase {
                         if (ze != null) {
                             if (ze.isDirectory()) {
                                 String name = ze.getName();
-                                File file = new File(name);
+                                File file = new File(repositoryPath, name);
                                 file.mkdir();
                             } else {
                                 FileOutputStream ostream = new FileOutputStream(ze.getName());
@@ -245,6 +247,10 @@ public class TestCase {
         if (clearRepository) {
             clear();
         }
+    }
+
+    private static String getRepositoryPath() {
+        return System.getProperty("repo.path", new File(System.getProperty("user.dir")).getAbsolutePath());
     }
 
 }
