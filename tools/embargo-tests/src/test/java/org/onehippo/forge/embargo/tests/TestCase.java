@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,6 +28,7 @@ import java.util.zip.ZipEntry;
 
 import javax.jcr.Session;
 
+import org.apache.commons.io.IOUtils;
 import org.hippoecm.repository.HippoRepository;
 import org.hippoecm.repository.HippoRepositoryFactory;
 import org.hippoecm.repository.LocalHippoRepository;
@@ -35,6 +37,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Ripped this one from Repository project... Utility class for writing tests against repository.
@@ -60,6 +64,8 @@ public class TestCase {
 
     protected static final String SYSTEMUSER_ID = "admin";
     protected static final char[] SYSTEMUSER_PASSWORD = "admin".toCharArray();
+
+    private static final Logger log = LoggerFactory.getLogger(TestCase.class);
 
     protected static HippoRepository external = null;
     protected static HippoRepository background = null;
@@ -91,58 +97,57 @@ public class TestCase {
         } catch (SQLException e) {
             // a shutdown command always raises a SQLException
         }
-        String[] files = new String[]{".lock", "repository", "version", "workspaces"};
+        final String[] files = new String[]{".lock", "repository", "version", "workspaces"};
+        final String repositoryPath = getRepositoryPath();
         for (final String file1 : files) {
-            File file = new File(file1);
+            File file = new File(repositoryPath, file1);
             delete(file);
         }
     }
 
     static protected void fixture() {
-        final URL resource = TestCase.class.getResource("/dump.zip"); //a clean dump...
-        final String repositoryPath = getRepositoryPath();
-        System.out.println("Unpacking repository fixture at " + repositoryPath);
-        if (resource != null) {
-            File fixtureDump = new File(resource.getFile());
-            if (fixtureDump.exists()) {
-                FileInputStream fixtureStream = null;
-                try {
-                    fixtureStream = new FileInputStream(fixtureDump);
-                    JarInputStream istream = new JarInputStream(fixtureStream);
-                    ZipEntry ze;
-                    do {
-                        ze = istream.getNextEntry();
-                        if (ze != null) {
-                            if (ze.isDirectory()) {
-                                String name = ze.getName();
-                                File file = new File(repositoryPath, name);
-                                file.mkdir();
-                            } else {
-                                FileOutputStream ostream = new FileOutputStream(ze.getName());
-                                byte[] buffer = new byte[1024];
-                                int len;
-                                do {
-                                    len = istream.read(buffer);
-                                    if (len >= 0) {
-                                        ostream.write(buffer, 0, len);
-                                    }
-                                } while (len >= 0);
-                                ostream.close();
-                            }
+        InputStream fixtureStream = TestCase.class.getResourceAsStream("/dump.zip");
+        if (fixtureStream != null) {
+            final String repositoryPath = getRepositoryPath();
+            log.info("Unpacking repository fixture at {}", repositoryPath);
+
+            JarInputStream jarStream = null;
+            try {
+                jarStream = new JarInputStream(fixtureStream);
+                ZipEntry ze;
+                do {
+                    ze = jarStream.getNextEntry();
+                    if (ze != null) {
+                        if (ze.isDirectory()) {
+                            String name = ze.getName();
+                            File file = new File(repositoryPath, name);
+                            file.mkdir();
+                        } else {
+                            FileOutputStream ostream = new FileOutputStream(ze.getName());
+                            byte[] buffer = new byte[1024];
+                            int len;
+                            do {
+                                len = jarStream.read(buffer);
+                                if (len >= 0) {
+                                    ostream.write(buffer, 0, len);
+                                }
+                            } while (len >= 0);
+                            ostream.close();
                         }
-                    } while (ze != null);
-                    istream.close();
-                    fixtureStream.close();
-                } catch (IOException ex) {
-                    System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
-                    try {
-                        if (fixtureStream != null) {
-                            fixtureStream.close();
-                        }
-                    } catch (IOException e) {
-                        clear();
                     }
+                } while (ze != null);
+            } catch (IOException ex) {
+                System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
+                try {
+                    if (fixtureStream != null) {
+                        fixtureStream.close();
+                    }
+                } catch (IOException e) {
+                    clear();
                 }
+            } finally {
+                IOUtils.closeQuietly(jarStream);
+                IOUtils.closeQuietly(fixtureStream);
             }
         } else {
             throw new IllegalStateException("Cannot setup test case fixture, dump.zip is missing from the jar file");
