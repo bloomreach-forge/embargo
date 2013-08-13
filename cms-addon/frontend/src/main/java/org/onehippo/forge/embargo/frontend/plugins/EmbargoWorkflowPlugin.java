@@ -94,7 +94,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     }
 
     private void addCancelScheduledUnembargoOption() {
-        add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", new StringResourceModel("cancel-scheduled-unembargo-label", this, null), getPluginContext(), this) {
+        StringResourceModel nameModel = new StringResourceModel("cancel-scheduled-unembargo-label", this, null);
+        add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", nameModel, getPluginContext(), this) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -111,7 +112,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     }
 
     private void addRescheduleUnembargoOption() {
-        add(new WorkflowAction("rescheduledUnembargo", new StringResourceModel("reschedule-unembargo-label", this, null).getString(), null) {
+        final String name = new StringResourceModel("reschedule-unembargo-label", this, null).getString();
+        add(new WorkflowAction("rescheduledUnembargo", name, null) {
             private static final long serialVersionUID = 1L;
             public Date date = new Date();
 
@@ -138,7 +140,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                         log.error("Error while retrieving embargo schedule", e);
                     }
                 }
-                return new ScheduleDialog(this, new PropertyModel<Date>(this, "date"), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
+                return new ScheduleDialog(this, new PropertyModel<Date>(this, "date"),
+                        "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
             }
 
             @Override
@@ -154,7 +157,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     }
 
     private void addScheduleUnembargoOption() {
-        add(new WorkflowAction("scheduleUnembargo", new StringResourceModel("schedule-unembargo-label", this, null).getString(), null) {
+        final String name = new StringResourceModel("schedule-unembargo-label", this, null).getString();
+        add(new WorkflowAction("scheduleUnembargo", name, null) {
             private static final long serialVersionUID = 1L;
             public Date date = new Date();
 
@@ -165,7 +169,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
             @Override
             protected IDialogService.Dialog createRequestDialog() {
-                return new ScheduleDialog(this, new PropertyModel<Date>(this, "date"), "schedule-removal-embargo-title", "schedule-removal-embargo-text");
+                return new ScheduleDialog(this, new PropertyModel<Date>(this, "date"),
+                        "schedule-removal-embargo-title", "schedule-removal-embargo-text");
             }
 
             @Override
@@ -181,7 +186,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     }
 
     private void addRemoveEmbargoOption() {
-        add(new StdWorkflow<EmbargoWorkflow>("remove", new StringResourceModel("remove-embargo-label", this, null), getPluginContext(), this) {
+        StringResourceModel nameModel = new StringResourceModel("remove-embargo-label", this, null);
+        add(new StdWorkflow<EmbargoWorkflow>("remove", nameModel, getPluginContext(), this) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -198,7 +204,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     }
 
     private void addSetEmbargoOption() {
-        add(new StdWorkflow<EmbargoWorkflow>("set", new StringResourceModel("set-embargo-label", this, null), getPluginContext(), this) {
+        StringResourceModel nameModel = new StringResourceModel("set-embargo-label", this, null);
+        add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, getPluginContext(), this) {
             private static final long serialVersionUID = 1L;
 
             @Override
