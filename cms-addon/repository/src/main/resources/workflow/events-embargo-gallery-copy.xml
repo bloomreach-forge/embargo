@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="events-embargo-gallery-copy">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name">
+    <sv:value>hipposys:workflowcategory</sv:value>
+  </sv:property>
+  <sv:node sv:name="on-gallery-copy">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hipposys:workflowboundmethodevent</sv:value>
+    </sv:property>
+    <sv:property sv:name="hipposys:classname" sv:type="String">
+      <sv:value>org.onehippo.forge.embargo.repository.workflow.EmbargoEventsCopyDocumentWorkflow</sv:value>
+    </sv:property>
+    <sv:property sv:name="hipposys:display" sv:type="String">
+      <sv:value>Embargo copy gallery event</sv:value>
+    </sv:property>
+    <sv:property sv:name="hipposys:eventconditioncategory" sv:type="String">
+      <sv:value>embedded</sv:value>
+    </sv:property>
+    <sv:property sv:name="hipposys:eventconditionmethod" sv:type="String">
+      <sv:value>copyOver</sv:value>
+    </sv:property>
+    <sv:property sv:name="hipposys:nodetype" sv:type="String">
+      <sv:value>hippo:document</sv:value>
+    </sv:property>
+    <sv:node sv:name="hipposys:types">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name">
+        <sv:value>hipposys:types</sv:value>
+      </sv:property>
+    </sv:node>
+  </sv:node>
+</sv:node>

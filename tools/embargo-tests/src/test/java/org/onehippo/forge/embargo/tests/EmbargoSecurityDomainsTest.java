@@ -24,6 +24,7 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
 
+import org.hippoecm.repository.api.Document;
 import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.standardworkflow.FolderWorkflow;
 import org.junit.After;
@@ -191,6 +192,28 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         final String embargoEditorDocumentLocation = adminFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(embargoEditor.itemExists(embargoEditorDocumentLocation));
         assertFalse(editor.itemExists(embargoEditorDocumentLocation));
+    }
+
+    /**
+     * We now test if a document created by an embargo editor is viewable by an ordinary editor without embargo rights.
+     * We are also testing the workflow event for both adding a document and copying a document.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testDocumentCreationWorkflowAccessLevelAndWorkflowEventOnCopyWithEmbargoUser() throws Exception {
+        //testing creating a document with the embargo user.
+        final Node embargoEditorFolderNode = embargoEditor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
+        final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(embargoEditorFolderNode, "threepane");
+        final String embargoEditorDocumentLocation = adminFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        assertTrue(embargoEditor.itemExists(embargoEditorDocumentLocation));
+        assertFalse(editor.itemExists(embargoEditorDocumentLocation));
+
+        final Node node = embargoEditorFolderNode.getSession().getNode(embargoEditorDocumentLocation);
+        //source, target folder, name
+        final Document document = adminFolderWorkflow.copy(new Document(node.getIdentifier()), new Document(embargoEditorFolderNode.getIdentifier()), TestConstants.TEST_DOCUMENT_NAME + "1");
+        assertTrue(embargoEditor.getNodeByIdentifier(document.getIdentity())!=null);
+
     }
 
 
