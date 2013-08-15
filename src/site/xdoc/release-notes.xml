@@ -21,14 +21,22 @@
   </properties>
   <body>
     <section name="Release Notes">
-<!--
+
+      <subsection name="1.01.06">
+        <ul>
+          <li>Resolved issue with content items losing the embargo status when being copied.</li>
+          <li>The embargo workflow is from now on only shown if a user has the <i>hippo:author</i> privileges for a document</li>
+          <li>It was not possible to change the date/time of the scheduled embargo removal even if the date/time was still in the future.</li>
+          <li>Increased code coverage</li>
+        </ul>
+        <p>For systems that had this plugin installed before this version it's recommended to add the hippo</p>
+      </subsection>
       <subsection name="1.01.05">
         <ul>
           <li>Embargo workflow event may be fired from a non-cms context, so we don't call the embargo feature from a remote (RMI) application.</li>
           <li>Increased code coverage</li>
         </ul>
       </subsection>
--->
       <subsection name="1.01.02">
         <ul>
           <li>New content created by an embargo enabled user, is automatically put under embargo</li>

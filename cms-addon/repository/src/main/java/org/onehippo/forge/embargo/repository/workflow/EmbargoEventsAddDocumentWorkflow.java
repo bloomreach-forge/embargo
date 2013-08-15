@@ -40,8 +40,6 @@ import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.ext.WorkflowImpl;
 import org.hippoecm.repository.standardworkflow.WorkflowEventWorkflow;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @version $Id$
@@ -54,7 +52,6 @@ import org.slf4j.LoggerFactory;
 public class EmbargoEventsAddDocumentWorkflow extends WorkflowImpl implements WorkflowEventWorkflow {
 
     private static final long serialVersionUID = 1L;
-    private final static Logger log = LoggerFactory.getLogger(EmbargoEventsAddDocumentWorkflow.class);
 
     public EmbargoEventsAddDocumentWorkflow() throws RemoteException {
         super();

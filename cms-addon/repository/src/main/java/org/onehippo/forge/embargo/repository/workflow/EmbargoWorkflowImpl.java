@@ -35,8 +35,6 @@ import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.ext.WorkflowImpl;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @version "$Id$"
@@ -46,7 +44,6 @@ import org.slf4j.LoggerFactory;
 @Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
 public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow {
 
-    private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowImpl.class);
     private static final long serialVersionUID = 1L;
 
     @Persistent(column = "jcr:uuid")

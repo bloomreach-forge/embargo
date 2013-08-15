@@ -29,6 +29,7 @@
   <modules>
     <module>frontend</module>
     <module>repository</module>
+    <module>updaters</module>
   </modules>
 
 </project>

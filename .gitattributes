@@ -14,6 +14,8 @@ cms-addon/repository/src/main/resources/domains/hide-embargo-document.xml -text
 cms-addon/repository/src/main/resources/embargo.cnd -text
 cms-addon/repository/src/main/resources/workflow/events-embargo-document-copy.xml -text
 cms-addon/repository/src/main/resources/workflow/events-embargo-gallery-copy.xml -text
+cms-addon/updaters/pom.xml -text
+cms-addon/updaters/src/main/java/org/onehippo/forge/embargo/repository/updater/EmbargoPrivilegesUpdater.java -text
 src/site/resources/images/embargo-columns.png -text svneol=unset#image/png
 src/site/resources/images/embargo-domain-details.png -text svneol=unset#image/png
 src/site/resources/images/embargo-domain.png -text svneol=unset#image/png

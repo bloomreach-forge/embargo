@@ -6,7 +6,7 @@
   </sv:property>
 
   <sv:property sv:name="hippo:version" sv:type="String">
-    <sv:value>v1-embargo</sv:value>
+    <sv:value>v1_01_6-embargo</sv:value>
   </sv:property>
 
   <sv:node sv:name="embargo">

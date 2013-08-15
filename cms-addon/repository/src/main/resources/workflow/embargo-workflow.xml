@@ -59,7 +59,7 @@
         <sv:value>hippo:document</sv:value>
       </sv:property>
       <sv:property sv:name="hipposys:privileges" sv:type="String">
-        <sv:value>hippo:editor</sv:value>
+        <sv:value>hippo:author</sv:value>
       </sv:property>
       <sv:node sv:name="frontend:renderer">
         <sv:property sv:name="jcr:primaryType" sv:type="Name">
