@@ -2,6 +2,7 @@
 cms-addon/frontend/target
 cms-addon/repository/target
 cms-addon/target
+cms-addon/updaters/target
 /target
 tools/embargo-tests/target
 tools/jcr-runners/target
