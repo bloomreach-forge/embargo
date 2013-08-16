@@ -25,7 +25,7 @@
   <name>Hippo Embargo Plugin</name>
   <groupId>org.onehippo.forge.embargo</groupId>
   <artifactId>embargo</artifactId>
-  <version>1.01.06</version>
+  <version>1.01.07-SNAPSHOT</version>
   <packaging>pom</packaging>
   <url>http://forge.onehippo.org/gf/project/embargo/</url>
 
@@ -62,9 +62,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/tags/embargo-1.01.06</connection>
-    <developerConnection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/tags/embargo-1.01.06</developerConnection>
-    <url>https://forge.onehippo.org/svn/embargo/embargo/tags/embargo-1.01.06</url>
+    <connection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/trunk</connection>
+    <developerConnection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/trunk</developerConnection>
+    <url>https://forge.onehippo.org/svn/embargo/embargo/trunk</url>
   </scm>
 
   <ciManagement>
