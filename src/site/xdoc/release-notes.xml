@@ -29,7 +29,7 @@
           <li>It was not possible to change the date/time of the scheduled embargo removal even if the date/time was still in the future.</li>
           <li>Increased code coverage</li>
         </ul>
-        <p>For systems that had this plugin installed before this version it's recommended to add the hippo</p>
+        <p>For systems that used version 1.01.05 there is an updater module available which will update the plugin configuration to the latest version.</p>
       </subsection>
       <subsection name="1.01.05">
         <ul>
