@@ -38,7 +38,7 @@ public interface EmbargoWorkflow extends Workflow{
      * @throws MappingException
      * @throws RemoteException
      */
-    public void addEmbargo(String userId) throws WorkflowException, RepositoryException, MappingException, RemoteException;
+    public void addEmbargo(String userId, String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, MappingException, RemoteException;
 
     public void removeEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException;
 

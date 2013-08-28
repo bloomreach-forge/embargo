@@ -29,12 +29,16 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hippoecm.repository.api.MappingException;
 import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.ext.WorkflowImpl;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @version "$Id$"
@@ -43,6 +47,8 @@ import org.onehippo.forge.embargo.repository.EmbargoUtils;
 @DatastoreIdentity(strategy = IdGeneratorStrategy.NATIVE)
 @Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
 public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow {
+
+    private final static Logger logger = LoggerFactory.getLogger(EmbargoWorkflowImpl.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -56,7 +62,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     }
 
     @Override
-    public void addEmbargo(final String userId) throws WorkflowException, RepositoryException, MappingException, RemoteException {
+    public void addEmbargo(final String userId, final String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, MappingException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
 
@@ -65,7 +71,10 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
 
-        String[] userEmbargoEnabledGroups = EmbargoUtils.getCurrentUserEmbargoEnabledGroups(internalWorkflowSession, userId);
+        String[] userEmbargoEnabledGroups = ArrayUtils.isEmpty(forcedEmbargoGroups) ?
+                EmbargoUtils.getCurrentUserEmbargoEnabledGroups(internalWorkflowSession, userId) :
+                forcedEmbargoGroups;
+
         if (userEmbargoEnabledGroups.length > 0) {
 
             //Set embargo mixin on handle & add group information
@@ -83,6 +92,8 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
             }
 
             internalWorkflowSession.save();
+        } else {
+            logger.info("Trying to set the embargo on a document for user: {} who is not in any embargo enabled groups.", userId);
         }
     }
 

@@ -33,5 +33,6 @@ public class EmbargoConstants {
 
     public static final String HIPPOSCHED_TRIGGERS_DEFAULT = "hipposched:triggers/default";
     public static final String HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME = "hipposched:fireTime";
+    public static final String ADMIN_GROUP_NAME = "admin";
 
 }

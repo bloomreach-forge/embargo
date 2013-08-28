@@ -46,51 +46,74 @@ public final class EmbargoUtils {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoUtils.class);
 
-    public static String[] getCurrentUserEmbargoEnabledGroups(Session session, String userIdentity)
-            throws RepositoryException {
+    public static String[] getCurrentUserEmbargoEnabledGroups(Session session, String userIdentity) {
+        String[] allUserGroups = getAllUserGroups(session, userIdentity);
+        List<String> embargoEnabledUserGroups = new ArrayList<String>();
+        List<String> allEmbargoEnabledGroups = getAllEmbargoEnabledGroups(session);
 
-        Query selectGroupsQuery = session.getWorkspace().getQueryManager().createQuery(
-                EmbargoConstants.SELECT_GROUPS_QUERY.replace("{}", userIdentity),
-                Query.SQL);
-        NodeIterator groupNodes = selectGroupsQuery.execute().getNodes();
-        if (!groupNodes.hasNext()) {
-            return new String[]{};
-        }
-
-        List<String> groupNames = new ArrayList<String>();
-        List<String> embargoEnabledGroupNames = getAllEmbargoEnabledGroups(session);
-
-        while (groupNodes.hasNext()) {
-            String groupName = groupNodes.nextNode().getName();
-            if (embargoEnabledGroupNames.contains(groupName)) {
-                groupNames.add(groupName);
+        for (int i = 0; i < allUserGroups.length; i++) {
+            if (allEmbargoEnabledGroups.contains(allUserGroups[i])) {
+                embargoEnabledUserGroups.add(allUserGroups[i]);
             }
         }
-
-        return groupNames.toArray(new String[groupNames.size()]);
+        return embargoEnabledUserGroups.toArray(new String[embargoEnabledUserGroups.size()]);
     }
 
-    public static List<String> getAllEmbargoEnabledGroups(Session session) throws RepositoryException {
+    public static boolean isAdminUser(Session session, String userIdentity) {
+        String[] allUserGroups = getAllUserGroups(session, userIdentity);
+        for (int i = 0; i < allUserGroups.length; i++) {
+            if(EmbargoConstants.ADMIN_GROUP_NAME.equals(allUserGroups[i])){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String[] getAllUserGroups(Session session, String userIdentity) {
+        try{
+            Query selectGroupsQuery = session.getWorkspace().getQueryManager().createQuery(
+                    EmbargoConstants.SELECT_GROUPS_QUERY.replace("{}", userIdentity),
+                    Query.SQL);
+            NodeIterator groupNodes = selectGroupsQuery.execute().getNodes();
+            List<String> groupNames = new ArrayList<String>();
+            while (groupNodes.hasNext()) {
+                groupNames.add(groupNodes.nextNode().getName());
+            }
+            return groupNames.toArray(new String[groupNames.size()]);
+
+        } catch (RepositoryException e){
+            log.error("Could not retrieve user groups", e);
+            return new String[]{};
+        }
+    }
+
+    public static List<String> getAllEmbargoEnabledGroups(Session session) {
         Node embargoGroupsMappingNode;
         try {
             embargoGroupsMappingNode = session.getRootNode().getNode(EMBARGO_DOMAIN_PATH);
-        } catch (PathNotFoundException e) {
+        } catch (RepositoryException e) {
             log.error("Embargo domain does not exist at {}", EMBARGO_DOMAIN_PATH);
-            throw e;
+            return new ArrayList<String>();
         }
-        NodeIterator embargoGroupMappingNodes = embargoGroupsMappingNode.getNodes(EMBARGO_GROUPS_MAPPING_NODE_NAMES);
 
-        List<String> embargoGroupNames = new ArrayList<String>();
-        while (embargoGroupMappingNodes.hasNext()) {
-            Node embargoGroupMappingNode = embargoGroupMappingNodes.nextNode();
-            if (embargoGroupMappingNode.hasProperty(HippoNodeType.HIPPO_GROUPS)) {
-                Value[] embargoGroups = embargoGroupMappingNode.getProperty(HippoNodeType.HIPPO_GROUPS).getValues();
-                for (final Value embargoGroup : embargoGroups) {
-                    embargoGroupNames.add(embargoGroup.getString());
+        try {
+            NodeIterator embargoGroupMappingNodes = embargoGroupsMappingNode.getNodes(EMBARGO_GROUPS_MAPPING_NODE_NAMES);
+
+            List<String> embargoGroupNames = new ArrayList<String>();
+            while (embargoGroupMappingNodes.hasNext()) {
+                Node embargoGroupMappingNode = embargoGroupMappingNodes.nextNode();
+                if (embargoGroupMappingNode.hasProperty(HippoNodeType.HIPPO_GROUPS)) {
+                    Value[] embargoGroups = embargoGroupMappingNode.getProperty(HippoNodeType.HIPPO_GROUPS).getValues();
+                    for (final Value embargoGroup : embargoGroups) {
+                        embargoGroupNames.add(embargoGroup.getString());
+                    }
                 }
             }
+            return embargoGroupNames;
+        } catch (RepositoryException e){
+            log.error("Could not retrieve embargo enabled groups", e);
+            return new ArrayList<String>();
         }
-        return embargoGroupNames;
     }
 
     public static Calendar getEmbargoExpirationDate(Node hippoHandleNode) throws RepositoryException {

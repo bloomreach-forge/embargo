@@ -15,14 +15,19 @@
  */
 package org.onehippo.forge.embargo.frontend.plugins;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.Session;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormChoiceComponentUpdatingBehavior;
+import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
+import org.apache.wicket.markup.html.panel.Fragment;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.hippoecm.addon.workflow.CompatibilityWorkflowPlugin;
@@ -204,24 +209,62 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     }
 
     private void addSetEmbargoOption() {
-        StringResourceModel nameModel = new StringResourceModel("set-embargo-label", this, null);
-        add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, getPluginContext(), this) {
-            private static final long serialVersionUID = 1L;
+        String name = new StringResourceModel("set-embargo-label", this, null).getString();
 
-            @Override
-            protected ResourceReference getIcon() {
-                return new ResourceReference(getClass(), "lock_add.png");
-            }
+        if(EmbargoUtils.isAdminUser(getJcrSession(), getJcrSession().getUserID())){
 
-            @Override
-            protected String execute(EmbargoWorkflow workflow) throws Exception {
-                final String userID = ((UserSession) Session.get()).getJcrSession().getUserID();
-                workflow.addEmbargo(userID);
-                return null;
-            }
-        });
+            add(new WorkflowAction("set", name, null) {
+                private static final long serialVersionUID = 1L;
+                final public ArrayList<String> selectedEmbargoGroups = new ArrayList<String>();
+                final IModel selectedEmbargoGroupsModel = new Model<ArrayList<String>>(selectedEmbargoGroups);
+
+                @Override
+                protected ResourceReference getIcon() {
+                    return new ResourceReference(getClass(), "lock_add.png");
+                }
+
+                @Override
+                protected IDialogService.Dialog createRequestDialog() {
+                    return new SetEmbargoDialog(
+                            this,
+                            selectedEmbargoGroupsModel,
+                            EmbargoUtils.getAllEmbargoEnabledGroups(getJcrSession()),
+                            "select-embargo-groups-title",
+                            "select-embargo-groups-text");
+                }
+
+                @Override
+                protected String execute(EmbargoWorkflow workflow) throws Exception {
+                    final String userID = getJcrSession().getUserID();
+                    if(selectedEmbargoGroups.size() != 0){
+                        workflow.addEmbargo(userID, selectedEmbargoGroups.toArray(new String[selectedEmbargoGroups.size()]));
+                    }
+                    return null;
+                }
+            });
+
+        } else {
+            add(new StdWorkflow<EmbargoWorkflow>("set", name, getPluginContext(), this) {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                protected ResourceReference getIcon() {
+                    return new ResourceReference(getClass(), "lock_add.png");
+                }
+
+                @Override
+                protected String execute(EmbargoWorkflow workflow) throws Exception {
+                    final String userID = getJcrSession().getUserID();
+                    workflow.addEmbargo(userID, null);
+                    return null;
+                }
+            });
+        }
     }
 
+    private javax.jcr.Session getJcrSession() {
+        return ((UserSession) Session.get()).getJcrSession();
+    }
 
     /**
      * Resolve the mode the handle is currently in for the menu
