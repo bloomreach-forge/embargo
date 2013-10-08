@@ -60,6 +60,11 @@
       <id>ksalic</id>
       <email>k.salic@onehippo.com</email>
     </developer>
+    <developer>
+      <name>Jeroen Reijn</name>
+      <id>jreijn</id>
+      <email>j.reijn@onehippo.com</email>
+    </developer>
   </developers>
 
   <scm>

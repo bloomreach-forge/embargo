@@ -42,6 +42,7 @@ import org.hippoecm.repository.ext.WorkflowImpl;
 import org.hippoecm.repository.standardworkflow.WorkflowEventWorkflow;
 
 /**
+ * WorkflowEvent that checks if the embargo needs to be applied to a copied document.
  * @version $Id: EmbargoEventsAddDocumentWorkflow.java 234 2013-07-18 10:05:39Z jreijn $
  */
 

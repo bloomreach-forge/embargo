@@ -42,6 +42,7 @@ import org.hippoecm.repository.ext.WorkflowImpl;
 import org.hippoecm.repository.standardworkflow.WorkflowEventWorkflow;
 
 /**
+ * WorkflowEvent that checks if the embargo needs to be applied to a document being added to a folder.
  * @version $Id$
  */
 
