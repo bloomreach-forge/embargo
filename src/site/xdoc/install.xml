@@ -81,6 +81,19 @@
           </li>
         </ol>
       </subsection>
+      <subsection name="HST additional">
+        <ul>
+          <li>
+            <p>
+              In your hst-config.properties add the following property to you file (7.7 &amp; 7.8):
+            </p>
+            <pre>cms.preview.security.delegation.enabled = true</pre>
+            <p>
+              On default this property is set on false and is needed for the HST to successfully merge sessions to enable preview mode.
+            </p>
+          </li>
+        </ul>
+      </subsection>
     </section>
   </body>
 </document>
