@@ -21,13 +21,12 @@
   </properties>
   <body>
     <section name="Release Notes">
-      <!--
-      TODO Please update this section and un-comment once the tag is set
-      <subsection name="1.01.07">
+      <subsection name="1.02.00-SNAPSHOT">
         <ul>
           <li>Admin user can now set documents under embargo. A dialog is shown so he can select which groups to use</li>
+          <li>Made Hippo CMS 7.8 compatible</li>
         </ul>
-      </subsection>-->
+      </subsection>
       <subsection name="1.01.06">
         <ul>
           <li>Resolved issue with content items losing the embargo status when being copied.</li>

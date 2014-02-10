@@ -39,7 +39,7 @@
         </subsection>
         <subsection name="Project status">
           <p>
-            The latest version of the embargo plugin is running on Hippo CMS 7.7.
+            The latest version of the embargo plugin is running on Hippo CMS 7.8.
             The matrix below shows against which versions the plugin is developed. Which does not mean
             that version doesn't run against an earlier (or later) version of the CMS and HST.
           </p>
@@ -49,6 +49,11 @@
               <th>CMS</th>
               <th>HST</th>
             </tr>
+              <tr>
+                <td>1.02.00-SNAPSHOT</td>
+                <td>7.8 (2.24.xx)</td>
+                <td>2.26.xx</td>
+              </tr>
               <tr>
                 <td>1.01.06</td>
                 <td>7.7 (2.22.xx)</td>
