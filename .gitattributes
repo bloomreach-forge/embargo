@@ -26,6 +26,7 @@ src/site/resources/images/set-embargo.png -text svneol=unset#image/png
 tools/embargo-tests/pom.xml -text
 tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/repository/EmbargoUtilsTest.java -text
 tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/EmbargoSecurityDomainsTest.java -text
+tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/RepositoryTestCase.java -text
 tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/TestConstants.java -text
 tools/embargo-tests/src/test/resources/content.xml -text
 tools/embargo-tests/src/test/resources/dump.zip -text
@@ -35,6 +36,10 @@ tools/embargo-tests/src/test/resources/embargotestdocument.xml -text
 tools/embargo-tests/src/test/resources/hippoecm-extension.xml -text
 tools/embargo-tests/src/test/resources/log4j.dtd -text
 tools/embargo-tests/src/test/resources/log4j.xml -text
+tools/embargo-tests/src/test/resources/security/embargo-author.xml -text
+tools/embargo-tests/src/test/resources/security/embargo-authors-example-group-test.xml -text
+tools/embargo-tests/src/test/resources/security/embargo-editor.xml -text
+tools/embargo-tests/src/test/resources/security/embargo-editors-example-group-test.xml -text
 tools/embargo-tests/src/test/resources/security/user-editor.xml -text
 tools/jcr-runners/README.txt -text
 tools/jcr-runners/pom.xml -text
