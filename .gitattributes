@@ -25,9 +25,7 @@ src/site/resources/images/reschedule-embargo.png -text svneol=unset#image/png
 src/site/resources/images/set-embargo.png -text svneol=unset#image/png
 tools/embargo-tests/pom.xml -text
 tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/repository/EmbargoUtilsTest.java -text
-tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/BaseRepositoryTest.java -text
 tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/EmbargoSecurityDomainsTest.java -text
-tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/TestCase.java -text
 tools/embargo-tests/src/test/java/org/onehippo/forge/embargo/tests/TestConstants.java -text
 tools/embargo-tests/src/test/resources/content.xml -text
 tools/embargo-tests/src/test/resources/dump.zip -text

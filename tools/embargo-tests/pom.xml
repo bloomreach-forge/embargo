@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.onehippo.forge.embargo</groupId>
     <artifactId>embargo-tools</artifactId>
-    <version>1.01.07-SNAPSHOT</version>
+    <version>1.02.00-SNAPSHOT</version>
   </parent>
 
   <name>Hippo Embargo Plugin Tests</name>
@@ -72,7 +72,6 @@
       <groupId>org.onehippo.forge.embargo</groupId>
       <artifactId>embargo-addon-frontend</artifactId>
       <version>${project.version}</version>
-      <!--<scope>test</scope>-->
     </dependency>
 
     <dependency>
@@ -86,14 +85,21 @@
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
       <artifactId>hippo-repository-engine</artifactId>
-      <classifier>tests</classifier>
       <version>${hippo.repository.version}</version>
+      <classifier>tests</classifier>
     </dependency>
 
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
       <artifactId>hippo-repository-builtin</artifactId>
       <version>${hippo.repository.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-richtext-repository</artifactId>
+      <version>${hippo.cms.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -141,15 +147,8 @@
 
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-cms-xinha-integration</artifactId>
-      <version>${hippo.cms.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-addon-publication-workflow-repository</artifactId>
-      <version>${hippo.addon-publication-workflow.version}</version>
+      <artifactId>hippo-repository-workflow</artifactId>
+      <version>${hippo.repository.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -211,7 +210,12 @@
       <scope>test</scope>
     </dependency>
 
-
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>10.8.3.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
 

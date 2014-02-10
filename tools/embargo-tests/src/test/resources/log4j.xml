@@ -30,8 +30,7 @@
   </category>
 
    <category additivity="true" name="org.hippoecm.repository.LocalHippoRepository">
-    <level value="info"/>
-    <appender-ref ref="console"/>
+    <level value="warn"/>
   </category>
 
   <category additivity="true" name="org.hippoecm.repository.security.HippoAccessManager">
@@ -42,7 +41,10 @@
     <level value="warn"/>
     <appender-ref ref="console"/>
   </category>
-  
+
+  <category name="org.hippoecm.repository.impl.InitializationProcessorImpl">
+    <level value="warn"/>
+  </category>
 
   <category additivity="false" name="org.hippoecm.frontend.editor">
     <level value="info"/>

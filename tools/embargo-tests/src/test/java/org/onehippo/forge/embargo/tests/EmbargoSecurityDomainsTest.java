@@ -20,12 +20,16 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
 
 import org.hippoecm.repository.api.Document;
+import org.hippoecm.repository.api.HippoNode;
+import org.hippoecm.repository.api.HippoWorkspace;
 import org.hippoecm.repository.api.Workflow;
+import org.hippoecm.repository.api.WorkflowManager;
 import org.hippoecm.repository.standardworkflow.FolderWorkflow;
 import org.junit.After;
 import org.junit.Assert;
@@ -47,7 +51,7 @@ import static org.junit.Assume.assumeTrue;
 /**
  * @version $Id: EmbargoSecurityDomainsTest.java 84 2013-05-27 09:01:12Z mchatzidakis $
  */
-public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
+public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoSecurityDomainsTest.class);
     private Session adminSession;
@@ -57,22 +61,21 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        //Skip all tests if we can't reach the repository.These tests need to run on an existing repository (integration tests)
-        assumeTrue(repository.getRepository() != null);
+        //prepareFixture();
+        super.setUp(true);
         //load internal workflow before we can use any other one (needed to split up functionality in different methods)
-        adminSession = repository.login(TestConstants.ADMIN_CREDENTIALS);
+        adminSession = session;
         assumeNotNull(adminSession);
         final Node adminDocumentsFolder = adminSession.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(adminDocumentsFolder, "internal");
         //(normal) admin creates a news document
-        final String adminDocumentLocation = adminFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        final String adminDocumentLocation = adminFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         //quick check if document exitst, and now the threepane workflow is enabled for some jdo reason...
         assumeTrue(adminSession.itemExists(adminDocumentLocation));
         //prepare sessions:
-        editor = repository.login(TestConstants.EDITOR_CREDENTIALS);
-        embargoEditor = repository.login(TestConstants.EMBARGO_EDITOR_CREDENTIALS);
-        embargoAuthor = repository.login(TestConstants.EMBARGO_AUTHOR_CREDENTIALS);
+        editor = server.login(TestConstants.EDITOR_CREDENTIALS);
+        embargoEditor = server.login(TestConstants.EMBARGO_EDITOR_CREDENTIALS);
+        embargoAuthor = server.login(TestConstants.EMBARGO_AUTHOR_CREDENTIALS);
     }
 
     /**
@@ -81,7 +84,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
      * @throws Exception
      */
     @Test
-    public void testAdminRightsToEmbargo() throws Exception {
+    public void testAdminRightsToEmbargoWorkflow() throws Exception {
         final boolean b = adminSession.itemExists("/hippo:configuration/hippo:workflows/embargo");
         assertTrue(b);
     }
@@ -118,7 +121,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
     public void testConnectToRepository() {
         Session localSession = null;
         try {
-            localSession = repository.login(TestConstants.ADMIN_CREDENTIALS);
+            localSession = server.login(TestConstants.ADMIN_CREDENTIALS);
         } catch (RepositoryException e) {
             log.error("Can't login to hippo repository", e);
         } finally {
@@ -152,7 +155,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         //testing creating a document with the embargo user.
         final Node embargoEditorFolderNode = embargoEditor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow embargoEditorFolderWorkflow = (FolderWorkflow) getWorkflow(embargoEditorFolderNode, "threepane");
-        final String embargoEditorDocumentLocation = embargoEditorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        final String embargoEditorDocumentLocation = embargoEditorFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(embargoEditor.itemExists(embargoEditorDocumentLocation));
     }
 
@@ -166,7 +169,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         //testing creating a document with the embargo user.
         final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "threepane");
-        final String documentLocation = adminFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        final String documentLocation = adminFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(embargoEditor.itemExists(documentLocation));
         assertTrue(editor.itemExists(documentLocation));
         final NodeType[] mixinNodeTypes = editor.getNode(documentLocation).getMixinNodeTypes();
@@ -189,7 +192,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         //testing creating a document with the embargo user.
         final Node embargoEditorFolderNode = embargoEditor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(embargoEditorFolderNode, "threepane");
-        final String embargoEditorDocumentLocation = adminFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        final String embargoEditorDocumentLocation = adminFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(embargoEditor.itemExists(embargoEditorDocumentLocation));
         assertFalse(editor.itemExists(embargoEditorDocumentLocation));
     }
@@ -205,7 +208,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         //testing creating a document with the embargo user.
         final Node embargoEditorFolderNode = embargoEditor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(embargoEditorFolderNode, "threepane");
-        final String embargoEditorDocumentLocation = adminFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        final String embargoEditorDocumentLocation = adminFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(embargoEditor.itemExists(embargoEditorDocumentLocation));
         assertFalse(editor.itemExists(embargoEditorDocumentLocation));
 
@@ -228,7 +231,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         //testing creating a document with the editor user.
         final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
-        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(editor.itemExists(editorDocumentLocation));
 
         final Workflow editorsEmbargoWorkflow = getWorkflow(editor.getNode(editorDocumentLocation), "embargo");
@@ -255,7 +258,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         //testing creating a document with the editor user.
         final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
-        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(editor.itemExists(editorDocumentLocation));
 
         final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
@@ -278,7 +281,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         //testing creating a document with the editor user.
         final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
-        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(editor.itemExists(editorDocumentLocation));
 
         final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
@@ -306,7 +309,7 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
         //testing creating a document with the editor user.
         final Node editorFolderNode = editor.getNode(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH);
         final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
-        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargodemo:newsdocument", TestConstants.TEST_DOCUMENT_NAME);
+        final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(editor.itemExists(editorDocumentLocation));
 
         final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
@@ -337,7 +340,6 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
     @After
     public void tearDown() throws Exception {
         logoutIfNotNull(editor);
-        logoutIfNotNull(adminSession);
         logoutIfNotNull(embargoAuthor);
         logoutIfNotNull(embargoEditor);
 
@@ -347,6 +349,28 @@ public class EmbargoSecurityDomainsTest extends BaseRepositoryTest {
     private static void logoutIfNotNull(final Session session) {
         if (session != null) {
             session.logout();
+        }
+    }
+
+    protected Workflow getWorkflow(Node node, String category) throws RepositoryException {
+        WorkflowManager workflowManager = ((HippoWorkspace) node.getSession().getWorkspace()).getWorkflowManager();
+        Node canonicalNode = ((HippoNode) node).getCanonicalNode();
+        return workflowManager.getWorkflow(category, canonicalNode);
+    }
+
+
+    private void printTree(Node node) {
+        try {
+            System.out.println(node.getPath());
+            final NodeIterator nodes = node.getNodes();
+            while(nodes.hasNext()) {
+                final Node childNode = nodes.nextNode();
+                if(!((HippoNode)childNode).isVirtual()) {
+                    printTree(childNode);
+                }
+            }
+        } catch (RepositoryException e) {
+            e.printStackTrace();
         }
     }
 
