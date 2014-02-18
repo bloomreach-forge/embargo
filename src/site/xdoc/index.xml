@@ -14,10 +14,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<!DOCTYPE document PUBLIC
-  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
-  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
-<document>
+<document xmlns="http://maven.apache.org/XDOC/2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
   <properties>
       <title>Introduction</title>
   </properties>
@@ -25,9 +24,9 @@
     <section name="Introduction">
         <subsection name="What is the Embargo plugin?">
             <p>
-              The embargo plugin allows you to put CMS documents under embargo, that is, it adds a flag that sets the documents in a confidential state.
+              The embargo plugin allows you to put CMS documents, assets and images under embargo, that is, it adds a flag that sets the documents in a confidential state.
               No one has access to a document under embargo unless he belongs to the group that set the embargo flag. Groups can be given the embargo privilege by
-              adding them to the embargo security domain. Thus, new users and new groups can be added and enabled for embargo operations. These groups don't see each other's embargo.
+              adding them to the embargo security domain. Thus, new users and new groups can be added and enabled for embargo operations. These groups don't see each other's embargo content.
             </p>
         </subsection>
         <subsection name="Screenshots">
