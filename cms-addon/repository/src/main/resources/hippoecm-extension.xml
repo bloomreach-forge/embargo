@@ -174,34 +174,6 @@
     </sv:property>
   </sv:node>
 
-  <sv:node sv:name="domains-everywhere-remove-siteusers">
-    <sv:property sv:name="jcr:primaryType" sv:type="Name">
-      <sv:value>hippo:initializeitem</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentdelete" sv:type="String">
-      <sv:value>/hippo:configuration/hippo:domains/everywhere/siteusers</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:sequence" sv:type="Double">
-      <sv:value>20151</sv:value>
-    </sv:property>
-  </sv:node>
-
-  <sv:node sv:name="domains-everywhere-siteusers">
-    <sv:property sv:name="jcr:primaryType" sv:type="Name">
-      <sv:value>hippo:initializeitem</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentresource" sv:type="String">
-      <sv:value>domains/everywhere-siteusers.xml</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:configuration/hippo:domains</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:sequence" sv:type="Double">
-      <sv:value>20151</sv:value>
-    </sv:property>
-  </sv:node>
-
-
   <sv:node sv:name="domains-defaultread-hide-embargo-handle">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
@@ -544,5 +516,7 @@
       <sv:value>20300</sv:value>
     </sv:property>
   </sv:node>
+
+
 
 </sv:node>
