@@ -25,7 +25,18 @@
         <p>This section describes all the configuration that this plugin adds to your CMS system. This way you can examine and analyze the impact
           installing this plugin will have on your existing project.</p>
       </subsection>
-      <subsection name="Changes in security domains">
+      <subsection name="Changes in security domains - CMS 7.8">
+        <p>The following configuration is added to the security domains:</p>
+        <ul>
+          <li>Security domain 'defaultread' and 'defaultwrite', domain rules 'hippo:handle', do not allow access to embargo documents</li>
+          <li>Security domain 'hippogallery' is also enhanced to only allow access to non embargo documents</li>
+          <li>Domain 'hippolog' is only accessible for log items that are don't belong to the 'embargo' category</li>
+          <li>Domain 'workflow', rule 'hippo-workflowcategory', does not allow access to embargo related workflows</li>
+          <li>Security domain 'frontend-plugins' is used for showing the embargo columns. This is also enhanced to only show those columns to embargo enabled users</li>
+          <li>Security domain 'embargo' is added to allow access to all the above, for embargo enabled users only</li>
+        </ul>
+      </subsection>
+      <subsection name="Changes in security domains - CMS 7.7">
         <p>The following configuration is added to the security domains:</p>
         <ul>
           <li>Security domain 'everywhere' is hidden from the 'siteusers' group. A new domain called 'everywhere-siteusers' is created which forbids access to embargo documents</li>

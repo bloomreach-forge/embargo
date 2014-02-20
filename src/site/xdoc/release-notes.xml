@@ -23,7 +23,7 @@
     <section name="Release Notes">
       <subsection name="1.02.00-SNAPSHOT">
         <ul>
-          <li>Admin user can now set documents under embargo. A dialog is shown so he can select which groups to use</li>
+          <li>Admin user can now set documents under embargo. A dialog is shown so he can select which groups to use.</li>
           <li>Upgrade plugin to be Hippo CMS 7.8 compatible</li>
         </ul>
       </subsection>

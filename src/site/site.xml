@@ -14,7 +14,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<project name="Hippo Forge Embargo Plugin">
+<project name="Hippo Forge Embargo Plugin" xmlns="http://maven.apache.org/DECORATION/1.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.4.0 http://maven.apache.org/xsd/decoration-1.4.0.xsd">
 
   <skin>
     <groupId>org.onehippo.forge.mavenskin</groupId>
