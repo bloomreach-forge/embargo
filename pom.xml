@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>7.8.7</version>
+    <version>7.8.9</version>
   </parent>
 
   <name>Hippo Embargo Plugin</name>
@@ -35,7 +35,8 @@
     <extension.wagon-svn.version>1.9</extension.wagon-svn.version>
     <junit.version>4.10</junit.version>
 
-    <maven.plugin.site.version>3.0-beta-3</maven.plugin.site.version>
+    <maven.plugin.dependency.version>2.8</maven.plugin.dependency.version>
+    <maven.plugin.site.version>3.3</maven.plugin.site.version>
     <maven.plugin.jxr.version>2.2</maven.plugin.jxr.version>
     <maven.plugin.rat.version>0.9.RAT125</maven.plugin.rat.version>
 
