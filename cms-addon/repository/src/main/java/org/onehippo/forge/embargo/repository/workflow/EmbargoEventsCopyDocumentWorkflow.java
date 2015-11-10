@@ -21,14 +21,6 @@ import java.util.Iterator;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jdo.annotations.DatastoreIdentity;
-import javax.jdo.annotations.Discriminator;
-import javax.jdo.annotations.DiscriminatorStrategy;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.Inheritance;
-import javax.jdo.annotations.InheritanceStrategy;
-import javax.jdo.annotations.PersistenceCapable;
 
 import org.hippoecm.repository.HippoStdNodeType;
 import org.hippoecm.repository.api.Document;
@@ -46,10 +38,6 @@ import org.hippoecm.repository.standardworkflow.WorkflowEventWorkflow;
  * @version $Id: EmbargoEventsAddDocumentWorkflow.java 234 2013-07-18 10:05:39Z jreijn $
  */
 
-@PersistenceCapable(identityType = IdentityType.DATASTORE, cacheable = "false", detachable = "false", table = "documents")
-@DatastoreIdentity(strategy = IdGeneratorStrategy.NATIVE)
-@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-@Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
 public class EmbargoEventsCopyDocumentWorkflow extends WorkflowImpl implements WorkflowEventWorkflow {
 
     private static final long serialVersionUID = 1L;
@@ -59,11 +47,11 @@ public class EmbargoEventsCopyDocumentWorkflow extends WorkflowImpl implements W
     }
 
     @Override
-    public void fire() throws WorkflowException, MappingException, RepositoryException, RemoteException {
+    public void fire() throws WorkflowException, RepositoryException, RemoteException {
     }
 
     @Override
-    public void fire(final Document document) throws WorkflowException, MappingException, RepositoryException, RemoteException {
+    public void fire(final Document document) throws WorkflowException, RepositoryException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
         Node newDocumentNode = internalWorkflowSession.getNodeByIdentifier(document.getIdentity());
@@ -77,11 +65,11 @@ public class EmbargoEventsCopyDocumentWorkflow extends WorkflowImpl implements W
             HippoWorkspace workspace = (HippoWorkspace) internalWorkflowSession.getWorkspace();
             Workflow embargo = workspace.getWorkflowManager().getWorkflow("embargo", newDocumentNode);
             //pass along the user id from this action, so the original user id is used for the embargo
-            ((EmbargoWorkflow) embargo).addEmbargo(workflowContext.getUserIdentity(), null);
+            ((EmbargoWorkflow) embargo).addEmbargo(workflowContext.getUserIdentity(), document.getIdentity(), null);
         }
     }
 
     @Override
-    public void fire(final Iterator<Document> documentIterator) throws WorkflowException, MappingException, RepositoryException, RemoteException {
+    public void fire(final Iterator<Document> documentIterator) throws WorkflowException, RepositoryException, RemoteException {
     }
 }

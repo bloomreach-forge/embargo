@@ -15,24 +15,32 @@
  */
 package org.onehippo.forge.embargo.frontend.plugins.cms.root;
 
-import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.hippoecm.frontend.service.render.RenderPlugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @version $Id$
  */
 public class EmbargoIndicatorPlugin extends RenderPlugin {
 
+    private static final CssResourceReference EMBARGO_INDICATOR_CSS = new CssResourceReference(EmbargoIndicatorPlugin.class, "EmbargoIndicatorPlugin.css");
     private static final long serialVersionUID = 1L;
-    static final Logger log = LoggerFactory.getLogger(EmbargoIndicatorPlugin.class);
-
     public EmbargoIndicatorPlugin(IPluginContext context, IPluginConfig config) {
         super(context, config);
         context.registerService(this, EmbargoIndicatorPlugin.class.getName());
-        add(CSSPackageResource.getHeaderContribution(EmbargoIndicatorPlugin.class, "EmbargoIndicatorPlugin.css"));
+
     }
+
+
+    @Override
+    public void renderHead(final IHeaderResponse response) {
+        super.renderHead(response);
+        response.render(CssHeaderItem.forReference(EMBARGO_INDICATOR_CSS));
+    }
+
+
 }

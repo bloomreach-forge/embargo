@@ -15,6 +15,7 @@
  */
 package org.hippoecm.repository.quartz;
 
+import java.lang.reflect.InvocationHandler;
 import java.util.Calendar;
 
 import javax.jcr.Node;
@@ -22,59 +23,66 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.hippoecm.repository.api.WorkflowManager;
-import org.hippoecm.repository.ext.WorkflowInvocation;
-import org.hippoecm.repository.ext.WorkflowInvocationHandlerModule;
-import org.hippoecm.repository.quartz.workflow.WorkflowJobDetail;
+import org.hippoecm.repository.ext.WorkflowImpl;
+
+import org.hippoecm.repository.impl.WorkflowManagerImpl;
 import org.hippoecm.repository.util.JcrUtils;
-import org.quartz.JobDataMap;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SimpleTrigger;
-import org.quartz.Trigger;
+import org.onehippo.cms7.services.HippoServiceRegistry;
+import org.onehippo.repository.scheduling.RepositoryJob;
+import org.onehippo.repository.scheduling.RepositoryJobInfo;
+import org.onehippo.repository.scheduling.RepositoryJobSimpleTrigger;
+import org.onehippo.repository.scheduling.RepositoryJobTrigger;
+import org.onehippo.repository.scheduling.RepositoryScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @version "$Id$"
  */
-public class CalendarSchedulerInvocationModule implements WorkflowInvocationHandlerModule {
+public class CalendarSchedulerInvocationModule extends WorkflowManagerImpl {
 
     private static final Logger log = LoggerFactory.getLogger(SchedulerModule.class);
+    private static final long serialVersionUID = 1L;
 
     Calendar timestamp;
 
-    public CalendarSchedulerInvocationModule(Calendar calendar) {
-        this.timestamp = calendar;
+    public CalendarSchedulerInvocationModule(final Session session) throws RepositoryException {
+        super(session);
     }
 
-    public Object submit(WorkflowManager manager, WorkflowInvocation invocation) {
-        try {
-            if(log.isDebugEnabled()) {
+    /*  public CalendarSchedulerInvocationModule(Calendar calendar) {
+          this.timestamp = calendar;
+      }
+  */
+    public Object submit(WorkflowManager manager, InvocationHandler invocation) {
+      /*  try {
+            if (log.isDebugEnabled()) {
                 log.debug("Storing scheduled workflow for document {}", invocation.getSubject().getPath());
             }
             final Session session = invocation.getSubject().getSession();
-            Scheduler scheduler = SchedulerModule.getScheduler(session);
-            if (scheduler!=null) {
+            final RepositoryScheduler scheduler = HippoServiceRegistry.getService(RepositoryScheduler.class);
+            if (scheduler != null) {
                 Node subject = invocation.getSubject();
                 Node handle = subject.getParent();
                 JcrUtils.ensureIsCheckedOut(handle, false);
                 Node requestNode = handle.addNode("embargo:request", "embargo:job");
                 requestNode.addMixin("mix:referenceable");
-                scheduler.scheduleJob(new WorkflowJobDetail(requestNode, invocation), createTrigger("default"));
+                // TODO mm
+                final RepositoryJobInfo repositoryJobInfo = new RepositoryJobInfo("embargo", RepositoryJob.class);
+                scheduler.scheduleJob(repositoryJobInfo, createTrigger("default"));
+                //scheduler.scheduleJob(new WorkflowJobDetail(requestNode, invocation), createTrigger("default"));
             } else {
                 log.warn("Scheduler is not available, cannot schedule workflow for document {}", invocation.getSubject().getPath());
             }
         } catch (RepositoryException ex) {
             log.error("failure storing scheduled workflow", ex);
-        } catch (SchedulerException ex) {
-            log.error("failure storing scheduled workflow", ex);
-        }
+        }*/
         return null;
     }
 
-    protected Trigger createTrigger(String name) {
-        SimpleTrigger trigger = new SimpleTrigger(name, null, timestamp.getTime());
-        trigger.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+    protected RepositoryJobTrigger createTrigger(String name) {
+        final RepositoryJobTrigger trigger = new RepositoryJobSimpleTrigger(name, timestamp.getTime());
+        //trigger.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
         return trigger;
     }
 

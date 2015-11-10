@@ -8,6 +8,8 @@
   - * (string)
   - * (binary)
   + * (hipposched:triggers) = hipposched:triggers
+  - hipposched:attributeNames (string) multiple
+  - hipposched:attributeValues (string) multiple
 
 [embargo:handle]
   mixin

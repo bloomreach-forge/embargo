@@ -25,30 +25,45 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.util.value.IValueMap;
 import org.apache.wicket.validation.validator.DateValidator;
+import org.hippoecm.addon.workflow.AbstractWorkflowDialog;
 import org.hippoecm.addon.workflow.CompatibilityWorkflowPlugin.WorkflowAction;
+import org.hippoecm.addon.workflow.FutureDateValidator;
+import org.hippoecm.addon.workflow.StdWorkflow;
+import org.hippoecm.frontend.dialog.AbstractDialog;
+import org.hippoecm.frontend.editor.workflow.dialog.ReferringDocumentsView;
+import org.hippoecm.frontend.editor.workflow.model.ReferringDocumentsProvider;
+import org.hippoecm.frontend.model.JcrNodeModel;
 import org.hippoecm.frontend.plugins.yui.datetime.YuiDateTimeField;
+import org.hippoecm.frontend.service.IEditorManager;
+import org.hippoecm.repository.api.WorkflowException;
+import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ScheduleDialog extends WorkflowAction.WorkflowDialog {
+public class ScheduleDialog extends AbstractWorkflowDialog {
     @SuppressWarnings("unused")
     private final static String SVN_ID = "$Id$";
 
+    private static final Logger log = LoggerFactory.getLogger(ScheduleDialog.class);
     private static final long serialVersionUID = 1L;
 
     final String title;
 
-    public ScheduleDialog(WorkflowAction action, PropertyModel<Date> dateModel, final String title, final String text) {
-        action.super();
+
+    public ScheduleDialog(StdWorkflow<EmbargoWorkflow> action, JcrNodeModel nodeModel, IModel<Date> dateModel, IEditorManager editorMgr, final String title, final String text) {
+        super(dateModel, action);
+        ReferringDocumentsProvider provider = new ReferringDocumentsProvider(nodeModel, false);
+        add(new ReferringDocumentsView("refs", provider, editorMgr));
+
         Calendar minimum = Calendar.getInstance();
         minimum.setTime(dateModel.getObject());
         minimum.set(Calendar.SECOND, 0);
         minimum.set(Calendar.MILLISECOND, 0);
         // if you want to round upwards, the following ought to be executed: minimum.add(Calendar.MINUTE, 1);
         dateModel.setObject(minimum.getTime());
-        add(new Label("question", new ResourceModel(text)));
+        add(new Label("question", new ResourceModel("schedule-depublish-text")));
         YuiDateTimeField ydtf = new YuiDateTimeField("value", dateModel);
-        // changed from the default WorkflowAction.DateDialog to use the current date/time as a minimal instead of the
-        // previous date found in the schedule.
-        ydtf.add(DateValidator.minimum(Calendar.getInstance().getTime()));
+        ydtf.add(new FutureDateValidator());
         add(ydtf);
         setFocusOnCancel();
         this.title = title;

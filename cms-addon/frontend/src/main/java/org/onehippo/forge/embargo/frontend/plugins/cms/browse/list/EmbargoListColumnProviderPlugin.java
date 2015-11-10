@@ -22,8 +22,10 @@ import java.util.List;
 
 import javax.jcr.Node;
 
-import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.hippoecm.frontend.plugins.standards.ClassResourceModel;
@@ -32,8 +34,6 @@ import org.hippoecm.frontend.plugins.standards.list.ListColumn;
 import org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.comparators.EmbargoDocumentViewComparator;
 import org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.resolvers.EmbargoAttributeRenderer;
 import org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.resolvers.EmbargoDocumentView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @version $Id$
@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderPlugin {
 
     private static final long serialVersionUID = 1L;
-    static final Logger log = LoggerFactory.getLogger(EmbargoListColumnProviderPlugin.class);
+    private static final CssResourceReference EMBARGO_PROVIDER_CSS = new CssResourceReference(EmbargoListColumnProviderPlugin.class, "style.css");
 
     public EmbargoListColumnProviderPlugin(IPluginContext context, IPluginConfig config) {
         super(context, config);
@@ -49,21 +49,26 @@ public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderP
 
     @Override
     public IHeaderContributor getHeaderContributor() {
-        return CSSPackageResource.getHeaderContribution(EmbargoListColumnProviderPlugin.class, "style.css");
+        return new IHeaderContributor() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public void renderHead(final IHeaderResponse response) {
+                response.render(CssHeaderItem.forReference(EMBARGO_PROVIDER_CSS));
+            }
+        };
     }
 
     @Override
     public List<ListColumn<Node>> getColumns() {
-        return new ArrayList<ListColumn<Node>>();
+        return new ArrayList<>();
     }
 
     @Override
     public List<ListColumn<Node>> getExpandedColumns() {
         List<ListColumn<Node>> columns = getColumns();
-        ListColumn<Node> column;
 
         //Groups
-        column = new ListColumn<Node>(new ClassResourceModel("doclisting-embargo-groups", getClass()), "embargo-groups");
+        ListColumn<Node> column = new ListColumn<>(new ClassResourceModel("doclisting-embargo-groups", getClass()), "embargo-groups");
         column.setComparator(new EmbargoDocumentViewComparator() {
             private static final long serialVersionUID = -4617312936280189361L;
 
@@ -85,7 +90,7 @@ public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderP
 
 
         //Expiration date
-        column = new ListColumn<Node>(new ClassResourceModel("doclisting-embargo-expiration-date", getClass()), "embargo-expiration-date");
+        column = new ListColumn<>(new ClassResourceModel("doclisting-embargo-expiration-date", getClass()), "embargo-expiration-date");
         column.setComparator(new EmbargoDocumentViewComparator() {
             private static final long serialVersionUID = -4617312936280189361L;
 

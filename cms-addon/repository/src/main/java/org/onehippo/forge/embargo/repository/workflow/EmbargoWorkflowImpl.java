@@ -21,52 +21,50 @@ import java.util.Calendar;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jdo.annotations.DatastoreIdentity;
-import javax.jdo.annotations.Discriminator;
-import javax.jdo.annotations.DiscriminatorStrategy;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
+import javax.jcr.SimpleCredentials;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
-import org.hippoecm.repository.api.MappingException;
+import org.hippoecm.repository.api.HippoNodeType;
+import org.hippoecm.repository.api.HippoWorkspace;
 import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
+import org.hippoecm.repository.api.WorkflowManager;
 import org.hippoecm.repository.ext.WorkflowImpl;
+import org.hippoecm.repository.util.JcrUtils;
+import org.onehippo.cms7.services.HippoServiceRegistry;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
+import org.onehippo.repository.scheduling.RepositoryJob;
+import org.onehippo.repository.scheduling.RepositoryJobExecutionContext;
+import org.onehippo.repository.scheduling.RepositoryJobInfo;
+import org.onehippo.repository.scheduling.RepositoryJobSimpleTrigger;
+import org.onehippo.repository.scheduling.RepositoryScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_METHOD_NAME;
+import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_SUBJECT_ID;
+import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_WORKFLOW_JOB;
 
 /**
  * @version "$Id$"
  */
-@PersistenceCapable(identityType = IdentityType.DATASTORE, cacheable = "true", detachable = "false", table = "documents")
-@DatastoreIdentity(strategy = IdGeneratorStrategy.NATIVE)
-@Discriminator(strategy = DiscriminatorStrategy.CLASS_NAME)
 public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow {
 
-    private final static Logger logger = LoggerFactory.getLogger(EmbargoWorkflowImpl.class);
+    private final static Logger log = LoggerFactory.getLogger(EmbargoWorkflowImpl.class);
 
     private static final long serialVersionUID = 1L;
+    public static final String METHOD_REMOVE_EMBARGO = "removeEmbargo";
 
-    @Persistent(column = "jcr:uuid")
-    protected String uuid;
-
-    /**
-     * @throws java.rmi.RemoteException
-     */
     public EmbargoWorkflowImpl() throws RemoteException {
     }
 
     @Override
-    public void addEmbargo(final String userId, final String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, MappingException, RemoteException {
+    public void addEmbargo(final String userId, final String subjectId, final String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
 
-        final Node handle = internalWorkflowSession.getNodeByIdentifier(uuid).getParent();
+        final Node handle = internalWorkflowSession.getNodeByIdentifier(subjectId).getParent();
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
@@ -93,16 +91,16 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
 
             internalWorkflowSession.save();
         } else {
-            logger.info("Trying to set the embargo on a document for user: {} who is not in any embargo enabled groups.", userId);
+            log.info("Trying to set the embargo on a document for user: {} who is not in any embargo enabled groups.", userId);
         }
     }
 
     @Override
-    public void removeEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException {
+    public void removeEmbargo(final String subjectId) throws WorkflowException, RepositoryException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
 
-        final Node handle = internalWorkflowSession.getNodeByIdentifier(uuid).getParent();
+        final Node handle = internalWorkflowSession.getNodeByIdentifier(subjectId).getParent();
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
@@ -129,19 +127,23 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     }
 
     @Override
-    public void scheduleRemoveEmbargo(final Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException {
-        cancelSchedule();
-        WorkflowContext wfCtx = getWorkflowContext().getWorkflowContext(publicationDate);
-        EmbargoWorkflow wf = (EmbargoWorkflow) wfCtx.getWorkflow("embargo");
-        wf.removeEmbargo();
+    public void scheduleRemoveEmbargo(String subjectId, final Calendar publicationDate) throws WorkflowException, RepositoryException, RemoteException {
+        cancelSchedule(subjectId);
+        //wf.removeEmbargo(subjectId);
+        final RepositoryScheduler scheduler = HippoServiceRegistry.getService(RepositoryScheduler.class);
+
+        scheduler.scheduleJob(
+                new WorkflowJobInfo(subjectId, METHOD_REMOVE_EMBARGO),
+                new RepositoryJobSimpleTrigger("embargo", publicationDate.getTime())
+        );
     }
 
     @Override
-    public void cancelSchedule() throws WorkflowException, RepositoryException, MappingException, RemoteException {
+    public void cancelSchedule(final String subjectId) throws WorkflowException, RepositoryException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
-        final Node handle = internalWorkflowSession.getNodeByIdentifier(uuid).getParent();
-        
+        final Node subjectNode = internalWorkflowSession.getNodeByIdentifier(subjectId);
+        final Node handle = subjectNode.getParent();
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
@@ -149,6 +151,72 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         if (handle.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
             handle.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
             internalWorkflowSession.save();
+        }
+    }
+
+    @Override
+    public void invokeWorkflow() throws Exception {
+        // noop: execute() is called
+    }
+
+
+    public static class WorkflowJob implements RepositoryJob {
+
+        private static final Logger log = LoggerFactory.getLogger(WorkflowJob.class);
+        @Override
+        public void execute(final RepositoryJobExecutionContext context) throws RepositoryException {
+            Session session = null;
+            String methodName = null;
+            String subjectPath = null;
+            try {
+                session = context.createSession(new SimpleCredentials("workflowuser", new char[]{}));
+                final String subjectId = context.getAttribute(HIPPOSCHED_SUBJECT_ID);
+                methodName = context.getAttribute(HIPPOSCHED_METHOD_NAME);
+                final Node subject = session.getNodeByIdentifier(subjectId);
+                subjectPath = subject.getPath();
+                final EmbargoWorkflow workflow = (EmbargoWorkflow)getWorkflowManager(session).getWorkflow("embargo", subject);
+                if (METHOD_REMOVE_EMBARGO.equals(methodName)) {
+                    workflow.removeEmbargo(subjectId);
+                } else {
+                    log.warn("Unsupported method called on Embargo workflow: {} ", methodName);
+                }
+            } catch (RemoteException | WorkflowException | RepositoryException e) {
+                log.error("Execution of scheduled workflow operation {} on {} failed", new String[]{methodName, subjectPath}, e);
+            } finally {
+                if (session != null) {
+                    session.logout();
+                }
+            }
+        }
+
+        private static WorkflowManager getWorkflowManager(final Session session) throws RepositoryException {
+            return ((HippoWorkspace)session.getWorkspace()).getWorkflowManager();
+        }
+
+    }
+
+    private static class WorkflowJobInfo extends RepositoryJobInfo {
+
+        private final String subjectId;
+        public WorkflowJobInfo(final String subjectId, final String methodName) {
+            super(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, "embargo", WorkflowJob.class);
+            this.subjectId = subjectId;
+            setAttribute(HIPPOSCHED_SUBJECT_ID, subjectId);
+            setAttribute(HIPPOSCHED_METHOD_NAME, methodName);
+        }
+
+        @Override
+        public Node createNode(final Session session) throws RepositoryException {
+            final Node subjectNode = session.getNodeByIdentifier(subjectId);
+            final Node handleNode = subjectNode.getParent();
+            JcrUtils.ensureIsCheckedOut(handleNode);
+            log.info("handleNode {}", handleNode.getIdentifier());
+            handleNode.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
+            log.info("handleNode {}", handleNode.getIdentifier());
+            final Node requestNode = handleNode.addNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, EmbargoConstants.EMBARGO_JOB);
+            // TODO mm is this one needed?
+            requestNode.addMixin("mix:referenceable");
+            return requestNode;
         }
 
     }

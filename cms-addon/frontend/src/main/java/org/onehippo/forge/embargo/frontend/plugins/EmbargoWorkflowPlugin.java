@@ -15,27 +15,28 @@
  */
 package org.onehippo.forge.embargo.frontend.plugins;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.Session;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormChoiceComponentUpdatingBehavior;
-import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
-import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.hippoecm.addon.workflow.CompatibilityWorkflowPlugin;
 import org.hippoecm.addon.workflow.StdWorkflow;
 import org.hippoecm.addon.workflow.WorkflowDescriptorModel;
 import org.hippoecm.frontend.dialog.IDialogService;
+import org.hippoecm.frontend.model.JcrNodeModel;
 import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
+import org.hippoecm.frontend.service.IEditorManager;
 import org.hippoecm.frontend.session.UserSession;
 import org.hippoecm.repository.api.WorkflowDescriptor;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
@@ -61,10 +62,9 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     protected void onModelChanged() {
         super.onModelChanged();
         try {
-            WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
-            WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
+            WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel)getDefaultModel();
+            WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor)getDefaultModelObject();
             if (workflowDescriptor != null) {
-                //TODO: Change this with a non deprecated call (when the API supports it)
                 Node documentNode = workflowDescriptorModel.getNode();
                 if (EmbargoUtils.isVisibleInPreview(documentNode)) {
                     final Mode mode = resolveMode(documentNode.getParent());
@@ -103,14 +103,15 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
         add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", nameModel, getPluginContext(), this) {
             private static final long serialVersionUID = 1L;
 
+
             @Override
             protected ResourceReference getIcon() {
-                return new ResourceReference(getClass(), "cancel_schedule.png");
+                return new PackageResourceReference(getClass(), "cancel_schedule.png");
             }
 
             @Override
             protected String execute(EmbargoWorkflow workflow) throws Exception {
-                workflow.cancelSchedule();
+                workflow.cancelSchedule(getSubjectId());
                 return null;
             }
         });
@@ -124,19 +125,18 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
             @Override
             protected ResourceReference getIcon() {
-                return new ResourceReference(getClass(), "clock_delete.png");
+                return new PackageResourceReference(getClass(), "clock_delete.png");
             }
 
             @Override
             protected IDialogService.Dialog createRequestDialog() {
 
                 //Set the date to that of the existing embargo:request
-                WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel) getDefaultModel();
-                WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor) getDefaultModelObject();
+                WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel)getDefaultModel();
+                WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor)getDefaultModelObject();
                 if (workflowDescriptor != null) {
                     try {
-                        //TODO: Change this with a non deprecated call (when the API supports it)
-                        Node handleNode = workflowDescriptorModel.getNode().getParent();
+                        final Node handleNode = workflowDescriptorModel.getNode().getParent();
                         Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
                         if (existingExpirationDate != null) {
                             date = existingExpirationDate.getTime();
@@ -145,8 +145,14 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                         log.error("Error while retrieving embargo schedule", e);
                     }
                 }
-                return new ScheduleDialog(this, new PropertyModel<Date>(this, "date"),
-                        "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
+
+                try {
+                    return new ScheduleDialog(this, new JcrNodeModel(workflowDescriptorModel.getNode()),
+                            new PropertyModel<Date>(this, "date"),getEditorManager(), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
+                } catch (RepositoryException e) {
+                    log.error("Error crating ScheduleDialog", e);
+                }
+                return null;
             }
 
             @Override
@@ -154,28 +160,54 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                 final Calendar embargoDate = Calendar.getInstance();
                 embargoDate.setTime(date);
                 if (date != null) {
-                    embargoWorkflow.scheduleRemoveEmbargo(embargoDate);
+
+                    final String subjectId = getSubjectId();
+                    embargoWorkflow.scheduleRemoveEmbargo(subjectId, embargoDate);
                 }
                 return null;
             }
+
+
         });
+    }
+
+    private String getSubjectId() throws RepositoryException {
+        final WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel)getDefaultModel();
+        final Node documentNode = workflowDescriptorModel.getNode();
+        return documentNode.getIdentifier();
     }
 
     private void addScheduleUnembargoOption() {
         final String name = new StringResourceModel("schedule-unembargo-label", this, null).getString();
-        add(new WorkflowAction("scheduleUnembargo", name, null) {
+        add(new StdWorkflow<EmbargoWorkflow>("scheduleUnembargo", Model.of(name), getPluginContext(), getModel()) {
             private static final long serialVersionUID = 1L;
             public Date date = new Date();
 
             @Override
             protected ResourceReference getIcon() {
-                return new ResourceReference(getClass(), "clock_delete.png");
+                return new PackageResourceReference(getClass(), "clock_delete.png");
             }
 
             @Override
             protected IDialogService.Dialog createRequestDialog() {
-                return new ScheduleDialog(this, new PropertyModel<Date>(this, "date"),
-                        "schedule-removal-embargo-title", "schedule-removal-embargo-text");
+                final WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel)getDefaultModel();
+                try {
+                    return new ScheduleDialog(this, new JcrNodeModel(workflowDescriptorModel.getNode()),
+                            new PropertyModel<Date>(this, "date"), getEditorManager(), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
+                } catch (RepositoryException e) {
+                    log.error("Error crating ScheduleDialog", e);
+                }
+                return null;
+            }
+
+            @Override
+            protected void execute() throws Exception {
+                super.execute();
+            }
+
+            @Override
+            protected void execute(final WorkflowDescriptorModel model) throws Exception {
+                super.execute(model);
             }
 
             @Override
@@ -183,10 +215,12 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                 final Calendar embargoDate = Calendar.getInstance();
                 embargoDate.setTime(date);
                 if (date != null) {
-                    embargoWorkflow.scheduleRemoveEmbargo(embargoDate);
+                    embargoWorkflow.scheduleRemoveEmbargo(getSubjectId(), embargoDate);
                 }
                 return null;
             }
+
+
         });
     }
 
@@ -197,12 +231,12 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
             @Override
             protected ResourceReference getIcon() {
-                return new ResourceReference(getClass(), "lock_break.png");
+                return new PackageResourceReference(getClass(), "lock_break.png");
             }
 
             @Override
             protected String execute(EmbargoWorkflow workflow) throws Exception {
-                workflow.removeEmbargo();
+                workflow.removeEmbargo(getSubjectId());
                 return null;
             }
         });
@@ -211,16 +245,16 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     private void addSetEmbargoOption() {
         String name = new StringResourceModel("set-embargo-label", this, null).getString();
 
-        if(EmbargoUtils.isAdminUser(getJcrSession(), getJcrSession().getUserID())){
+        if (EmbargoUtils.isAdminUser(getJcrSession(), getJcrSession().getUserID())) {
 
             add(new WorkflowAction("set", name, null) {
                 private static final long serialVersionUID = 1L;
                 final public ArrayList<String> selectedEmbargoGroups = new ArrayList<String>();
-                final IModel selectedEmbargoGroupsModel = new Model<ArrayList<String>>(selectedEmbargoGroups);
+                final IModel selectedEmbargoGroupsModel = new Model<>(selectedEmbargoGroups);
 
                 @Override
                 protected ResourceReference getIcon() {
-                    return new ResourceReference(getClass(), "lock_add.png");
+                    return new PackageResourceReference(getClass(), "lock_add.png");
                 }
 
                 @Override
@@ -236,26 +270,28 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                 @Override
                 protected String execute(EmbargoWorkflow workflow) throws Exception {
                     final String userID = getJcrSession().getUserID();
-                    if(selectedEmbargoGroups.size() != 0){
-                        workflow.addEmbargo(userID, selectedEmbargoGroups.toArray(new String[selectedEmbargoGroups.size()]));
+                    if (selectedEmbargoGroups.size() != 0) {
+                        final WorkflowDescriptorModel defaultModel = (WorkflowDescriptorModel)getDefaultModel();
+                        final String subjectId = defaultModel.getNode().getIdentifier();
+                        workflow.addEmbargo(userID, subjectId, selectedEmbargoGroups.toArray(new String[selectedEmbargoGroups.size()]));
                     }
                     return null;
                 }
             });
 
         } else {
-            add(new StdWorkflow<EmbargoWorkflow>("set", name, getPluginContext(), this) {
+            add(new StdWorkflow<EmbargoWorkflow>("set", Model.of(name), null, getPluginContext(), getModel()) {
                 private static final long serialVersionUID = 1L;
 
                 @Override
                 protected ResourceReference getIcon() {
-                    return new ResourceReference(getClass(), "lock_add.png");
+                    return new PackageResourceReference(getClass(), "lock_add.png");
                 }
 
                 @Override
                 protected String execute(EmbargoWorkflow workflow) throws Exception {
                     final String userID = getJcrSession().getUserID();
-                    workflow.addEmbargo(userID, null);
+                    workflow.addEmbargo(userID, getSubjectId(), null);
                     return null;
                 }
             });
@@ -263,7 +299,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     }
 
     private javax.jcr.Session getJcrSession() {
-        return ((UserSession) Session.get()).getJcrSession();
+        return ((UserSession)Session.get()).getJcrSession();
     }
 
     /**
@@ -274,11 +310,17 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
      * @throws RepositoryException
      */
     private Mode resolveMode(Node handleNode) throws RepositoryException {
+
+        // TODO mm resolve menu items
         return handleNode.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME) ?
                 Mode.SCHEDULED_UNEMBARGO :
                 handleNode.isNodeType(EmbargoConstants.EMBARGO_MIXIN_NAME) ?
                         Mode.EMBARGOED :
                         Mode.UNEMBARGOED;
+    }
+
+    protected IEditorManager getEditorManager() {
+        return getPluginContext().getService(getPluginConfig().getString("editor.id"), IEditorManager.class);
     }
 
     private enum Mode {

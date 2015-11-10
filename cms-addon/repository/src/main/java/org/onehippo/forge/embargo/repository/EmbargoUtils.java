@@ -51,9 +51,9 @@ public final class EmbargoUtils {
         List<String> embargoEnabledUserGroups = new ArrayList<String>();
         List<String> allEmbargoEnabledGroups = getAllEmbargoEnabledGroups(session);
 
-        for (int i = 0; i < allUserGroups.length; i++) {
-            if (allEmbargoEnabledGroups.contains(allUserGroups[i])) {
-                embargoEnabledUserGroups.add(allUserGroups[i]);
+        for (final String allUserGroup : allUserGroups) {
+            if (allEmbargoEnabledGroups.contains(allUserGroup)) {
+                embargoEnabledUserGroups.add(allUserGroup);
             }
         }
         return embargoEnabledUserGroups.toArray(new String[embargoEnabledUserGroups.size()]);
@@ -61,13 +61,14 @@ public final class EmbargoUtils {
 
     public static boolean isAdminUser(Session session, String userIdentity) {
         String[] allUserGroups = getAllUserGroups(session, userIdentity);
-        for (int i = 0; i < allUserGroups.length; i++) {
-            if(EmbargoConstants.ADMIN_GROUP_NAME.equals(allUserGroups[i])){
+        for (final String allUserGroup : allUserGroups) {
+            if (EmbargoConstants.ADMIN_GROUP_NAME.equals(allUserGroup)) {
                 return true;
             }
         }
         return false;
     }
+
 
     public static String[] getAllUserGroups(Session session, String userIdentity) {
         try{
@@ -93,7 +94,7 @@ public final class EmbargoUtils {
             embargoGroupsMappingNode = session.getRootNode().getNode(EMBARGO_DOMAIN_PATH);
         } catch (RepositoryException e) {
             log.error("Embargo domain does not exist at {}", EMBARGO_DOMAIN_PATH);
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
 
         try {
@@ -112,7 +113,7 @@ public final class EmbargoUtils {
             return embargoGroupNames;
         } catch (RepositoryException e){
             log.error("Could not retrieve embargo enabled groups", e);
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
     }
 

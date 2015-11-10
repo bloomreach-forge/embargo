@@ -20,6 +20,7 @@ import java.util.Calendar;
 
 import javax.jcr.RepositoryException;
 
+import org.hippoecm.addon.workflow.IWorkflowInvoker;
 import org.hippoecm.repository.api.MappingException;
 import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowException;
@@ -27,23 +28,24 @@ import org.hippoecm.repository.api.WorkflowException;
 /**
  * @version $Id$
  */
-public interface EmbargoWorkflow extends Workflow{
+public interface EmbargoWorkflow extends Workflow, IWorkflowInvoker{
 
     /**
      * Adds the embargo to the current document. The user ID used to fetch the group of the user and mark the document
      * so that it will only be available for users in the same group.
+     *
      * @param userId the ID of the user.
      * @throws WorkflowException
      * @throws RepositoryException
      * @throws MappingException
      * @throws RemoteException
      */
-    public void addEmbargo(String userId, String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, MappingException, RemoteException;
+    void addEmbargo(String userId, String subjectId, String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, RemoteException;
 
-    public void removeEmbargo() throws WorkflowException, RepositoryException, MappingException, RemoteException;
+    void removeEmbargo(String subjectId) throws WorkflowException, RepositoryException, RemoteException;
 
-    public void scheduleRemoveEmbargo(Calendar publicationDate) throws WorkflowException, RepositoryException, MappingException, RemoteException;
+    void scheduleRemoveEmbargo(String subjectId, Calendar publicationDate) throws WorkflowException, RepositoryException, RemoteException;
 
-    public void cancelSchedule() throws WorkflowException, RepositoryException, MappingException, RemoteException;
+    void cancelSchedule(String subjectId) throws WorkflowException, RepositoryException, RemoteException;
 
 }

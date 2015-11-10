@@ -70,7 +70,7 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
         final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(adminDocumentsFolder, "internal");
         //(normal) admin creates a news document
         final String adminDocumentLocation = adminFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
-        //quick check if document exitst, and now the threepane workflow is enabled for some jdo reason...
+        //quick check if document exists, and now the threepane workflow is enabled for some jdo reason...
         assumeTrue(adminSession.itemExists(adminDocumentLocation));
         //prepare sessions:
         editor = server.login(TestConstants.EDITOR_CREDENTIALS);
@@ -260,10 +260,11 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
         final FolderWorkflow editorFolderWorkflow = (FolderWorkflow) getWorkflow(editorFolderNode, "internal");
         final String editorDocumentLocation = editorFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(editor.itemExists(editorDocumentLocation));
-
         final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
 
-        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), null);
+        final String subejctId = editor.getNode(editorDocumentLocation).getIdentifier();
+
+        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), subejctId, null);
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertFalse(editor.itemExists(editorDocumentLocation));
@@ -286,12 +287,13 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
 
         final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
 
-        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), null);
+        final String subjectId = editor.getNode(editorDocumentLocation).getIdentifier();
+        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), subjectId, null);
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertFalse(editor.itemExists(editorDocumentLocation));
 
-        embargoEditorsEmbargoWorkflow.removeEmbargo();
+        embargoEditorsEmbargoWorkflow.removeEmbargo(subjectId);
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertTrue(editor.itemExists(editorDocumentLocation));
@@ -314,7 +316,9 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
 
         final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
 
-        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), null);
+        final String subjectId = editor.getNode(editorDocumentLocation).getIdentifier();
+
+        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), subjectId,null);
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertFalse(editor.itemExists(editorDocumentLocation));
@@ -324,7 +328,7 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
         final Calendar tenSecondFuture = Calendar.getInstance();
         tenSecondFuture.add(Calendar.SECOND, 10);
 
-        embargoEditorsEmbargoWorkflow.scheduleRemoveEmbargo(tenSecondFuture);
+        embargoEditorsEmbargoWorkflow.scheduleRemoveEmbargo(subjectId, tenSecondFuture);
 
         assertFalse(editor.itemExists(editorDocumentLocation));
 
@@ -370,7 +374,7 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
                 }
             }
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            log.error("Repository error", e);
         }
     }
 
