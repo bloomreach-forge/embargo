@@ -22,6 +22,7 @@ import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.util.value.IValueMap;
 import org.hippoecm.addon.workflow.CompatibilityWorkflowPlugin;
+import org.hippoecm.frontend.dialog.DialogConstants;
 
 import java.util.List;
 
@@ -45,6 +46,6 @@ public class SetEmbargoDialog extends CompatibilityWorkflowPlugin.WorkflowAction
 
     @Override
     public IValueMap getProperties() {
-        return SMALL;
+        return DialogConstants.SMALL;
     }
 }

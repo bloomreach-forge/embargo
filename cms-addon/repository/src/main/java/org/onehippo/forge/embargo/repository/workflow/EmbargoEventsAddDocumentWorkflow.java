@@ -31,7 +31,7 @@ import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.ext.WorkflowImpl;
-import org.hippoecm.repository.standardworkflow.WorkflowEventWorkflow;
+
 
 /**
  * WorkflowEvent that checks if the embargo needs to be applied to a document being added to a folder.
@@ -39,7 +39,7 @@ import org.hippoecm.repository.standardworkflow.WorkflowEventWorkflow;
  * @version $Id$
  */
 
-public class EmbargoEventsAddDocumentWorkflow extends WorkflowImpl implements WorkflowEventWorkflow {
+public class EmbargoEventsAddDocumentWorkflow extends WorkflowImpl  {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,11 +47,11 @@ public class EmbargoEventsAddDocumentWorkflow extends WorkflowImpl implements Wo
         super();
     }
 
-    @Override
+
     public void fire() throws WorkflowException, RepositoryException, RemoteException {
     }
 
-    @Override
+
     public void fire(final Document document) throws WorkflowException, RepositoryException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
@@ -65,7 +65,6 @@ public class EmbargoEventsAddDocumentWorkflow extends WorkflowImpl implements Wo
         }
     }
 
-    @Override
     public void fire(final Iterator<Document> documentIterator) throws WorkflowException, RepositoryException, RemoteException {
     }
 }

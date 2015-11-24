@@ -17,6 +17,9 @@
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>30000.0</sv:value>
     </sv:property>
+    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
+      <sv:value>true</sv:value>
+    </sv:property>
   </sv:node>
   <sv:node sv:name="embargotest-namespace">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">

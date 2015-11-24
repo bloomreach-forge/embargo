@@ -30,6 +30,7 @@ import org.hippoecm.addon.workflow.CompatibilityWorkflowPlugin.WorkflowAction;
 import org.hippoecm.addon.workflow.FutureDateValidator;
 import org.hippoecm.addon.workflow.StdWorkflow;
 import org.hippoecm.frontend.dialog.AbstractDialog;
+import org.hippoecm.frontend.dialog.DialogConstants;
 import org.hippoecm.frontend.editor.workflow.dialog.ReferringDocumentsView;
 import org.hippoecm.frontend.editor.workflow.model.ReferringDocumentsProvider;
 import org.hippoecm.frontend.model.JcrNodeModel;
@@ -76,6 +77,6 @@ public class ScheduleDialog extends AbstractWorkflowDialog {
 
     @Override
     public IValueMap getProperties() {
-        return SMALL;
+        return DialogConstants.SMALL;
     }
 }

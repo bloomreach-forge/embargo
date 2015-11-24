@@ -31,14 +31,14 @@ import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.ext.WorkflowImpl;
-import org.hippoecm.repository.standardworkflow.WorkflowEventWorkflow;
+
 
 /**
  * WorkflowEvent that checks if the embargo needs to be applied to a copied document.
  * @version $Id: EmbargoEventsAddDocumentWorkflow.java 234 2013-07-18 10:05:39Z jreijn $
  */
 
-public class EmbargoEventsCopyDocumentWorkflow extends WorkflowImpl implements WorkflowEventWorkflow {
+public class EmbargoEventsCopyDocumentWorkflow extends WorkflowImpl  {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,11 +46,9 @@ public class EmbargoEventsCopyDocumentWorkflow extends WorkflowImpl implements W
         super();
     }
 
-    @Override
     public void fire() throws WorkflowException, RepositoryException, RemoteException {
     }
 
-    @Override
     public void fire(final Document document) throws WorkflowException, RepositoryException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
@@ -69,7 +67,7 @@ public class EmbargoEventsCopyDocumentWorkflow extends WorkflowImpl implements W
         }
     }
 
-    @Override
+
     public void fire(final Iterator<Document> documentIterator) throws WorkflowException, RepositoryException, RemoteException {
     }
 }

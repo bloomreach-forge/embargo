@@ -22,6 +22,9 @@
     <sv:property sv:name="hippo:nodetypesresource" sv:type="String">
       <sv:value>embargo.cnd</sv:value>
     </sv:property>
+    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
+      <sv:value>true</sv:value>
+    </sv:property>
   </sv:node>
 
   <sv:node sv:name="embargo-workflow">
