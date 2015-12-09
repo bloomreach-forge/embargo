@@ -55,6 +55,7 @@
   </sv:node>
 
   <!-- TODO mm path not found-->
+<!--
   <sv:node sv:name="cms-compare-workflows-enable-embargo">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
@@ -69,6 +70,7 @@
       <sv:value>embargo</sv:value>
     </sv:property>
   </sv:node>
+-->
 
   <sv:node sv:name="embargo-editors-example-group">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
@@ -201,7 +203,7 @@
       <sv:value>/hippo:configuration/hippo:domains/defaultread/hippo-handle</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:sequence" sv:type="Double">
-      <sv:value>20151</sv:value>
+      <sv:value>201512</sv:value>
     </sv:property>
   </sv:node>
 

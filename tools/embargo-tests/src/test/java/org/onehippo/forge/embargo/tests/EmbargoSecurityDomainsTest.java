@@ -34,6 +34,7 @@ import org.hippoecm.repository.standardworkflow.FolderWorkflow;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
@@ -51,6 +52,7 @@ import static org.junit.Assume.assumeTrue;
 /**
  * @version $Id: EmbargoSecurityDomainsTest.java 84 2013-05-27 09:01:12Z mchatzidakis $
  */
+@Ignore
 public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoSecurityDomainsTest.class);

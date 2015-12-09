@@ -54,39 +54,11 @@
       <groupId>org.onehippo.cms7</groupId>
       <artifactId>hippo-repository-api</artifactId>
       <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.jdo</groupId>
-          <artifactId>jdo2-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>jpox</groupId>
-          <artifactId>jpox-core</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
       <artifactId>hippo-repository-connector</artifactId>
       <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.jdo</groupId>
-          <artifactId>jdo2-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>jpox</groupId>
-          <artifactId>jpox-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>jcl104-over-slf4j</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
