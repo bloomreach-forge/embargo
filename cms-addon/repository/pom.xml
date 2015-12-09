@@ -59,51 +59,6 @@
 
   <build>
     <defaultGoal>package</defaultGoal>
-    <plugins>
-      <plugin>
-        <groupId>org.datanucleus</groupId>
-        <artifactId>maven-datanucleus-plugin</artifactId>
-        <version>2.2.1</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.datanucleus</groupId>
-            <artifactId>datanucleus-core</artifactId>
-            <version>${org.datanucleus.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>javax.jcr</groupId>
-            <artifactId>jcr</artifactId>
-            <version>${javax.jcr.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.onehippo.cms7</groupId>
-            <artifactId>hippo-repository-api</artifactId>
-            <version>${hippo.repository.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>org.onehippo.cms7</groupId>
-            <artifactId>hippo-repository-builtin</artifactId>
-            <version>${hippo.repository.version}</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <!--mappingIncludes>**/*.jdo, **/*.class</mappingIncludes-->
-          <log4jConfiguration>log4j.xml</log4jConfiguration>
-          <verbose>true</verbose>
-          <enhancerName>ASM</enhancerName>
-          <props>jdo.properties</props>
-          <persistenceUnitName>Workflow</persistenceUnitName>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>enhance</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
     <resources>
       <resource>
         <filtering>false</filtering>

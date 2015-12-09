@@ -81,13 +81,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- test dependencies -->
-    <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-repository-engine</artifactId>
-      <version>${hippo.repository.version}</version>
-      <classifier>tests</classifier>
-    </dependency>
 
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
