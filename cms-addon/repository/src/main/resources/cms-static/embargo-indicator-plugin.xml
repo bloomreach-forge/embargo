@@ -21,10 +21,7 @@
   <sv:property sv:name="plugin.class" sv:type="String">
     <sv:value>org.onehippo.forge.embargo.frontend.plugins.cms.root.EmbargoIndicatorPlugin</sv:value>
   </sv:property>
-<!--
-  TODO When enabled, an embargo user is unable to use the CMS.
   <sv:property sv:name="wicket.id" sv:type="String">
-    <sv:value>service.tab</sv:value>
+    <sv:value>header.bar.right</sv:value>
   </sv:property>
--->
 </sv:node>

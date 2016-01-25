@@ -13,4 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-div.hippo-header { background: #b53a32; }
+
+.tabbed-panel-layout-left { background: #b53a32; }
+
+.hippo-tabs-perspective ul.hippo-tabs-perspective-tabs .selected {
+  border-left: 3px solid white;
+  border-right: 3px solid #90251c;
+}
+
+.hippo-tabs-perspective ul.hippo-tabs-perspective-tabs .selected div {
+  background-color: #90251c;
+}
