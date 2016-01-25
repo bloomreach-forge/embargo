@@ -53,8 +53,6 @@ public class ScheduleDialog extends AbstractWorkflowDialog {
 
     public ScheduleDialog(StdWorkflow<EmbargoWorkflow> action, JcrNodeModel nodeModel, IModel<Date> dateModel, IEditorManager editorMgr, final String title, final String text) {
         super(dateModel, action);
-        ReferringDocumentsProvider provider = new ReferringDocumentsProvider(nodeModel, false);
-        add(new ReferringDocumentsView("refs", provider, editorMgr));
 
         Calendar minimum = Calendar.getInstance();
         minimum.setTime(dateModel.getObject());
