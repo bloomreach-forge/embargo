@@ -28,7 +28,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.resource.PackageResourceReference;
-import org.apache.wicket.request.resource.ResourceReference;
 import org.hippoecm.addon.workflow.CompatibilityWorkflowPlugin;
 import org.hippoecm.addon.workflow.StdWorkflow;
 import org.hippoecm.addon.workflow.WorkflowDescriptorModel;
@@ -100,14 +99,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
     private void addCancelScheduledUnembargoOption() {
         StringResourceModel nameModel = new StringResourceModel("cancel-scheduled-unembargo-label", this, null);
-        add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", nameModel, getPluginContext(), this) {
+        add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", nameModel, new PackageResourceReference(getClass(), "cancel_schedule.png"), getPluginContext(), (WorkflowDescriptorModel) getDefaultModel()) {
             private static final long serialVersionUID = 1L;
-
-
-            @Override
-            protected ResourceReference getIcon() {
-                return new PackageResourceReference(getClass(), "cancel_schedule.png");
-            }
 
             @Override
             protected String execute(EmbargoWorkflow workflow) throws Exception {
@@ -118,25 +111,28 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     }
 
     private void addRescheduleUnembargoOption() {
-        final String name = new StringResourceModel("reschedule-unembargo-label", this, null).getString();
-        add(new WorkflowAction("rescheduledUnembargo", name, null) {
+        StringResourceModel nameModel = new StringResourceModel("reschedule-unembargo-label", this, null);
+        add(new StdWorkflow<EmbargoWorkflow>("rescheduledUnembargo", nameModel, new PackageResourceReference(getClass(), "clock_delete.png"), getPluginContext(), (WorkflowDescriptorModel) getDefaultModel()) {
             private static final long serialVersionUID = 1L;
             public Date date = new Date();
-
-            @Override
-            protected ResourceReference getIcon() {
-                return new PackageResourceReference(getClass(), "clock_delete.png");
-            }
 
             @Override
             protected IDialogService.Dialog createRequestDialog() {
 
                 //Set the date to that of the existing embargo:request
                 WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel)getDefaultModel();
+                final Node node;
+                try {
+                    node = workflowDescriptorModel.getNode();
+                } catch (RepositoryException e) {
+                    log.error("Error while retrieving embargo schedule", e);
+                    return null;
+                }
+
                 WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor)getDefaultModelObject();
                 if (workflowDescriptor != null) {
                     try {
-                        final Node handleNode = workflowDescriptorModel.getNode().getParent();
+                        final Node handleNode = node.getParent();
                         Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
                         if (existingExpirationDate != null) {
                             date = existingExpirationDate.getTime();
@@ -144,14 +140,11 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                     } catch (RepositoryException e) {
                         log.error("Error while retrieving embargo schedule", e);
                     }
+
+                    return new ScheduleDialog(this, new JcrNodeModel(node),
+                            new PropertyModel<Date>(this, "date"),getEditorManager(), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
                 }
 
-                try {
-                    return new ScheduleDialog(this, new JcrNodeModel(workflowDescriptorModel.getNode()),
-                            new PropertyModel<Date>(this, "date"),getEditorManager(), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
-                } catch (RepositoryException e) {
-                    log.error("Error crating ScheduleDialog", e);
-                }
                 return null;
             }
 
@@ -179,14 +172,9 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
     private void addScheduleUnembargoOption() {
         final String name = new StringResourceModel("schedule-unembargo-label", this, null).getString();
-        add(new StdWorkflow<EmbargoWorkflow>("scheduleUnembargo", Model.of(name), getPluginContext(), getModel()) {
+        add(new StdWorkflow<EmbargoWorkflow>("scheduleUnembargo", Model.of(name), new PackageResourceReference(getClass(), "clock_delete.png"), getPluginContext(), (WorkflowDescriptorModel) getDefaultModel()) {
             private static final long serialVersionUID = 1L;
             public Date date = new Date();
-
-            @Override
-            protected ResourceReference getIcon() {
-                return new PackageResourceReference(getClass(), "clock_delete.png");
-            }
 
             @Override
             protected IDialogService.Dialog createRequestDialog() {
@@ -226,13 +214,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
     private void addRemoveEmbargoOption() {
         StringResourceModel nameModel = new StringResourceModel("remove-embargo-label", this, null);
-        add(new StdWorkflow<EmbargoWorkflow>("remove", nameModel, getPluginContext(), this) {
+        add(new StdWorkflow<EmbargoWorkflow>("remove", nameModel, new PackageResourceReference(getClass(), "lock_break.png"), getPluginContext(), (WorkflowDescriptorModel) getDefaultModel()) {
             private static final long serialVersionUID = 1L;
-
-            @Override
-            protected ResourceReference getIcon() {
-                return new PackageResourceReference(getClass(), "lock_break.png");
-            }
 
             @Override
             protected String execute(EmbargoWorkflow workflow) throws Exception {
@@ -243,19 +226,14 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
     }
 
     private void addSetEmbargoOption() {
-        String name = new StringResourceModel("set-embargo-label", this, null).getString();
+        StringResourceModel nameModel = new StringResourceModel("set-embargo-label", this, null);
 
         if (EmbargoUtils.isAdminUser(getJcrSession(), getJcrSession().getUserID())) {
 
-            add(new WorkflowAction("set", name, null) {
+            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, new PackageResourceReference(getClass(), "lock_add.png"), null) {
                 private static final long serialVersionUID = 1L;
                 final public ArrayList<String> selectedEmbargoGroups = new ArrayList<String>();
                 final IModel selectedEmbargoGroupsModel = new Model<>(selectedEmbargoGroups);
-
-                @Override
-                protected ResourceReference getIcon() {
-                    return new PackageResourceReference(getClass(), "lock_add.png");
-                }
 
                 @Override
                 protected IDialogService.Dialog createRequestDialog() {
@@ -280,13 +258,8 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
             });
 
         } else {
-            add(new StdWorkflow<EmbargoWorkflow>("set", Model.of(name), null, getPluginContext(), getModel()) {
+            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, new PackageResourceReference(getClass(), "lock_add.png"), getPluginContext(), (WorkflowDescriptorModel) getDefaultModel()) {
                 private static final long serialVersionUID = 1L;
-
-                @Override
-                protected ResourceReference getIcon() {
-                    return new PackageResourceReference(getClass(), "lock_add.png");
-                }
 
                 @Override
                 protected String execute(EmbargoWorkflow workflow) throws Exception {

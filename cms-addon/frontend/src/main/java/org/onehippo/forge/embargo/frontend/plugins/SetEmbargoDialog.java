@@ -21,19 +21,21 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.util.value.IValueMap;
-import org.hippoecm.addon.workflow.CompatibilityWorkflowPlugin;
+import org.hippoecm.addon.workflow.AbstractWorkflowDialog;
+import org.hippoecm.addon.workflow.StdWorkflow;
 import org.hippoecm.frontend.dialog.DialogConstants;
+import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
 
 import java.util.List;
 
-public class SetEmbargoDialog extends CompatibilityWorkflowPlugin.WorkflowAction.WorkflowDialog {
+public class SetEmbargoDialog extends AbstractWorkflowDialog {
 
     private static final long serialVersionUID = 1L;
 
     final String title;
 
-    public SetEmbargoDialog(CompatibilityWorkflowPlugin.WorkflowAction action, IModel<List<String>> selectedEmbargoGroups, List<String> availableEmbargoGroups, final String title, final String text) {
-        action.super();
+    public SetEmbargoDialog(StdWorkflow<EmbargoWorkflow> action, IModel<List<String>> selectedEmbargoGroups, List<String> availableEmbargoGroups, final String title, final String text) {
+        super(selectedEmbargoGroups, action);
         add(new CheckBoxMultipleChoice<String>("checkboxes", selectedEmbargoGroups, availableEmbargoGroups));
         add(new Label("text", new ResourceModel(text)));
         this.title = title;
