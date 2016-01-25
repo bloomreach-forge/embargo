@@ -108,10 +108,6 @@
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
-            <manifestEntries>
-              <Implementation-Build>32423</Implementation-Build>
-              <Hippo-Modules>org.hippoecm.repository.quartz.EmbargoWorkflowModule</Hippo-Modules>
-            </manifestEntries>
           </archive>
         </configuration>
       </plugin>
