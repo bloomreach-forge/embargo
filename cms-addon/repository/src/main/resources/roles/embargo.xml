@@ -3,11 +3,8 @@
     <sv:value>hipposys:role</sv:value>
   </sv:property>
   <sv:property sv:name="hipposys:privileges" sv:type="String" sv:multiple="true">
-    <sv:value>jcr:read</sv:value>
-    <sv:value>jcr:write</sv:value>
     <sv:value>hippo:embargo</sv:value>
   </sv:property>
   <sv:property sv:name="hipposys:roles" sv:type="String" sv:multiple="true">
-    <sv:value>author</sv:value>
   </sv:property>
 </sv:node>
