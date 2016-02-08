@@ -10,6 +10,7 @@ cms-addon/frontend/src/main/java/org/onehippo/forge/embargo/frontend/plugins/loc
 cms-addon/repository/src/main/java/org/onehippo/forge/embargo/repository/workflow/EmbargoEventsAddDocumentWorkflow.properties -text
 cms-addon/repository/src/main/java/org/onehippo/forge/embargo/repository/workflow/EmbargoEventsAddDocumentWorkflow_nl.properties -text
 cms-addon/repository/src/main/java/org/onehippo/forge/embargo/repository/workflow/EmbargoEventsCopyDocumentWorkflow.java -text
+cms-addon/repository/src/main/resources/domains/embargo-domain-role-embargo.xml -text
 cms-addon/repository/src/main/resources/domains/hide-embargo-document.xml -text
 cms-addon/repository/src/main/resources/embargo.cnd -text
 cms-addon/repository/src/main/resources/roles/embargo.xml -text
