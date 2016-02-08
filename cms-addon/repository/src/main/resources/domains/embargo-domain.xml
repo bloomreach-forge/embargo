@@ -199,7 +199,7 @@ limitations under the License.
       </sv:property>
     </sv:node>
   </sv:node>
-  <sv:node sv:name="hipposys:authrole">
+  <sv:node sv:name="role-editor">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hipposys:authrole</sv:value>
     </sv:property>
@@ -210,7 +210,7 @@ limitations under the License.
       <sv:value>editor</sv:value>
     </sv:property>
   </sv:node>
-  <sv:node sv:name="hipposys:authrole">
+  <sv:node sv:name="role-author">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hipposys:authrole</sv:value>
     </sv:property>
