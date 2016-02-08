@@ -37,6 +37,9 @@
     <sv:property sv:name="hipposys:nodetype" sv:type="String">
       <sv:value>hippogallery:stdAssetGallery</sv:value>
     </sv:property>
+    <sv:property sv:multiple="true" sv:name="hipposys:privileges" sv:type="String">
+      <sv:value>hippo:embargo</sv:value>
+    </sv:property>
     <sv:node sv:name="hipposys:types">
       <sv:property sv:name="jcr:primaryType" sv:type="Name">
         <sv:value>hipposys:types</sv:value>
