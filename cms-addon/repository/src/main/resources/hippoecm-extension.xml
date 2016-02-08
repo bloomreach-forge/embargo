@@ -434,6 +434,12 @@
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>20200</sv:value>
     </sv:property>
+    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
+      <sv:value>true</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:version" sv:type="String">
+      <sv:value>1.01.00</sv:value>
+    </sv:property>
   </sv:node>
 
   <sv:node sv:name="embargo-events-document-copy">
@@ -448,6 +454,12 @@
     </sv:property>
     <sv:property sv:name="hippo:contentroot" sv:type="String">
       <sv:value>/hippo:configuration/hippo:workflows</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
+      <sv:value>true</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:version" sv:type="String">
+      <sv:value>1.01.00</sv:value>
     </sv:property>
   </sv:node>
 
@@ -464,6 +476,12 @@
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>20200</sv:value>
     </sv:property>
+    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
+      <sv:value>true</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:version" sv:type="String">
+      <sv:value>1.01.00</sv:value>
+    </sv:property>
   </sv:node>
 
   <sv:node sv:name="embargo-events-gallery-copy">
@@ -479,6 +497,12 @@
     <sv:property sv:name="hippo:contentroot" sv:type="String">
       <sv:value>/hippo:configuration/hippo:workflows</sv:value>
     </sv:property>
+    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
+      <sv:value>true</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:version" sv:type="String">
+      <sv:value>1.01.00</sv:value>
+    </sv:property>
   </sv:node>
 
   <sv:node sv:name="embargo-events-assets-workflow">
@@ -493,6 +517,12 @@
     </sv:property>
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>20200</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
+      <sv:value>true</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:version" sv:type="String">
+      <sv:value>1.01.00</sv:value>
     </sv:property>
   </sv:node>
 

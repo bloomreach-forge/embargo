@@ -37,5 +37,8 @@
     <sv:property sv:name="hipposys:eventconditionmethod" sv:type="String">
       <sv:value>add</sv:value>
     </sv:property>
+    <sv:property sv:multiple="true" sv:name="hipposys:privileges" sv:type="String">
+      <sv:value>hippo:embargo</sv:value>
+    </sv:property>
   </sv:node>
 </sv:node>
