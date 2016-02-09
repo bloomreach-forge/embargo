@@ -31,7 +31,6 @@
   <url>http://forge.onehippo.org/gf/project/embargo/</url>
 
   <properties>
-    <org.datanucleus.version>2.2.2</org.datanucleus.version>
     <extension.wagon-svn.version>1.9</extension.wagon-svn.version>
     <junit.version>4.10</junit.version>
 
