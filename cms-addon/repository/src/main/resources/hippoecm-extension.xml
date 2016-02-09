@@ -5,10 +5,6 @@
     <sv:value>hippo:initializefolder</sv:value>
   </sv:property>
 
-  <sv:property sv:name="hippo:version" sv:type="String">
-    <sv:value>v1_02_00-embargo</sv:value>
-  </sv:property>
-
   <sv:node sv:name="embargo">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
