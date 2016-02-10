@@ -17,7 +17,7 @@
   <parent>
     <artifactId>embargo-addons</artifactId>
     <groupId>org.onehippo.forge.embargo</groupId>
-    <version>1.03.00-SNAPSHOT</version>
+    <version>1.03.00</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
