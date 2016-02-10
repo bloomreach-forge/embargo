@@ -39,7 +39,7 @@
     <maven.plugin.jxr.version>2.2</maven.plugin.jxr.version>
     <maven.plugin.rat.version>0.9.RAT125</maven.plugin.rat.version>
 
-    <java.version>1.6</java.version>
+    <java.version>1.7</java.version>
   </properties>
 
   <developers>
@@ -61,15 +61,17 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/trunk</connection>
-    <developerConnection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/trunk</developerConnection>
-    <url>https://forge.onehippo.org/svn/embargo/embargo/trunk</url>
+    <connection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/branches/upgrade_7.9.xx/</connection>
+    <developerConnection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/branches/upgrade_7.9.xx/</developerConnection>
+    <url>https://forge.onehippo.org/svn/embargo/embargo/branches/upgrade_7.9.xx/</url>
   </scm>
 
+<!--
   <ciManagement>
     <system>Hudson</system>
     <url>http://hudson.onehippo.org/job/Hippo%20Forge%20Embargo%20Plugin%20Trunk/</url>
   </ciManagement>
+-->
 
   <distributionManagement>
     <repository>
@@ -233,7 +235,7 @@
         <version>${maven.plugin.javadoc.version}</version>
         <configuration>
           <aggregate>true</aggregate>
-          <source>1.6</source>
+          <source>1.7</source>
           <links>
             <link>http://download.oracle.com/javase/6/docs/api</link>
           </links>
