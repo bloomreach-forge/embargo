@@ -40,7 +40,7 @@
     <maven.plugin.jxr.version>2.2</maven.plugin.jxr.version>
     <maven.plugin.rat.version>0.9.RAT125</maven.plugin.rat.version>
 
-    <java.version>1.6</java.version>
+    <java.version>1.8</java.version>
   </properties>
 
   <developers>
@@ -234,7 +234,7 @@
         <version>${maven.plugin.javadoc.version}</version>
         <configuration>
           <aggregate>true</aggregate>
-          <source>1.6</source>
+          <source>1.8</source>
           <links>
             <link>http://download.oracle.com/javase/6/docs/api</link>
           </links>
