@@ -60,6 +60,9 @@
   </sv:node>
 
   <!-- TODO mm path not found-->
+
+
+<!--
   <sv:node sv:name="cms-compare-workflows-enable-embargo">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
@@ -74,6 +77,7 @@
       <sv:value>embargo</sv:value>
     </sv:property>
   </sv:node>
+-->
 
   <sv:node sv:name="embargo-hippo-configuration-roles-embargo">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
@@ -135,6 +139,7 @@
     </sv:property>
   </sv:node>
 
+<!--
   <sv:node sv:name="domains-workflow-workflowcategories-hide-embargo-events">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
@@ -149,6 +154,7 @@
       <sv:value>20050</sv:value>
     </sv:property>
   </sv:node>
+-->
 
   <sv:node sv:name="domains-workflow-workflowcategories-hide-embargo-gallery-events">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
@@ -219,6 +225,21 @@
     </sv:property>
     <sv:property sv:name="hippo:contentroot" sv:type="String">
       <sv:value>/hippo:configuration/hippo:domains/hippodocuments</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20052</sv:value>
+    </sv:property>
+  </sv:node>
+
+  <sv:node sv:name="embargo-domains-hippofolders-role-embargo">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentresource" sv:type="String">
+      <sv:value>domains/hippodocuments-domain-role-embargo.xml</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:domains/hippofolders</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>20052</sv:value>
@@ -635,5 +656,19 @@
     </sv:property>
   </sv:node>
 
+  <sv:node sv:name="cms-embargo-modules-embargo-workflow-events-processing-module">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentresource" sv:type="String">
+      <sv:value>modules/embargo-workflow-events-processing-module.xml</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:modules</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20400</sv:value>
+    </sv:property>
+  </sv:node>
 
 </sv:node>

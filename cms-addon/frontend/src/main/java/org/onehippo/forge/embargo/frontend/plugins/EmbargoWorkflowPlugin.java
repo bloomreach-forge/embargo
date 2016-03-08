@@ -18,6 +18,7 @@ package org.onehippo.forge.embargo.frontend.plugins;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -36,6 +37,7 @@ import org.hippoecm.frontend.model.JcrNodeModel;
 import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.hippoecm.frontend.service.IEditorManager;
+import org.hippoecm.frontend.service.render.RenderPlugin;
 import org.hippoecm.frontend.session.UserSession;
 import org.hippoecm.repository.api.WorkflowDescriptor;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
@@ -48,7 +50,8 @@ import org.slf4j.LoggerFactory;
  * @version $Id$
  */
 //TODO: CompatibilityWorkflowPlugin is deprecated, please change (when the API supports it)
-public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWorkflow> {
+public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //CompatibilityWorkflowPlugin<EmbargoWorkflow> {
+//public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWorkflow> {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowPlugin.class);
     private static final long serialVersionUID = 1L;
@@ -65,15 +68,24 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
             WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor)getDefaultModelObject();
             if (workflowDescriptor != null) {
                 Node documentNode = workflowDescriptorModel.getNode();
-                if (EmbargoUtils.isVisibleInPreview(documentNode)) {
-                    final Mode mode = resolveMode(documentNode.getParent());
+                // TODO CHeck whether is visible check is required
+                //if (EmbargoUtils.isVisibleInPreview(documentNode)) {
+                    final Mode mode = resolveMode(documentNode);
                     createMenu(mode);
-                }
+                //}
             }
         } catch (RepositoryException ex) {
             log.error(ex.getMessage(), ex);
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        modelChanged();
+    }
+
+
 
 
     /**
@@ -132,7 +144,7 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
                 WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor)getDefaultModelObject();
                 if (workflowDescriptor != null) {
                     try {
-                        final Node handleNode = node.getParent();
+                        final Node handleNode = node;
                         Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
                         if (existingExpirationDate != null) {
                             date = existingExpirationDate.getTime();
@@ -232,12 +244,13 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
 
             add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, new PackageResourceReference(getClass(), "lock_add.png"), null) {
                 private static final long serialVersionUID = 1L;
-                final public ArrayList<String> selectedEmbargoGroups = new ArrayList<String>();
+                final ArrayList<String> selectedEmbargoGroups = new ArrayList<>();
                 final IModel selectedEmbargoGroupsModel = new Model<>(selectedEmbargoGroups);
 
+                @SuppressWarnings("unchecked")
                 @Override
                 protected IDialogService.Dialog createRequestDialog() {
-                    return new SetEmbargoDialog(
+                    return  new SetEmbargoDialog(
                             this,
                             selectedEmbargoGroupsModel,
                             EmbargoUtils.getAllEmbargoEnabledGroups(getJcrSession()),
@@ -283,8 +296,6 @@ public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWo
      * @throws RepositoryException
      */
     private Mode resolveMode(Node handleNode) throws RepositoryException {
-
-        // TODO mm resolve menu items
         return handleNode.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME) ?
                 Mode.SCHEDULED_UNEMBARGO :
                 handleNode.isNodeType(EmbargoConstants.EMBARGO_MIXIN_NAME) ?

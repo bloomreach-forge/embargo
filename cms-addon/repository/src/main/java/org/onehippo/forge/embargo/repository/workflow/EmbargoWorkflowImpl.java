@@ -64,7 +64,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
 
-        final Node handle = internalWorkflowSession.getNodeByIdentifier(subjectId).getParent();
+        final Node handle = internalWorkflowSession.getNodeByIdentifier(subjectId);
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
@@ -100,7 +100,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
 
-        final Node handle = internalWorkflowSession.getNodeByIdentifier(subjectId).getParent();
+        final Node handle = internalWorkflowSession.getNodeByIdentifier(subjectId);
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
@@ -143,7 +143,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
         final Node subjectNode = internalWorkflowSession.getNodeByIdentifier(subjectId);
-        final Node handle = subjectNode.getParent();
+        final Node handle = subjectNode;
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
@@ -208,12 +208,11 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         @Override
         public Node createNode(final Session session) throws RepositoryException {
             final Node subjectNode = session.getNodeByIdentifier(subjectId);
-            final Node handleNode = subjectNode.getParent();
-            JcrUtils.ensureIsCheckedOut(handleNode);
-            log.info("handleNode {}", handleNode.getIdentifier());
-            handleNode.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
-            log.info("handleNode {}", handleNode.getIdentifier());
-            final Node requestNode = handleNode.addNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, EmbargoConstants.EMBARGO_JOB);
+            JcrUtils.ensureIsCheckedOut(subjectNode);
+            log.info("handleNode {}", subjectNode.getIdentifier());
+            subjectNode.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
+            log.info("handleNode {}", subjectNode.getIdentifier());
+            final Node requestNode = subjectNode.addNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, EmbargoConstants.EMBARGO_JOB);
             // TODO mm is this one needed?
             requestNode.addMixin("mix:referenceable");
             return requestNode;

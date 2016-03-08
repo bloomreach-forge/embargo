@@ -34,7 +34,6 @@ import org.hippoecm.repository.standardworkflow.FolderWorkflow;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
@@ -195,8 +194,7 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
         final FolderWorkflow adminFolderWorkflow = (FolderWorkflow) getWorkflow(embargoEditorFolderNode, "threepane");
         final String embargoEditorDocumentLocation = adminFolderWorkflow.add("new-document", "embargotest:document", TestConstants.TEST_DOCUMENT_NAME);
         assertTrue(embargoEditor.itemExists(embargoEditorDocumentLocation));
-        // TODO: fix me
-        //assertFalse(editor.itemExists(embargoEditorDocumentLocation));
+        assertFalse(editor.itemExists(embargoEditorDocumentLocation));
     }
 
     /**
@@ -205,7 +203,6 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
      *
      * @throws Exception
      */
-    @Ignore("fix me")
     @Test
     public void testDocumentCreationWorkflowAccessLevelAndWorkflowEventOnCopyWithEmbargoUser() throws Exception {
         //testing creating a document with the embargo user.
@@ -229,7 +226,6 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
      *
      * @throws Exception
      */
-    @Ignore("fix me")
     @Test
     public void testEmbargoWorkflowExistenceOnDocumentForDifferentUsers() throws Exception {
         //testing creating a document with the editor user.

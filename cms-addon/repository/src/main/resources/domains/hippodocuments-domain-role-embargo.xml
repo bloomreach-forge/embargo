@@ -5,6 +5,7 @@
   <sv:property sv:name="hipposys:groups" sv:type="String" sv:multiple="true">
     <sv:value>embargo-editors-example-group</sv:value>
     <sv:value>embargo-authors-example-group</sv:value>
+    <sv:value>admin</sv:value><!--workflow user-->
   </sv:property>
   <sv:property sv:name="hipposys:role" sv:type="String">
     <sv:value>embargo</sv:value>
