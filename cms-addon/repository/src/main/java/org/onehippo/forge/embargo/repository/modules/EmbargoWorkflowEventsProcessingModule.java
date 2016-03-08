@@ -82,9 +82,8 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
                     return;
                 }
                 // check if can set embargo
-
-
-                final Node handle = getHandleFromEvent(event);
+                final Node subject = getSubject(event);
+                final Node handle = extractHandle(subject);
                 //NOTE:  folders have no handle so those should be filtered out:
                 if (handle == null) {
                     return;
@@ -106,7 +105,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
                     if (!embargoUser) {
                         return;
                     }
-                    setEmbargoWorkflow(event, handle);
+                    setEmbargoWorkflow(event, subject);
                 }
             } catch (Exception e) {
                 log.error("Embargo workflow error", e);
@@ -128,12 +127,11 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         return null;
     }
 
-    public void setEmbargoWorkflow(final HippoWorkflowEvent event, final Node handle) throws WorkflowException, RemoteException {
+    public void setEmbargoWorkflow(final HippoWorkflowEvent event, final Node subject) throws WorkflowException, RemoteException {
         try {
-            final Node node = handle.getNode(handle.getName());
-            final EmbargoWorkflow embargoWorkflow = getWorkflow(node, "embargo");
+            final EmbargoWorkflow embargoWorkflow = getWorkflow(subject, "embargo");
             if (embargoWorkflow != null) {
-                embargoWorkflow.addEmbargo(event.user(), handle.getIdentifier(), null);
+                embargoWorkflow.addEmbargo(event.user(), subject.getIdentifier(), null);
             }
         } catch (RepositoryException e) {
             log.error("Unable to get node with id: {}", event.subjectId());
@@ -144,24 +142,24 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         return StringUtils.substringBetween(returnValue, "uuid=", ",");
     }
 
-    private Node getHandleFromEvent(final HippoWorkflowEvent event) throws RepositoryException {
+    private Node getSubject(final HippoWorkflowEvent event) throws RepositoryException {
         if ("document".equals(event.returnType())) {
             log.error("UUID: {}", event.returnValue());
             final String uuid = getUuidFromReturnValue(event.returnValue());
             if (uuid != null) {
-                final Node byIdentifier = session.getNodeByIdentifier(event.subjectId());
-                return extractHandle(byIdentifier);
+                return session.getNodeByIdentifier(event.subjectId());
             }
         } else if ("java.lang.String".equals(event.returnType())) {
             log.debug("Path: {}", event.returnValue());
-            final Node node = session.getNode(event.returnValue());
-            if (extractHandle(node) != null) {
-                return node;
-            } else {
-                return node.getParent();
-            }
+            return session.getNode(event.returnValue());
+
         }
         return null;
+    }
+
+
+    private Node getHandleFromEvent(final HippoWorkflowEvent event) throws RepositoryException {
+       return extractHandle(getSubject(event));
     }
 
     private Node extractHandle(final Node node) throws RepositoryException {
@@ -170,7 +168,16 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         }
         if (node.isNodeType("hippo:handle")) {
             return node;
+        }else{
+            final Node parent = node.getParent();
+            if (parent == null) {
+                return null;
+            }
+            if (parent.isNodeType("hippo:handle")) {
+                return parent;
+            }
         }
+
         return null;
 
     }
