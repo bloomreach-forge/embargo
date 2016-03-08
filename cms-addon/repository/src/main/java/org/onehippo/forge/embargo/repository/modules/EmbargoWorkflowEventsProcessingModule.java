@@ -144,7 +144,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
 
     private Node getSubject(final HippoWorkflowEvent event) throws RepositoryException {
         if ("document".equals(event.returnType())) {
-            log.error("UUID: {}", event.returnValue());
+            log.debug("UUID: {}", event.returnValue());
             final String uuid = getUuidFromReturnValue(event.returnValue());
             if (uuid != null) {
                 return session.getNodeByIdentifier(event.subjectId());
