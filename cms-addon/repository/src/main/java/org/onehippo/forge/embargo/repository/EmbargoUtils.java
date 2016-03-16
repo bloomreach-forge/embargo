@@ -42,8 +42,6 @@ import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_
  */
 public final class EmbargoUtils {
 
-    private static final String HIPPOSYS_AUTHROLE = "hipposys:authrole";
-
     private EmbargoUtils() {}
 
     private static Logger log = LoggerFactory.getLogger(EmbargoUtils.class);
@@ -121,7 +119,7 @@ public final class EmbargoUtils {
         final NodeIterator nodes = embargoGroupsMappingNode.getNodes();
         while(nodes.hasNext()) {
             final Node node = nodes.nextNode();
-            if(node.isNodeType(HIPPOSYS_AUTHROLE)) {
+            if(node.isNodeType(EmbargoConstants.HIPPOSYS_AUTHROLE)) {
                 authRoleNodes.add(node);
             }
         }
@@ -182,14 +180,14 @@ public final class EmbargoUtils {
         if (node == null) {
             return null;
         }
-        if (node.isNodeType("hippo:handle")) {
+        if (node.isNodeType(EmbargoConstants.HIPPO_HANDLE)) {
             return node;
         }else{
             final Node parent = node.getParent();
             if (parent == null) {
                 return null;
             }
-            if (parent.isNodeType("hippo:handle")) {
+            if (parent.isNodeType(EmbargoConstants.HIPPO_HANDLE)) {
                 return parent;
             }
         }

@@ -63,11 +63,19 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
             WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel)getDefaultModel();
             WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor)getDefaultModelObject();
             if (workflowDescriptor != null) {
-                Node documentNode = EmbargoUtils.extractHandle(workflowDescriptorModel.getNode());
+                final Node node = workflowDescriptorModel.getNode();
+                final Node handle = EmbargoUtils.extractHandle(node);
+                final String name = handle.getName();
+                final String handlePath = handle.getPath();
+                final String path = handlePath + '/' + name;
+                final Mode mode = resolveMode(handle);
+                if (node.getPath().equals(handlePath) || node.getPath().equals(path)) {
+                    createMenu(mode);
+                }
                 // TODO CHeck whether is visible check is required
                 //if (EmbargoUtils.isVisibleInPreview(documentNode)) {
-                final Mode mode = resolveMode(documentNode);
-                createMenu(mode);
+
+
                 //}
             }
         } catch (RepositoryException ex) {

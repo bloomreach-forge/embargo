@@ -30,11 +30,13 @@ public final class EmbargoConstants {
     public static final String SELECT_GROUPS_QUERY
             = "SELECT * FROM hipposys:group WHERE jcr:primaryType='hipposys:group' AND hipposys:members='{}'";
     public static final String EMBARGO_DOMAIN_PATH = "hippo:configuration/hippo:domains/embargo";
-    public static final String EMBARGO_GROUPS_MAPPING_NODE_NAMES = "hipposys:authrole";
+
 
     public static final String HIPPOSCHED_TRIGGERS_DEFAULT = "hipposched:triggers/default";
     public static final String HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME = "hipposched:fireTime";
     public static final String ADMIN_GROUP_NAME = "admin";
+    public static final String HIPPO_HANDLE = "hippo:handle";
+    static final String HIPPOSYS_AUTHROLE = "hipposys:authrole";
 
     private EmbargoConstants() {
     }
