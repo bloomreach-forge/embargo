@@ -18,7 +18,6 @@ package org.onehippo.forge.embargo.frontend.plugins;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -29,7 +28,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.resource.PackageResourceReference;
-import org.hippoecm.addon.workflow.CompatibilityWorkflowPlugin;
 import org.hippoecm.addon.workflow.StdWorkflow;
 import org.hippoecm.addon.workflow.WorkflowDescriptorModel;
 import org.hippoecm.frontend.dialog.IDialogService;
@@ -49,8 +47,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @version $Id$
  */
-public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //CompatibilityWorkflowPlugin<EmbargoWorkflow> {
-//public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWorkflow> {
+public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowPlugin.class);
     private static final long serialVersionUID = 1L;
@@ -69,8 +66,8 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
                 Node documentNode = workflowDescriptorModel.getNode();
                 // TODO CHeck whether is visible check is required
                 //if (EmbargoUtils.isVisibleInPreview(documentNode)) {
-                    final Mode mode = resolveMode(documentNode);
-                    createMenu(mode);
+                final Mode mode = resolveMode(documentNode);
+                createMenu(mode);
                 //}
             }
         } catch (RepositoryException ex) {
@@ -83,8 +80,6 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
         super.onStart();
         modelChanged();
     }
-
-
 
 
     /**
@@ -110,7 +105,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
 
     private void addCancelScheduledUnembargoOption() {
         StringResourceModel nameModel = new StringResourceModel("cancel-scheduled-unembargo-label", this, null);
-        add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", nameModel, new PackageResourceReference(getClass(), "cancel_schedule.png"), getPluginContext(), (WorkflowDescriptorModel) getDefaultModel()) {
+        add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", nameModel, new PackageResourceReference(getClass(), "cancel_schedule.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -123,7 +118,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
 
     private void addRescheduleUnembargoOption() {
         StringResourceModel nameModel = new StringResourceModel("reschedule-unembargo-label", this, null);
-        add(new StdWorkflow<EmbargoWorkflow>("rescheduledUnembargo", nameModel, new PackageResourceReference(getClass(), "clock_delete.png"), getPluginContext(), (WorkflowDescriptorModel) getDefaultModel()) {
+        add(new StdWorkflow<EmbargoWorkflow>("rescheduledUnembargo", nameModel, new PackageResourceReference(getClass(), "clock_delete.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
             private static final long serialVersionUID = 1L;
             public Date date = new Date();
 
@@ -152,7 +147,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
                     }
 
                     return new ScheduleDialog(this, new JcrNodeModel(node),
-                            new PropertyModel<Date>(this, "date"),getEditorManager(), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
+                            new PropertyModel<Date>(this, "date"), getEditorManager(), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
                 }
 
                 return null;
@@ -182,7 +177,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
 
     private void addScheduleUnembargoOption() {
         final String name = new StringResourceModel("schedule-unembargo-label", this, null).getString();
-        add(new StdWorkflow<EmbargoWorkflow>("scheduleUnembargo", Model.of(name), new PackageResourceReference(getClass(), "clock_delete.png"), getPluginContext(), (WorkflowDescriptorModel) getDefaultModel()) {
+        add(new StdWorkflow<EmbargoWorkflow>("scheduleUnembargo", Model.of(name), new PackageResourceReference(getClass(), "clock_delete.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
             private static final long serialVersionUID = 1L;
             public Date date = new Date();
 
@@ -224,7 +219,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
 
     private void addRemoveEmbargoOption() {
         StringResourceModel nameModel = new StringResourceModel("remove-embargo-label", this, null);
-        add(new StdWorkflow<EmbargoWorkflow>("remove", nameModel, new PackageResourceReference(getClass(), "lock_break.png"), getPluginContext(), (WorkflowDescriptorModel) getDefaultModel()) {
+        add(new StdWorkflow<EmbargoWorkflow>("remove", nameModel, new PackageResourceReference(getClass(), "lock_break.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -247,7 +242,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
                 @SuppressWarnings("unchecked")
                 @Override
                 protected IDialogService.Dialog createRequestDialog() {
-                    return  new SetEmbargoDialog(
+                    return new SetEmbargoDialog(
                             this,
                             selectedEmbargoGroupsModel,
                             EmbargoUtils.getAllEmbargoEnabledGroups(getJcrSession()),
@@ -268,7 +263,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
             });
 
         } else {
-            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, new PackageResourceReference(getClass(), "lock_add.png"), getPluginContext(), (WorkflowDescriptorModel) getDefaultModel()) {
+            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, new PackageResourceReference(getClass(), "lock_add.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
                 private static final long serialVersionUID = 1L;
 
                 @Override
