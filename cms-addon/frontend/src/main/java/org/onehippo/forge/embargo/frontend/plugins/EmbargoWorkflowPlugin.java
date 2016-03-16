@@ -49,7 +49,6 @@ import org.slf4j.LoggerFactory;
 /**
  * @version $Id$
  */
-//TODO: CompatibilityWorkflowPlugin is deprecated, please change (when the API supports it)
 public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //CompatibilityWorkflowPlugin<EmbargoWorkflow> {
 //public class EmbargoWorkflowPlugin extends CompatibilityWorkflowPlugin<EmbargoWorkflow> {
 
@@ -144,8 +143,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
                 WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor)getDefaultModelObject();
                 if (workflowDescriptor != null) {
                     try {
-                        final Node handleNode = node;
-                        Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
+                        Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(node);
                         if (existingExpirationDate != null) {
                             date = existingExpirationDate.getTime();
                         }
