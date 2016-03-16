@@ -17,7 +17,9 @@ package org.onehippo.forge.embargo.repository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
@@ -98,7 +100,7 @@ public final class EmbargoUtils {
         }
 
         try {
-            final List<String> embargoGroupNames = new ArrayList<>();
+            final Set<String> embargoGroupNames = new HashSet<>();
             for(final Node authRole : getEmbargoAuthRoleNodes(embargoGroupsMappingNode)) {
                 if (authRole.hasProperty(HippoNodeType.HIPPO_GROUPS)) {
                     Value[] embargoGroups = authRole.getProperty(HippoNodeType.HIPPO_GROUPS).getValues();
@@ -107,7 +109,7 @@ public final class EmbargoUtils {
                     }
                 }
             }
-            return embargoGroupNames;
+            return new ArrayList<>(embargoGroupNames);
         } catch (RepositoryException e){
             log.error("Could not retrieve embargo enabled groups", e);
             return new ArrayList<>();

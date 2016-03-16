@@ -238,11 +238,10 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> { //
     }
 
     private void addSetEmbargoOption() {
-        StringResourceModel nameModel = new StringResourceModel("set-embargo-label", this, null);
-
+        final IModel<String> nameModel = new StringResourceModel("set-embargo-label", this, null);
         if (EmbargoUtils.isAdminUser(getJcrSession(), getJcrSession().getUserID())) {
 
-            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, new PackageResourceReference(getClass(), "lock_add.png"), null) {
+            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, new PackageResourceReference(getClass(), "lock_add.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
                 private static final long serialVersionUID = 1L;
                 final ArrayList<String> selectedEmbargoGroups = new ArrayList<>();
                 final IModel selectedEmbargoGroupsModel = new Model<>(selectedEmbargoGroups);
