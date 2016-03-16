@@ -24,7 +24,6 @@ import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.hippoecm.repository.api.HippoNodeType;
 import org.hippoecm.repository.api.HippoWorkspace;
 import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
@@ -44,7 +43,6 @@ import org.slf4j.LoggerFactory;
 
 import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_METHOD_NAME;
 import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_SUBJECT_ID;
-import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_WORKFLOW_JOB;
 
 /**
  * @version "$Id$"
@@ -64,7 +62,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
 
-        final Node handle = internalWorkflowSession.getNodeByIdentifier(subjectId);
+        final Node handle = EmbargoUtils.extractHandle(internalWorkflowSession.getNodeByIdentifier(subjectId));
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
@@ -82,7 +80,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
                     userEmbargoEnabledGroups);
 
             //Set embargo mixin on the document
-            for(Node documentNode : EmbargoUtils.getDocumentVariants(handle)){
+            for (Node documentNode : EmbargoUtils.getDocumentVariants(handle)) {
                 if (!documentNode.isCheckedOut()) {
                     internalWorkflowSession.getWorkspace().getVersionManager().checkout(documentNode.getPath());
                 }
@@ -100,7 +98,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
 
-        final Node handle = internalWorkflowSession.getNodeByIdentifier(subjectId);
+        final Node handle = EmbargoUtils.extractHandle(internalWorkflowSession.getNodeByIdentifier(subjectId));
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
@@ -116,7 +114,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         handle.removeMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
 
         //remove embargo mixin from document(s)
-        for(Node documentNode : EmbargoUtils.getDocumentVariants(handle)){
+        for (Node documentNode : EmbargoUtils.getDocumentVariants(handle)) {
             if (!documentNode.isCheckedOut()) {
                 internalWorkflowSession.getWorkspace().getVersionManager().checkout(documentNode.getPath());
             }
@@ -163,6 +161,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     public static class WorkflowJob implements RepositoryJob {
 
         private static final Logger log = LoggerFactory.getLogger(WorkflowJob.class);
+
         @Override
         public void execute(final RepositoryJobExecutionContext context) throws RepositoryException {
             Session session = null;
@@ -198,6 +197,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     private static class WorkflowJobInfo extends RepositoryJobInfo {
 
         private final String subjectId;
+
         public WorkflowJobInfo(final String subjectId, final String methodName) {
             super(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, "embargo", WorkflowJob.class);
             this.subjectId = subjectId;

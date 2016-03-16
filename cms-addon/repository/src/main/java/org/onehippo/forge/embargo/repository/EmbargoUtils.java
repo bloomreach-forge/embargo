@@ -177,4 +177,24 @@ public final class EmbargoUtils {
         }
         return documentNodes.toArray(new Node[documentNodes.size()]);
     }
+
+    public static Node extractHandle(final Node node) throws RepositoryException {
+        if (node == null) {
+            return null;
+        }
+        if (node.isNodeType("hippo:handle")) {
+            return node;
+        }else{
+            final Node parent = node.getParent();
+            if (parent == null) {
+                return null;
+            }
+            if (parent.isNodeType("hippo:handle")) {
+                return parent;
+            }
+        }
+
+        return null;
+
+    }
 }

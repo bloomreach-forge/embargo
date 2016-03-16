@@ -27,10 +27,10 @@ import org.hippoecm.repository.security.service.SecurityServiceImpl;
 import org.onehippo.cms7.services.HippoServiceRegistry;
 import org.onehippo.cms7.services.eventbus.HippoEventBus;
 import org.onehippo.cms7.services.eventbus.Subscribe;
+import org.onehippo.forge.embargo.repository.EmbargoUtils;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
 import org.onehippo.repository.events.HippoWorkflowEvent;
 import org.onehippo.repository.modules.AbstractReconfigurableDaemonModule;
-import org.onehippo.repository.modules.DaemonModule;
 import org.onehippo.repository.security.Group;
 import org.onehippo.repository.security.User;
 import org.slf4j.Logger;
@@ -83,7 +83,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
                 }
                 // check if can set embargo
                 final Node subject = getSubject(event);
-                final Node handle = extractHandle(subject);
+                final Node handle = EmbargoUtils.extractHandle(subject);
                 //NOTE:  folders have no handle so those should be filtered out:
                 if (handle == null) {
                     return;
@@ -159,27 +159,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
 
 
     private Node getHandleFromEvent(final HippoWorkflowEvent event) throws RepositoryException {
-       return extractHandle(getSubject(event));
-    }
-
-    private Node extractHandle(final Node node) throws RepositoryException {
-        if (node == null) {
-            return null;
-        }
-        if (node.isNodeType("hippo:handle")) {
-            return node;
-        }else{
-            final Node parent = node.getParent();
-            if (parent == null) {
-                return null;
-            }
-            if (parent.isNodeType("hippo:handle")) {
-                return parent;
-            }
-        }
-
-        return null;
-
+       return EmbargoUtils.extractHandle(getSubject(event));
     }
 
     private EmbargoWorkflow getWorkflow(final Node node, final String category) throws RepositoryException {

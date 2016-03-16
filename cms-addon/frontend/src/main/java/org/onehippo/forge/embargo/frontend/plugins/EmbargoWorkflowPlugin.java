@@ -63,7 +63,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
             WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel)getDefaultModel();
             WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor)getDefaultModelObject();
             if (workflowDescriptor != null) {
-                Node documentNode = workflowDescriptorModel.getNode();
+                Node documentNode = EmbargoUtils.extractHandle(workflowDescriptorModel.getNode());
                 // TODO CHeck whether is visible check is required
                 //if (EmbargoUtils.isVisibleInPreview(documentNode)) {
                 final Mode mode = resolveMode(documentNode);
@@ -147,7 +147,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                     }
 
                     return new ScheduleDialog(this, new JcrNodeModel(node),
-                            new PropertyModel<Date>(this, "date"), getEditorManager(), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
+                            new PropertyModel<>(this, "date"), getEditorManager(), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
                 }
 
                 return null;
