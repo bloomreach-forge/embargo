@@ -40,7 +40,7 @@
       <sv:value>true</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>1.01.00</sv:value>
+      <sv:value>2.1.4</sv:value>
     </sv:property>
   </sv:node>
 
@@ -501,7 +501,7 @@
       <sv:value>true</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>1.01.00</sv:value>
+      <sv:value>2.1.4</sv:value>
     </sv:property>
   </sv:node>
 
@@ -522,7 +522,7 @@
       <sv:value>true</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>1.01.00</sv:value>
+      <sv:value>2.1.4</sv:value>
     </sv:property>
   </sv:node>
 
@@ -543,7 +543,7 @@
       <sv:value>true</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>1.01.00</sv:value>
+      <sv:value>2.1.4</sv:value>
     </sv:property>
   </sv:node>
 
@@ -564,7 +564,7 @@
       <sv:value>true</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>1.01.00</sv:value>
+      <sv:value>2.1.4</sv:value>
     </sv:property>
   </sv:node>
 
@@ -585,7 +585,7 @@
       <sv:value>true</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>1.01.00</sv:value>
+      <sv:value>2.1.4</sv:value>
     </sv:property>
   </sv:node>
 
@@ -636,7 +636,7 @@
       <sv:value>true</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>2.1.0</sv:value>
+      <sv:value>2.1.4</sv:value>
     </sv:property>
   </sv:node>
 
