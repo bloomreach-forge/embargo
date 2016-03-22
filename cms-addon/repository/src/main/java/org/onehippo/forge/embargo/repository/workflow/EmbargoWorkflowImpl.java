@@ -22,6 +22,7 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
+import javax.jcr.nodetype.NodeType;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.hippoecm.repository.api.HippoWorkspace;
@@ -111,17 +112,27 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
             handle.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
         }
         //remove embargo mixin from handle
-        handle.removeMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
+        removeMixin(handle, EmbargoConstants.EMBARGO_MIXIN_NAME);
 
         //remove embargo mixin from document(s)
         for (Node documentNode : EmbargoUtils.getDocumentVariants(handle)) {
             if (!documentNode.isCheckedOut()) {
                 internalWorkflowSession.getWorkspace().getVersionManager().checkout(documentNode.getPath());
             }
-            documentNode.removeMixin(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
+            removeMixin(documentNode, EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
         }
 
         internalWorkflowSession.save();
+    }
+
+    private void removeMixin(final Node handle, final String mixin) throws RepositoryException {
+        final NodeType[] mixinNodeTypes = handle.getMixinNodeTypes();
+        for (NodeType mixinNodeType : mixinNodeTypes) {
+            if (mixinNodeType.getName().equals(mixin)) {
+                handle.removeMixin(mixin);
+                return;
+            }
+        }
     }
 
     @Override
