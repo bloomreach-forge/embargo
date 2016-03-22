@@ -42,7 +42,8 @@ import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_
  */
 public final class EmbargoUtils {
 
-    private EmbargoUtils() {}
+    private EmbargoUtils() {
+    }
 
     private static Logger log = LoggerFactory.getLogger(EmbargoUtils.class);
 
@@ -71,7 +72,7 @@ public final class EmbargoUtils {
 
 
     public static String[] getAllUserGroups(Session session, String userIdentity) {
-        try{
+        try {
             Query selectGroupsQuery = session.getWorkspace().getQueryManager().createQuery(
                     EmbargoConstants.SELECT_GROUPS_QUERY.replace("{}", userIdentity),
                     Query.SQL);
@@ -82,7 +83,7 @@ public final class EmbargoUtils {
             }
             return groupNames.toArray(new String[groupNames.size()]);
 
-        } catch (RepositoryException e){
+        } catch (RepositoryException e) {
             log.error("Could not retrieve user groups", e);
             return new String[]{};
         }
@@ -99,7 +100,7 @@ public final class EmbargoUtils {
 
         try {
             final Set<String> embargoGroupNames = new HashSet<>();
-            for(final Node authRole : getEmbargoAuthRoleNodes(embargoGroupsMappingNode)) {
+            for (final Node authRole : getEmbargoAuthRoleNodes(embargoGroupsMappingNode)) {
                 if (authRole.hasProperty(HippoNodeType.HIPPO_GROUPS)) {
                     Value[] embargoGroups = authRole.getProperty(HippoNodeType.HIPPO_GROUPS).getValues();
                     for (final Value embargoGroup : embargoGroups) {
@@ -108,7 +109,7 @@ public final class EmbargoUtils {
                 }
             }
             return new ArrayList<>(embargoGroupNames);
-        } catch (RepositoryException e){
+        } catch (RepositoryException e) {
             log.error("Could not retrieve embargo enabled groups", e);
             return new ArrayList<>();
         }
@@ -117,9 +118,9 @@ public final class EmbargoUtils {
     private static List<Node> getEmbargoAuthRoleNodes(final Node embargoGroupsMappingNode) throws RepositoryException {
         final List<Node> authRoleNodes = new ArrayList<>();
         final NodeIterator nodes = embargoGroupsMappingNode.getNodes();
-        while(nodes.hasNext()) {
+        while (nodes.hasNext()) {
             final Node node = nodes.nextNode();
-            if(node.isNodeType(EmbargoConstants.HIPPOSYS_AUTHROLE)) {
+            if (node.isNodeType(EmbargoConstants.HIPPOSYS_AUTHROLE)) {
                 authRoleNodes.add(node);
             }
         }
@@ -182,7 +183,7 @@ public final class EmbargoUtils {
         }
         if (node.isNodeType(EmbargoConstants.HIPPO_HANDLE)) {
             return node;
-        }else{
+        } else {
             final Node parent = node.getParent();
             if (parent == null) {
                 return null;

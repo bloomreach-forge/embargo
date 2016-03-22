@@ -151,8 +151,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     public void cancelSchedule(final String subjectId) throws WorkflowException, RepositoryException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
-        final Node subjectNode = internalWorkflowSession.getNodeByIdentifier(subjectId);
-        final Node handle = subjectNode;
+        final Node handle = EmbargoUtils.extractHandle(internalWorkflowSession.getNodeByIdentifier(subjectId));
         if (!handle.isCheckedOut()) {
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
@@ -218,12 +217,10 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
 
         @Override
         public Node createNode(final Session session) throws RepositoryException {
-            final Node subjectNode = session.getNodeByIdentifier(subjectId);
-            JcrUtils.ensureIsCheckedOut(subjectNode);
-            log.info("handleNode {}", subjectNode.getIdentifier());
-            subjectNode.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
-            log.info("handleNode {}", subjectNode.getIdentifier());
-            final Node requestNode = subjectNode.addNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, EmbargoConstants.EMBARGO_JOB);
+            final Node handle = EmbargoUtils.extractHandle(session.getNodeByIdentifier(subjectId));
+            JcrUtils.ensureIsCheckedOut(handle);
+            handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
+            final Node requestNode = handle.addNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, EmbargoConstants.EMBARGO_JOB);
             // TODO mm is this one needed?
             requestNode.addMixin("mix:referenceable");
             return requestNode;
