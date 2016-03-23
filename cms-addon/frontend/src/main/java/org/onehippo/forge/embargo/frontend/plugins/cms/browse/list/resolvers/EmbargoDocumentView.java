@@ -95,18 +95,9 @@ public class EmbargoDocumentView implements IObservable, IDetachable {
                     Node handleNode = null;
 
                     if (node.isNodeType(HippoNodeType.NT_HANDLE)) {
-                        NodeIterator docs = node.getNodes(node.getName());
-                        while (docs.hasNext()) {
-                            document = docs.nextNode();
-                            primaryType = document.getPrimaryNodeType();
-                            if (document.isNodeType(HippoStdNodeType.NT_PUBLISHABLE)) {
-                                String state = document.getProperty(HippoStdNodeType.HIPPOSTD_STATE).getString();
-                                if ("unpublished".equals(state)) {
-                                    break;
-                                }
-                            }
-                        }
                         handleNode = node;
+                        expirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
+
                     } else if (node.isNodeType(HippoNodeType.NT_DOCUMENT)) {
                         document = node;
                         primaryType = document.getPrimaryNodeType();

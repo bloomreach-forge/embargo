@@ -146,7 +146,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                 WorkflowDescriptor workflowDescriptor = (WorkflowDescriptor)getDefaultModelObject();
                 if (workflowDescriptor != null) {
                     try {
-                        Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(node);
+                        Calendar existingExpirationDate = EmbargoUtils.getEmbargoExpirationDate(EmbargoUtils.extractHandle(node));
                         if (existingExpirationDate != null) {
                             date = existingExpirationDate.getTime();
                         }
