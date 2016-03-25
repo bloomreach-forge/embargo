@@ -34,7 +34,11 @@
       <subsection name="Adding more embargo-enabled groups">
         <p>An admin can create more groups that have the embargo privilege. To do that, create a new group and under Permissions, add the group to the embargo security domain and grant to it the 'editor' or 'author' role, depending what other privileges you wish to give:</p>
         <img src="images/embargo-domain-details.png" alt="Embargo domain details"/>
+        <strong>NOTE:</strong>
+        <p>To automatically put newly created documents under embargo, newly created groups needs to be added to "embargoGroups" (multi-value property) in:</p>
+        <pre>/hippo:configuration/hippo:modules/embargo-workflow-events-processing-module.xml</pre>
       </subsection>
+
     </section>
   </body>
 </document>
