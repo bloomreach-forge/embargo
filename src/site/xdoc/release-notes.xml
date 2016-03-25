@@ -21,6 +21,12 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="1.04.xx">
+        <ul>
+          <li>Upgrade plugin to be Hippo CMS 10.2 compatible</li>
+          <li>/hippo:configuration/hippo:modules/embargo-workflow-events-processing-module.xml listener added to put newly created documents under embargo</li>
+        </ul>
+      </subsection>
       <subsection name="1.02.00">
         <ul>
           <li>Admin user can now set documents under embargo. A dialog is shown so he can select which groups to use.</li>
