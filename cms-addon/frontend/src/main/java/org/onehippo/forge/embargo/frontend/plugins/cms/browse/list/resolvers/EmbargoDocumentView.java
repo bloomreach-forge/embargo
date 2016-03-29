@@ -90,43 +90,32 @@ public class EmbargoDocumentView implements IObservable, IDetachable {
             try {
                 Node node = nodeModel.getNode();
                 if (node != null) {
-                    Node document = null;
-                    NodeType primaryType = null;
+
                     Node handleNode = null;
 
                     if (node.isNodeType(HippoNodeType.NT_HANDLE)) {
                         handleNode = node;
                         expirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
-
                     } else if (node.isNodeType(HippoNodeType.NT_DOCUMENT)) {
-                        document = node;
-                        primaryType = document.getPrimaryNodeType();
                         handleNode = node.getParent();
                     } else if (node.isNodeType(JcrConstants.NT_VERSION)) {
                         Node frozen = node.getNode(JcrConstants.JCR_FROZENNODE);
                         String primary = frozen.getProperty(JcrConstants.JCR_FROZENPRIMARYTYPE).getString();
-                        NodeTypeManager ntMgr = frozen.getSession().getWorkspace().getNodeTypeManager();
-                        primaryType = ntMgr.getNodeType(primary);
+                        final NodeTypeManager ntMgr = frozen.getSession().getWorkspace().getNodeTypeManager();
+                        final NodeType primaryType = ntMgr.getNodeType(primary);
                         if (primaryType.isNodeType(HippoNodeType.NT_DOCUMENT)) {
-                            document = frozen;
-                            handleNode = document.getParent();
+                            handleNode = frozen.getParent();
                         }
                     }
-                    if (document != null) {
-                        if (primaryType.isNodeType(HippoStdNodeType.NT_PUBLISHABLESUMMARY) || document.isNodeType(HippoStdNodeType.NT_PUBLISHABLESUMMARY)) {
-                            observable.setTarget(new JcrNodeModel(document));
-                        }
-
+                    if (handleNode != null) {
                         if (handleNode.hasProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME)) {
                             Value[] groups = handleNode.getProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME).getValues();
                             embargoGroups = new String[groups.length];
                             for (int i = 0; i < groups.length; i++) {
                                 embargoGroups[i] = new String(groups[i].getString());
                             }
-
                             joinedEmbargoGroups = StringUtils.join(embargoGroups, ',');
                         }
-
                         expirationDate = EmbargoUtils.getEmbargoExpirationDate(handleNode);
                     }
                 }
