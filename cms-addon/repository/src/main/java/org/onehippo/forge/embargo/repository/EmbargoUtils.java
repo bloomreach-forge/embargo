@@ -28,6 +28,7 @@ import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.query.Query;
 
+import org.apache.jackrabbit.JcrConstants;
 import org.hippoecm.repository.api.HippoNodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -170,7 +171,7 @@ public final class EmbargoUtils {
         List<Node> documentNodes = new ArrayList<Node>();
         while (nodeIterator.hasNext()) {
             Node documentNode = nodeIterator.nextNode();
-            if (documentNode.isNodeType(HippoNodeType.NT_HARDDOCUMENT)) {
+            if (documentNode.isNodeType(JcrConstants.MIX_REFERENCEABLE) && documentNode.getName().equals(documentHandleNode.getName())) {
                 documentNodes.add(documentNode);
             }
         }
