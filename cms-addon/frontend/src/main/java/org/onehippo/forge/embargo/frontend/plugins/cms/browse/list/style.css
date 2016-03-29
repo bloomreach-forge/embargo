@@ -13,8 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*.hippo-list-details tr th.doclisting-embargo-groups,
-.hippo-list-details tr td.doclisting-embargo-groups { width: 220px; min-width: 120px  }
+.hippo-list-documents > tbody > tr > td.doclisting-embargo-groups, .hippo-list-documents > thead > tr > th.doclisting-embargo-groups {
+  width: 280px;
+  min-width: 280px;
+  overflow: visible;
+}
 
-.hippo-list-details tr th.doclisting-expiration-date,
-.hippo-list-details tr td.doclisting-expiration-date { width: 160px; min-width: 120px  }*/
+.hippo-list-documents > tbody > tr > td.doclisting-expiration-date, .hippo-list-documents > thead > tr > th.doclisting-expiration-date {
+  width: 160px;
+  min-width: 120px;
+}
+
+

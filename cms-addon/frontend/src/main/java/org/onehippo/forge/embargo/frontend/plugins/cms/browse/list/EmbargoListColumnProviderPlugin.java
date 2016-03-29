@@ -77,7 +77,7 @@ public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderP
                 return EmbargoListColumnProviderPlugin.this.compare(view1.getJoinedEmbargoGroups(), view2.getJoinedEmbargoGroups());
             }
         });
-        column.setCssClass("doclisting-original-url");
+        column.setCssClass("doclisting-embargo-groups");
         column.setRenderer(new EmbargoAttributeRenderer() {
             private static final long serialVersionUID = -1485899011687542362L;
 
@@ -99,7 +99,7 @@ public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderP
                 return EmbargoListColumnProviderPlugin.this.compare(view1.getExpirationDate(), view2.getExpirationDate());
             }
         });
-        column.setCssClass("doclisting-rewrite-url");
+        column.setCssClass("doclisting-expiration-date");
         column.setRenderer(new EmbargoAttributeRenderer() {
             private static final long serialVersionUID = -1485899011687542362L;
 
