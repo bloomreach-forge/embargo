@@ -85,7 +85,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
                 final Node subject = getSubject(event);
                 final Node handle = EmbargoUtils.extractHandle(subject);
                 //NOTE:  folders have no handle so those should be filtered out:
-                if (handle == null) {
+                if (handle == null && !"createGalleryItem".equals(event.action())) {
                     return;
                 }
                 if ("add".equals(event.action()) || "createGalleryItem".equals(event.action()) || "copyTo".equals(event.action())) {
@@ -147,7 +147,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
             log.debug("UUID: {}", event.returnValue());
             final String uuid = getUuidFromReturnValue(event.returnValue());
             if (uuid != null) {
-                return session.getNodeByIdentifier(event.subjectId());
+                return session.getNodeByIdentifier(uuid);
             }
         } else if ("java.lang.String".equals(event.returnType())) {
             log.debug("Path: {}", event.returnValue());
