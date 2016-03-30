@@ -16,6 +16,7 @@ cms-addon/repository/src/main/resources/domains/filter-embargo-documents.xml -te
 cms-addon/repository/src/main/resources/domains/hide-embargo-document.xml -text
 cms-addon/repository/src/main/resources/domains/hippodocuments-domain-role-embargo.xml -text
 cms-addon/repository/src/main/resources/domains/hippogallery-domain-role-embargo.xml -text
+cms-addon/repository/src/main/resources/domains/hipposched-simpletrigger.xml -text
 cms-addon/repository/src/main/resources/embargo.cnd -text
 cms-addon/repository/src/main/resources/modules/embargo-workflow-events-processing-module.xml -text
 cms-addon/repository/src/main/resources/roles/embargo.xml -text
