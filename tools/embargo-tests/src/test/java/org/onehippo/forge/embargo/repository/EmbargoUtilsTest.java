@@ -20,6 +20,7 @@ import java.util.Calendar;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 
+import org.apache.jackrabbit.JcrConstants;
 import org.apache.sling.commons.testing.jcr.MockNode;
 import org.apache.sling.commons.testing.jcr.MockNodeIterator;
 import org.apache.sling.commons.testing.jcr.MockProperty;
@@ -95,23 +96,26 @@ public class EmbargoUtilsTest {
     public void testGetEmptyArrayForDocumentVariants() throws Exception {
         Node mockedeNode = new MockNode("/content");
         final Node[] documentVariants = EmbargoUtils.getDocumentVariants(mockedeNode);
-        assertEquals(documentVariants.length,0);
+        assertEquals(documentVariants.length, 0);
     }
 
     @Test
     public void testGetNonEmptyArrayForDocumentVariants() throws Exception {
         Node mockHandleNode = createMock(Node.class);
         Node mockedChildNode = createMock(Node.class);
-        NodeIterator mockNodeIterator = new MockNodeIterator(new Node[] {mockedChildNode});
+        NodeIterator mockNodeIterator = new MockNodeIterator(new Node[]{mockedChildNode});
 
+        expect(mockHandleNode.getName()).andReturn("testNode");
         expect(mockHandleNode.getNodes()).andReturn(mockNodeIterator);
-        expect(mockedChildNode.isNodeType(HippoNodeType.NT_HARDDOCUMENT)).andReturn(true);
+        expect(mockedChildNode.isNodeType(JcrConstants.MIX_REFERENCEABLE)).andReturn(true);
+        expect(mockedChildNode.getName()).andReturn("testNode");
 
-        replay(mockHandleNode,mockedChildNode);
+
+        replay(mockHandleNode, mockedChildNode);
 
         final Node[] documentVariants = EmbargoUtils.getDocumentVariants(mockHandleNode);
 
-        assertEquals(documentVariants.length,1);
+        assertEquals(documentVariants.length, 1);
     }
 
 }
