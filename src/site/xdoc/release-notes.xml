@@ -21,6 +21,15 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="2.14.xx">
+        <ul>
+          <li>Images and assets are now under embargo when created by an embargo user <a href="https://issues.onehippo.com/browse/HIPPLUG-1282">HIPPLUG-1282</a></li>
+          <li>Embargo documents excluded from number of serach results<a href="https://issues.onehippo.com/browse/HIPPLUG-1284">HIPPLUG-1284</a></li>
+          <li>css fix for list view of documents<a href="https://issues.onehippo.com/browse/HIPPLUG-1283">HIPPLUG-1283</a></li>
+          <li>show end date<a href="https://issues.onehippo.com/browse/HIPPLUG-1285">HIPPLUG-1285</a></li>
+          <li>added version to cnd reload so the cnd is actually reloaded</li>
+        </ul>
+      </subsection>
       <subsection name="1.04.xx">
         <ul>
           <li>Upgrade plugin to be Hippo CMS 10.2 compatible</li>
