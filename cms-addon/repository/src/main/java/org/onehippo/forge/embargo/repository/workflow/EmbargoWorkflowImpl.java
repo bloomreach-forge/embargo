@@ -59,7 +59,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     }
 
     @Override
-    public void addEmbargo(final String userId, final String subjectId, final String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, RemoteException {
+    public void addEmbargo(final String userId, final String subjectId, final String[] forcedEmbargoGroups, final boolean save) throws WorkflowException, RepositoryException, RemoteException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
 
@@ -87,8 +87,9 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
                 }
                 documentNode.addMixin(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
             }
-
-            internalWorkflowSession.save();
+            if (save) {
+                internalWorkflowSession.save();
+            }
         } else {
             log.info("Trying to set the embargo on a document for user: {} who is not in any embargo enabled groups.", userId);
         }

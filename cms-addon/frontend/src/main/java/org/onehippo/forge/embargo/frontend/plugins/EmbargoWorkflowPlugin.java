@@ -264,7 +264,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                     if (selectedEmbargoGroups.size() != 0) {
                         final WorkflowDescriptorModel defaultModel = (WorkflowDescriptorModel)getDefaultModel();
                         final String subjectId = defaultModel.getNode().getIdentifier();
-                        workflow.addEmbargo(userID, subjectId, selectedEmbargoGroups.toArray(new String[selectedEmbargoGroups.size()]));
+                        workflow.addEmbargo(userID, subjectId, selectedEmbargoGroups.toArray(new String[selectedEmbargoGroups.size()]), true);
                     }
                     return null;
                 }
@@ -277,7 +277,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                 @Override
                 protected String execute(EmbargoWorkflow workflow) throws Exception {
                     final String userID = getJcrSession().getUserID();
-                    workflow.addEmbargo(userID, getSubjectId(), null);
+                    workflow.addEmbargo(userID, getSubjectId(), null, true);
                     return null;
                 }
             });
