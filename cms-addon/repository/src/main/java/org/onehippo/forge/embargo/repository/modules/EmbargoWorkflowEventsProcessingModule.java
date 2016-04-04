@@ -134,7 +134,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
                 embargoWorkflow.addEmbargo(event.user(), subject.getIdentifier(), null);
             }
         } catch (RepositoryException e) {
-            log.error("Unable to get node with id: {}", event.subjectId());
+            log.error("Unable to get node with id: {}", event.subjectId(), e);
         }
     }
 
