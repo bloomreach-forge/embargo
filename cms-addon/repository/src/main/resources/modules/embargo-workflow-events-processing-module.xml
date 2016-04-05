@@ -30,5 +30,8 @@
       <sv:value>embargo-editors-example-group</sv:value>
       <sv:value>embargo-authors-example-group</sv:value>
     </sv:property>
+    <sv:property sv:name="waitTime" sv:type="Long">
+      <sv:value>500</sv:value>
+    </sv:property>
   </sv:node>
 </sv:node>

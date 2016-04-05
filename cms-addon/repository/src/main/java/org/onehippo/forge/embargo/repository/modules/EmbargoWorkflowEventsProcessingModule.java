@@ -19,7 +19,6 @@ import org.hippoecm.repository.api.HippoWorkspace;
 import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.api.WorkflowManager;
-
 import org.hippoecm.repository.decorating.SessionDecorator;
 import org.hippoecm.repository.jackrabbit.RepositoryImpl;
 import org.hippoecm.repository.security.HippoSecurityManager;
@@ -40,9 +39,11 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
 
     private static final Logger log = LoggerFactory.getLogger(EmbargoWorkflowEventsProcessingModule.class);
     public static final String EMBARGO_GROUPS = "embargoGroups";
+    public static final String EMBARGO_WAIT_TIME = "waitTime";
+    public static final long DEFAULT_WAIT_TIME = 500L;
 
     private Session session;
-
+    private long sleepTime;
     private Set<String> embargoGroups;
 
     @Override
@@ -57,6 +58,12 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
             for (Value value : values) {
                 embargoGroups.add(value.getString());
             }
+        }
+        if (moduleConfig.hasProperty(EMBARGO_WAIT_TIME)) {
+            final Property property = moduleConfig.getProperty(EMBARGO_WAIT_TIME);
+            sleepTime = property.getLong();
+        } else {
+            sleepTime = DEFAULT_WAIT_TIME;
         }
     }
 
@@ -114,7 +121,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
     }
 
 
-    public User getUser(final String user)  {
+    public User getUser(final String user) {
         try {
             final JackrabbitSession session = (JackrabbitSession)SessionDecorator.unwrap(this.session);
             final RepositoryImpl repository = (RepositoryImpl)session.getRepository();
@@ -129,6 +136,13 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
 
     public void setEmbargoWorkflow(final HippoWorkflowEvent event, final Node subject) throws WorkflowException, RemoteException {
         try {
+            if (sleepTime > 0) {
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException ignore) {
+
+                }
+            }
             final EmbargoWorkflow embargoWorkflow = getWorkflow(subject, "embargo");
             if (embargoWorkflow != null) {
                 embargoWorkflow.addEmbargo(event.user(), subject.getIdentifier(), null);
@@ -159,7 +173,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
 
 
     private Node getHandleFromEvent(final HippoWorkflowEvent event) throws RepositoryException {
-       return EmbargoUtils.extractHandle(getSubject(event));
+        return EmbargoUtils.extractHandle(getSubject(event));
     }
 
     private EmbargoWorkflow getWorkflow(final Node node, final String category) throws RepositoryException {
@@ -171,7 +185,6 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         }
         return null;
     }
-
 
 
     @Override
