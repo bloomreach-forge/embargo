@@ -40,7 +40,7 @@ public interface EmbargoWorkflow extends Workflow, IWorkflowInvoker{
      * @throws MappingException
      * @throws RemoteException
      */
-    void addEmbargo(String userId, String subjectId, String[] forcedEmbargoGroups, boolean save) throws WorkflowException, RepositoryException, RemoteException;
+    void addEmbargo(String userId, String subjectId, String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, RemoteException;
 
     void removeEmbargo(String subjectId) throws WorkflowException, RepositoryException, RemoteException;
 

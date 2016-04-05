@@ -267,7 +267,7 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
 
         final String subejctId = editor.getNode(editorDocumentLocation).getIdentifier();
 
-        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), subejctId, null, true);
+        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), subejctId, null);
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertFalse(editor.itemExists(editorDocumentLocation));
@@ -291,7 +291,7 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
         final EmbargoWorkflow embargoEditorsEmbargoWorkflow = (EmbargoWorkflow) getWorkflow(embargoEditor.getNode(editorDocumentLocation), "embargo");
 
         final String subjectId = editor.getNode(editorDocumentLocation).getIdentifier();
-        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), subjectId, null, true);
+        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), subjectId, null);
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertFalse(editor.itemExists(editorDocumentLocation));
@@ -321,7 +321,7 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
 
         final String subjectId = editor.getNode(editorDocumentLocation).getIdentifier();
 
-        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), subjectId,null, true);
+        embargoEditorsEmbargoWorkflow.addEmbargo(embargoEditor.getUserID(), subjectId,null);
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertFalse(editor.itemExists(editorDocumentLocation));

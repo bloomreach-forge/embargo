@@ -61,7 +61,7 @@ public class EmbargoEventsAddDocumentWorkflow extends WorkflowImpl  {
             HippoWorkspace workspace = (HippoWorkspace)internalWorkflowSession.getWorkspace();
             Workflow embargo = workspace.getWorkflowManager().getWorkflow("embargo", newDocumentNode);
             //pass along the user id from this action, so the original user id is used for the embargo
-            ((EmbargoWorkflow)embargo).addEmbargo(workflowContext.getUserIdentity(), document.getIdentity(),  null, true);
+            ((EmbargoWorkflow)embargo).addEmbargo(workflowContext.getUserIdentity(), document.getIdentity(),  null);
         }
     }
 
