@@ -23,7 +23,7 @@
     <section name="Release Notes">
       <subsection name="2.1.4">
         <p class="smallinfo">
-          Released: April 1, 2016
+          Released: 1 April 2016
         </p>
         <ul>
           <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1281">HIPPLUG-1281</a><br/>
@@ -41,7 +41,7 @@
       </subsection>
       <subsection name="2.1.0">
         <p class="smallinfo">
-          Released: March 1, 2016
+          Released: 1 March 2016
         </p>
         <ul>
           <li>Upgrade to be compatible with Hippo 10.1</li>
@@ -49,7 +49,7 @@
       </subsection>
       <subsection name="1.03.00">
         <p class="smallinfo">
-          Released: February 10, 2016
+          Released: 10 February 2016
         </p>
         <ul>
           <li>Upgrade to be compatible with Hippo 7.9</li>
@@ -57,7 +57,7 @@
       </subsection>
       <subsection name="1.02.00">
         <p class="smallinfo">
-          Released: February 2, 2014
+          Released: 2 February 2014
         </p>
         <ul>
           <li>Admin user can now set documents under embargo. A dialog is shown so he can select which groups to use.</li>
@@ -66,7 +66,7 @@
       </subsection>
       <subsection name="1.01.06">
         <p class="smallinfo">
-          Released: August 16, 2013
+          Released: 16 August 2013
         </p>
         <ul>
           <li>Resolved issue with content items losing the embargo status when being copied.</li>
