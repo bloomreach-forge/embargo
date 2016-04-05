@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2013-2016 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,28 +21,53 @@
   </properties>
   <body>
     <section name="Release Notes">
-      <subsection name="2.14.xx">
+      <subsection name="2.1.4">
+        <p class="smallinfo">
+          Released: April 1, 2016
+        </p>
         <ul>
-          <li>Images and assets are now under embargo when created by an embargo user <a href="https://issues.onehippo.com/browse/HIPPLUG-1282">HIPPLUG-1282</a></li>
-          <li>Embargo documents excluded from number of serach results<a href="https://issues.onehippo.com/browse/HIPPLUG-1284">HIPPLUG-1284</a></li>
-          <li>css fix for list view of documents<a href="https://issues.onehippo.com/browse/HIPPLUG-1283">HIPPLUG-1283</a></li>
-          <li>show end date<a href="https://issues.onehippo.com/browse/HIPPLUG-1285">HIPPLUG-1285</a></li>
-          <li>added version to cnd reload so the cnd is actually reloaded</li>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1281">HIPPLUG-1281</a><br/>
+            Added listener to put newly created documents under embargo</li>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1282">HIPPLUG-1282</a><br/>
+            Images and assets are now under embargo when created by an embargo user</li>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1283">HIPPLUG-1283</a><br/>
+            CSS fix for list view of documents</li>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1284">HIPPLUG-1284</a><br/>
+            Embargo documents excluded from number of search results</li>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1285">HIPPLUG-1285</a>
+            Show embargo end date in the CMS</li>
+          <li>Added version to cnd reload so the cnd is actually reloaded</li>
         </ul>
       </subsection>
-      <subsection name="1.04.xx">
+      <subsection name="2.1.0">
+        <p class="smallinfo">
+          Released: March 1, 2016
+        </p>
         <ul>
-          <li>Upgrade plugin to be Hippo CMS 10.2 compatible</li>
-          <li>/hippo:configuration/hippo:modules/embargo-workflow-events-processing-module.xml listener added to put newly created documents under embargo</li>
+          <li>Upgrade to be compatible with Hippo 10.1</li>
+        </ul>
+      </subsection>
+      <subsection name="1.03.00">
+        <p class="smallinfo">
+          Released: February 10, 2016
+        </p>
+        <ul>
+          <li>Upgrade to be compatible with Hippo 7.9</li>
         </ul>
       </subsection>
       <subsection name="1.02.00">
+        <p class="smallinfo">
+          Released: February 2, 2014
+        </p>
         <ul>
           <li>Admin user can now set documents under embargo. A dialog is shown so he can select which groups to use.</li>
-          <li>Upgrade plugin to be Hippo CMS 7.8 compatible</li>
+          <li>Upgrade to be compatible with Hippo 7.8</li>
         </ul>
       </subsection>
       <subsection name="1.01.06">
+        <p class="smallinfo">
+          Released: August 16, 2013
+        </p>
         <ul>
           <li>Resolved issue with content items losing the embargo status when being copied.</li>
           <li>The embargo workflow is from now on only shown if a user has the <i>hippo:author</i> privileges for a document</li>
