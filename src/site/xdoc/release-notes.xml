@@ -21,6 +21,17 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="2.1.5">
+        <p class="smallinfo">
+          Released: 6 April 2016
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1281">HIPPLUG-1281</a> follow-up<br/>
+            Add wait time before adding embargo workflow, by default 500 millis, configurable by Long property 'waitTime'
+            at <code>/hippo:configuration/hippo:modules/embargo-workflow-events-processing-module.xml</code>
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.1.4">
         <p class="smallinfo">
           Released: 1 April 2016
