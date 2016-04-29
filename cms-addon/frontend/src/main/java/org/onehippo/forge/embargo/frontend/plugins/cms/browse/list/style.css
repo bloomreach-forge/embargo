@@ -15,7 +15,7 @@
  */
 .hippo-list-documents > tbody > tr > td.doclisting-embargo-groups, .hippo-list-documents > thead > tr > th.doclisting-embargo-groups {
   width: 280px;
-  min-width: 280px;
+  min-width: 160px;
   overflow: visible;
 }
 
