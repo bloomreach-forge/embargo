@@ -17,11 +17,15 @@
   width: 280px;
   min-width: 160px;
   overflow: visible;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .hippo-list-documents > tbody > tr > td.doclisting-expiration-date, .hippo-list-documents > thead > tr > th.doclisting-expiration-date {
   width: 160px;
   min-width: 120px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 
