@@ -21,6 +21,16 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="2.1.6">
+        <p class="smallinfo">
+          Released: 2 June 2016
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1294">HIPPLUG-1294</a><br/>
+            	Changed columns width (columns were too wide)
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.1.5">
         <p class="smallinfo">
           Released: 6 April 2016
