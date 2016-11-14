@@ -174,7 +174,7 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
         assertTrue(embargoEditor.itemExists(documentLocation));
         assertTrue(editor.itemExists(documentLocation));
         final NodeType[] mixinNodeTypes = editor.getNode(documentLocation).getMixinNodeTypes();
-        List nodetypes = new ArrayList<String>();
+        List<String> nodetypes = new ArrayList<>();
         for(NodeType nodeType : mixinNodeTypes) {
             nodetypes.add(nodeType.getName());
         }

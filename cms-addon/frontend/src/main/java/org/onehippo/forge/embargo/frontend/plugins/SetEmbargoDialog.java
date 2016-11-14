@@ -36,13 +36,13 @@ public class SetEmbargoDialog extends AbstractWorkflowDialog {
 
     public SetEmbargoDialog(StdWorkflow<EmbargoWorkflow> action, IModel<List<String>> selectedEmbargoGroups, List<String> availableEmbargoGroups, final String title, final String text) {
         super(selectedEmbargoGroups, action);
-        add(new CheckBoxMultipleChoice<String>("checkboxes", selectedEmbargoGroups, availableEmbargoGroups));
+        add(new CheckBoxMultipleChoice<>("checkboxes", selectedEmbargoGroups, availableEmbargoGroups));
         add(new Label("text", new ResourceModel(text)));
         this.title = title;
     }
 
     @Override
-    public IModel getTitle() {
+    public IModel<String> getTitle() {
         return new StringResourceModel(this.title, this, null);
     }
 
