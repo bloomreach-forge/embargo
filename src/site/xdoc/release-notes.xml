@@ -21,6 +21,16 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="3.0.0">
+        <p class="smallinfo">
+          Released: 28 November 2016
+        </p>
+        <ul>
+          <li>
+            Upgraded for Hippo 11
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.1.6">
         <p class="smallinfo">
           Released: 2 June 2016
