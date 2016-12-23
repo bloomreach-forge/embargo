@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2015 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2015-2016 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -62,9 +62,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/trunk</connection>
-    <developerConnection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/trunk</developerConnection>
-    <url>https://forge.onehippo.org/svn/embargo/embargo/trunk</url>
+    <connection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/branches/2.1.x</connection>
+    <developerConnection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/branches/2.1.x</developerConnection>
+    <url>https://forge.onehippo.org/svn/embargo/embargo/branches/2.1.x</url>
   </scm>
 
   <ciManagement>
