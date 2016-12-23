@@ -62,9 +62,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/trunk</connection>
-    <developerConnection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/trunk</developerConnection>
-    <url>https://forge.onehippo.org/svn/embargo/embargo/trunk</url>
+    <connection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/branches/7.8.xx</connection>
+    <developerConnection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/branches/7.8.xx</developerConnection>
+    <url>https://forge.onehippo.org/svn/embargo/embargo/branches/7.8.xx</url>
   </scm>
 
   <ciManagement>
