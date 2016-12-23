@@ -26,7 +26,10 @@ cms-addon/repository/src/main/resources/workflow/events-embargo-gallery-copy.xml
 src/site/resources/images/embargo-columns.png -text svneol=unset#image/png
 src/site/resources/images/embargo-domain-details.png -text svneol=unset#image/png
 src/site/resources/images/embargo-domain.png -text svneol=unset#image/png
+src/site/resources/images/embargo-schedule-dialog.png -text
+src/site/resources/images/groups-dialog.png -text
 src/site/resources/images/new-embargo-user.png -text svneol=unset#image/png
+src/site/resources/images/red-sidebar.png -text
 src/site/resources/images/remove-embargo.png -text svneol=unset#image/png
 src/site/resources/images/reschedule-embargo.png -text svneol=unset#image/png
 src/site/resources/images/set-embargo.png -text svneol=unset#image/png
