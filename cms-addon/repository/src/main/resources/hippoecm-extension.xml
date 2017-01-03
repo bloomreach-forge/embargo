@@ -26,24 +26,21 @@
     </sv:property>
   </sv:node>
 
-  <sv:node sv:name="embargo-workflow">
+  <sv:node sv:name="embargo-workflow-reload">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentdelete" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:workflows/embargo</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:contentresource" sv:type="String">
       <sv:value>workflow/embargo-workflow.xml</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:configuration</sv:value>
+      <sv:value>/hippo:configuration/hippo:workflows</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:sequence" sv:type="Double">
-      <sv:value>20020</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
-      <sv:value>true</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>2.1.4</sv:value>
+      <sv:value>20030</sv:value>
     </sv:property>
   </sv:node>
 
@@ -689,7 +686,6 @@
     </sv:property>
   </sv:node>
 
-
   <sv:node sv:name="cms-embargo-register-updater-v_01_02_00">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
@@ -717,6 +713,18 @@
     </sv:property>
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>20400</sv:value>
+    </sv:property>
+  </sv:node>
+
+  <sv:node sv:name="cms-embargo-workflow-translations">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>20410</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:resourcebundles" sv:type="String">
+      <sv:value>translations/workflow-translations.json</sv:value>
     </sv:property>
   </sv:node>
 

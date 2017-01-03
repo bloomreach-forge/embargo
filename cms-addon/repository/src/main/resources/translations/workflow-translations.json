@@ -1,0 +1,10 @@
+{
+  "hippo:workflows": {
+    "en": {
+      "embargo": "Embargo"
+    },
+    "nl": {
+      "embargo": "Embargo"
+    }
+  }
+}

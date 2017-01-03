@@ -20,6 +20,7 @@ cms-addon/repository/src/main/resources/domains/hipposched-simpletrigger.xml -te
 cms-addon/repository/src/main/resources/embargo.cnd -text
 cms-addon/repository/src/main/resources/modules/embargo-workflow-events-processing-module.xml -text
 cms-addon/repository/src/main/resources/roles/embargo.xml -text
+cms-addon/repository/src/main/resources/translations/workflow-translations.json -text
 cms-addon/repository/src/main/resources/update/registry.xml -text
 cms-addon/repository/src/main/resources/workflow/events-embargo-document-copy.xml -text
 cms-addon/repository/src/main/resources/workflow/events-embargo-gallery-copy.xml -text
