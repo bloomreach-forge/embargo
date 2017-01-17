@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  Copyright 2013-2016 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2013-2017 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -17,10 +17,19 @@
 <document>
   <properties>
     <title>Release Notes</title>
-    <subtitle>Release Notes</subtitle>
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="3.0.1">
+        <p class="smallinfo">
+          Released: 17 Januari 2017
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1421">HIPPLUG-1421</a><br/>
+            Use the Hippo 11 style translations for the Embargo workflow name
+          </li>
+        </ul>
+      </subsection>
       <subsection name="3.0.0">
         <p class="smallinfo">
           Released: 28 November 2016
