@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="content">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name">
+    <sv:value>hippostd:folder</sv:value>
+  </sv:property>
+  <sv:property sv:name="jcr:mixinTypes" sv:type="Name" sv:multiple="true">
+    <sv:value>mix:referenceable</sv:value>
+  </sv:property>
+  <sv:property sv:name="jcr:uuid" sv:type="String">
+    <sv:value>79fdfee0-7ef0-4b74-97b4-24fb81e735bb</sv:value>
+  </sv:property>
+  <sv:property sv:name="hippostd:foldertype" sv:type="String" sv:multiple="true">
+    <sv:value>new-document</sv:value>
+    <sv:value>new-folder</sv:value>
+  </sv:property>
+  <sv:node sv:name="documents">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippostd:folder</sv:value>
+    </sv:property>
+    <sv:property sv:name="jcr:mixinTypes" sv:type="Name" sv:multiple="true">
+      <sv:value>hippo:named</sv:value>
+      <sv:value>mix:referenceable</sv:value>
+    </sv:property>
+    <sv:property sv:name="jcr:uuid" sv:type="String">
+      <sv:value>2c21a29c-a5d1-4e84-aec4-594e5bf93b25</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:name" sv:type="String">
+      <sv:value>Documents</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippostd:foldertype" sv:type="String" sv:multiple="true">
+      <sv:value>new-folder</sv:value>
+      <sv:value>new-translated-folder</sv:value>
+    </sv:property>
+  </sv:node>
+  <sv:node sv:name="gallery">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippogallery:stdImageGallery</sv:value>
+    </sv:property>
+    <sv:property sv:name="jcr:mixinTypes" sv:type="Name" sv:multiple="true">
+      <sv:value>hippo:named</sv:value>
+      <sv:value>mix:referenceable</sv:value>
+    </sv:property>
+    <sv:property sv:name="jcr:uuid" sv:type="String">
+      <sv:value>d8e2100c-f793-4bd6-9ffb-3ecf8f122feb</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:name" sv:type="String">
+      <sv:value>Images</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippostd:foldertype" sv:type="String" sv:multiple="true">
+      <sv:value>new-image-folder</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippostd:gallerytype" sv:type="String" sv:multiple="true">
+      <sv:value>hippogallery:imageset</sv:value>
+    </sv:property>
+  </sv:node>
+  <sv:node sv:name="assets">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippogallery:stdAssetGallery</sv:value>
+    </sv:property>
+    <sv:property sv:name="jcr:mixinTypes" sv:type="Name" sv:multiple="true">
+      <sv:value>hippo:named</sv:value>
+      <sv:value>mix:referenceable</sv:value>
+    </sv:property>
+    <sv:property sv:name="jcr:uuid" sv:type="String">
+      <sv:value>8da65994-e1a7-4407-9587-f60eae3e113e</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:name" sv:type="String">
+      <sv:value>Assets</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippostd:foldertype" sv:type="String" sv:multiple="true">
+      <sv:value>new-file-folder</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippostd:gallerytype" sv:type="String" sv:multiple="true">
+      <sv:value>hippogallery:exampleAssetSet</sv:value>
+    </sv:property>
+  </sv:node>
+  <sv:node sv:name="attic">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippostd:folder</sv:value>
+    </sv:property>
+    <sv:property sv:name="jcr:mixinTypes" sv:type="Name" sv:multiple="true">
+      <sv:value>mix:referenceable</sv:value>
+    </sv:property>
+    <sv:property sv:name="jcr:uuid" sv:type="String">
+      <sv:value>8c279b52-28ca-42fc-a44e-030a78e62094</sv:value>
+    </sv:property>
+  </sv:node>
+</sv:node>

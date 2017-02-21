@@ -1,0 +1,70 @@
+{
+  "hippo:templates":   {
+    "en":     {
+      "new-resource-bundle": "new resource bundle",
+      "new-untranslated-folder": "new untranslated folder",
+      "new-events-document": "new event",
+      "new-events-folder": "new events folder"
+    },
+    "nl":     {
+      "new-untranslated-folder": "nieuwe onvertaalde map",
+      "new-resource-bundle": "nieuwe resource bundle",
+      "new-events-document": "nieuw event",
+      "new-events-folder": "nieuwe eventsmap"
+    },
+    "fr":     {
+      "new-untranslated-folder": "nouveau dossier non traduit",
+      "new-resource-bundle": "nouveau resource bundle",
+      "new-events-document": "nouvel événement",
+      "new-events-folder": "dossier nouveau événements"
+    },
+    "de":     {
+      "new-untranslated-folder": "Neuer nicht übersetzter Ordner",
+      "new-resource-bundle": "Neues Resource-Bundle",
+      "new-events-document": "Neues Event",
+      "new-events-folder": "Neuer Events-Ordner"
+    }
+  },
+  "hippo:types": {"embargodemo:eventsdocument":   {
+    "en":     {
+      "embargodemo:content": "Content",
+      "jcr:name": "Event",
+      "embargodemo:location": "Location",
+      "embargodemo:enddate": "End date",
+      "embargodemo:image": "Image",
+      "embargodemo:introduction": "Introduction",
+      "embargodemo:title": "Title",
+      "embargodemo:date": "Start date"
+    },
+    "nl":     {
+      "embargodemo:content": "Inhoud",
+      "jcr:name": "Event",
+      "embargodemo:location": "Locatie",
+      "embargodemo:enddate": "Einddatum",
+      "embargodemo:image": "Afbeelding",
+      "embargodemo:introduction": "Introductie",
+      "embargodemo:title": "Titel",
+      "embargodemo:date": "Startdatum"
+    },
+    "de":     {
+      "embargodemo:content": "Inhalt",
+      "jcr:name": "Event",
+      "embargodemo:location": "Standort",
+      "embargodemo:enddate": "Enddatum",
+      "embargodemo:image": "Abbildung",
+      "embargodemo:introduction": "Einführung",
+      "embargodemo:title": "Titel",
+      "embargodemo:date": "Startdatum"
+    },
+    "fr":     {
+      "embargodemo:content": "Contenu",
+      "jcr:name": "Événement",
+      "embargodemo:location": "Lieu",
+      "embargodemo:enddate": "Date de fin",
+      "embargodemo:image": "Image",
+      "embargodemo:introduction": "Introduction",
+      "embargodemo:title": "Titre",
+      "embargodemo:date": "Date de début"
+    }
+  }}
+}
