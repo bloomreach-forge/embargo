@@ -28,7 +28,7 @@
   <artifactId>embargo</artifactId>
   <version>3.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <url>http://forge.onehippo.org/gf/project/embargo/</url>
+  <url>https://github.com/onehippo-forge/embargo</url>
 
   <properties>
     <extension.wagon-svn.version>1.9</extension.wagon-svn.version>
@@ -46,42 +46,36 @@
     <developer>
       <name>Minos Chatzidakis</name>
       <id>mchatzidakis</id>
-      <email>m.chatzidakis@onehippo.com</email>
+      <email>minos.chatzidakis@bloomreach.com</email>
     </developer>
     <developer>
       <name>Kenan Salic</name>
       <id>ksalic</id>
-      <email>k.salic@onehippo.com</email>
-    </developer>
-    <developer>
-      <name>Jeroen Reijn</name>
-      <id>jreijn</id>
-      <email>j.reijn@onehippo.com</email>
+      <email>kenan.salic@bloomreach.com</email>
     </developer>
   </developers>
 
   <scm>
-    <connection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/trunk</connection>
-    <developerConnection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/trunk</developerConnection>
-    <url>https://forge.onehippo.org/svn/embargo/embargo/trunk</url>
+    <connection>scm:git:git@github.com:onehippo-forge/embargo.git</connection>
+    <developerConnection>scm:git:git@github.com:onehippo-forge/embargo.git</developerConnection>
+    <url>https://github.com/onehippo-forge/embargo.git</url>
+    <tag>HEAD</tag>
   </scm>
-
-  <ciManagement>
-    <system>Hudson</system>
-    <url>http://hudson.onehippo.org/job/Hippo%20Forge%20Embargo%20Plugin%20Trunk/</url>
-  </ciManagement>
 
   <distributionManagement>
     <repository>
+      <name>Hippo Maven 2 Repository</name>
+      <id>hippo-maven2-forge</id>
+      <url>https://maven.onehippo.com/content/repositories/maven2/</url>
       <uniqueVersion>false</uniqueVersion>
-      <id>embargo-maven-repo</id>
-      <url>svn:https://forge.onehippo.org/svn/embargo/maven2</url>
     </repository>
   </distributionManagement>
 
+  <ciManagement/>
+
   <issueManagement>
-    <system>Hippo Forge</system>
-    <url>http://forge.onehippo.org/gf/project/embargo/tracker/</url>
+    <system>Hippo JIRA</system>
+    <url>https://issues.onehippo.com/projects/HIPFORGE</url>
   </issueManagement>
 
   <licenses>
@@ -172,57 +166,12 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
         <version>${maven.plugin.site.version}</version>
+        <configuration>
+          <outputDirectory>docs</outputDirectory>
+        </configuration>
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>pedantic</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.rat</groupId>
-            <artifactId>apache-rat-plugin</artifactId>
-            <version>${maven.plugin.rat.version}</version>
-            <inherited>false</inherited>
-            <executions>
-              <execution>
-                <phase>validate</phase>
-                <goals>
-                  <goal>check</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <addDefaultLicenseMatchers>false</addDefaultLicenseMatchers>
-              <excludeSubProjects>false</excludeSubProjects>
-              <licenses>
-                <license implementation="org.apache.rat.analysis.license.AppliedApacheSoftwareLicense20">
-                  <copyrightOwner>Hippo B\.V\. \(http://www\.onehippo\.com\)</copyrightOwner>
-                </license>
-              </licenses>
-              <excludes>
-                <!-- no license headers needed for these files -->
-                <exclude>**/*.cnd</exclude>
-                <exclude>**/*.json</exclude>
-                <exclude>**/*.log</exclude>
-                <exclude>**/*.patch</exclude>
-                <exclude>**/*.properties</exclude>
-                <exclude>**/hippoecm-extension.xml</exclude>
-                <exclude>**/log4j.dtd</exclude>
-                <exclude>**/MANIFEST.MF</exclude>
-                <!-- exclude IntelliJ module files of sub-projects -->
-                <exclude>**/*.iml</exclude>
-                <exclude>cms-addon/repository/src/main/resources/**/*.xml</exclude>
-                <exclude>tools/embargo-tests/src/test/resources/**/*.xml</exclude>
-              </excludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
   <reporting>
     <outputDirectory>target/site</outputDirectory>
