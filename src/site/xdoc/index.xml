@@ -29,6 +29,11 @@
               adding them to the embargo security domain. Thus, new users and new groups can be added and enabled for embargo operations. These groups don't see each other's embargo content.
             </p>
         </subsection>
+        <subsection name="Code base">
+            <p>
+              The code is on GitHub at at <a href="https://github.com/onehippo-forge/embargo/">https://github.com/onehippo-forge/embargo/</a>.
+            </p>
+        </subsection>
         <subsection name="Project status">
           <p>
             The latest version of the embargo plugin is running on Hippo 11.1.
