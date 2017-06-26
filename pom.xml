@@ -35,7 +35,7 @@
     <junit.version>4.10</junit.version>
 
     <maven.plugin.dependency.version>2.8</maven.plugin.dependency.version>
-    <maven.plugin.site.version>3.3</maven.plugin.site.version>
+    <maven.plugin.site.version>3.6</maven.plugin.site.version>
     <maven.plugin.jxr.version>2.2</maven.plugin.jxr.version>
     <maven.plugin.rat.version>0.9.RAT125</maven.plugin.rat.version>
 
@@ -71,12 +71,15 @@
     </repository>
   </distributionManagement>
 
-  <ciManagement/>
-
   <issueManagement>
     <system>Hippo JIRA</system>
     <url>https://issues.onehippo.com/projects/HIPFORGE</url>
   </issueManagement>
+
+  <ciManagement>
+    <system>Travic CI</system>
+    <url>https://travis-ci.org/onehippo-forge/embargo</url>
+  </ciManagement>
 
   <licenses>
     <license>
