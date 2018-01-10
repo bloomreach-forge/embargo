@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,10 +38,10 @@ import static org.onehippo.forge.embargo.repository.EmbargoConstants.EMBARGO_SCH
 import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT;
 import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME;
 
-/**
- * @version $Id$
- */
+
 public final class EmbargoUtils {
+
+    public static final String[] EMPTY_ARRAY = {};
 
     private EmbargoUtils() {
     }
@@ -86,7 +86,7 @@ public final class EmbargoUtils {
 
         } catch (RepositoryException e) {
             log.error("Could not retrieve user groups", e);
-            return new String[]{};
+            return EMPTY_ARRAY;
         }
     }
 
