@@ -26,7 +26,9 @@ import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
+import javax.jcr.nodetype.NodeType;
 import javax.jcr.query.Query;
+import javax.jcr.version.VersionManager;
 
 import org.apache.jackrabbit.JcrConstants;
 import org.hippoecm.repository.api.HippoNodeType;
@@ -74,9 +76,11 @@ public final class EmbargoUtils {
 
     public static String[] getAllUserGroups(Session session, String userIdentity) {
         try {
-            Query selectGroupsQuery = session.getWorkspace().getQueryManager().createQuery(
-                    EmbargoConstants.SELECT_GROUPS_QUERY.replace("{}", userIdentity),
-                    Query.SQL);
+            @SuppressWarnings("deprecation")
+            Query selectGroupsQuery = session
+                    .getWorkspace()
+                    .getQueryManager()
+                    .createQuery(EmbargoConstants.SELECT_GROUPS_QUERY.replace("{}", userIdentity), Query.SQL);
             NodeIterator groupNodes = selectGroupsQuery.execute().getNodes();
             List<String> groupNames = new ArrayList<String>();
             while (groupNodes.hasNext()) {
@@ -196,5 +200,40 @@ public final class EmbargoUtils {
 
         return null;
 
+    }
+
+    public static void removeEmbargoForHandle(final Session session, final Node handle) throws RepositoryException {
+        final VersionManager versionManager = session.getWorkspace().getVersionManager();
+        if (!handle.isCheckedOut()) {
+            versionManager.checkout(handle.getPath());
+        }
+        //remove embargo:groups
+        if (handle.hasProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME)) {
+            handle.getProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME).remove();
+        }
+        //remove any embargo:request
+        if (handle.hasNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
+            handle.getNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
+        }
+        //remove embargo mixin from handle
+        removeMixin(handle, EmbargoConstants.EMBARGO_MIXIN_NAME);
+
+        //remove embargo mixin from document(s)
+        for (Node documentNode : getDocumentVariants(handle)) {
+            if (!documentNode.isCheckedOut()) {
+                versionManager.checkout(documentNode.getPath());
+            }
+            removeMixin(documentNode, EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
+        }
+    }
+
+    public static void removeMixin(final Node handle, final String mixin) throws RepositoryException {
+        final NodeType[] mixinNodeTypes = handle.getMixinNodeTypes();
+        for (NodeType mixinNodeType : mixinNodeTypes) {
+            if (mixinNodeType.getName().equals(mixin)) {
+                handle.removeMixin(mixin);
+                return;
+            }
+        }
     }
 }
