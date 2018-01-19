@@ -174,8 +174,16 @@ public final class EmbargoUtils {
         NodeIterator nodeIterator = documentHandleNode.getNodes();
         List<Node> documentNodes = new ArrayList<Node>();
         while (nodeIterator.hasNext()) {
-            Node documentNode = nodeIterator.nextNode();
-            if (documentNode.isNodeType(JcrConstants.MIX_REFERENCEABLE) && documentNode.getName().equals(documentHandleNode.getName())) {
+            final Node documentNode = nodeIterator.nextNode();
+            /*
+                HIPFORGE-132:
+                draft version of newly created documents don't get JcrConstants.MIX_REFERENCEABLE,
+                and  in those cases EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME doesn't get removed,
+
+
+            */
+            if (documentNode.getName().equals(documentHandleNode.getName()) &&
+                    (documentNode.isNodeType(JcrConstants.MIX_REFERENCEABLE) || documentNode.isNodeType(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME))) {
                 documentNodes.add(documentNode);
             }
         }
