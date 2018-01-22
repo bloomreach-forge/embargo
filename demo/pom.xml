@@ -20,7 +20,7 @@
     <!--***START temporary override of versions*** -->
     <!-- ***END temporary override of versions*** -->
 
-    <embargo.plugin.version>3.0.1</embargo.plugin.version>
+    <embargo.plugin.version>${project.version}</embargo.plugin.version>
 
     <essentials.version>3.1.0</essentials.version>
     <jsp-api.version>2.2</jsp-api.version>
