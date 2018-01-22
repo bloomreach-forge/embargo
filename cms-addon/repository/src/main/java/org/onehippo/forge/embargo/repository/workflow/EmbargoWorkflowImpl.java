@@ -15,28 +15,47 @@
  */
 package org.onehippo.forge.embargo.repository.workflow;
 
-import com.google.common.base.Strings;
-import org.apache.commons.lang.ArrayUtils;
-import org.hippoecm.repository.api.*;
-import org.hippoecm.repository.ext.WorkflowImpl;
-import org.hippoecm.repository.util.JcrUtils;
-import org.onehippo.cms7.services.HippoServiceRegistry;
-import org.onehippo.forge.embargo.repository.EmbargoConstants;
-import org.onehippo.forge.embargo.repository.EmbargoUtils;
-import org.onehippo.repository.scheduling.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.jcr.*;
-import javax.jcr.query.Query;
-import javax.jcr.query.QueryManager;
-import javax.jcr.query.QueryResult;
 import java.rmi.RemoteException;
 import java.util.Calendar;
 
-import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.*;
-import static org.onehippo.forge.embargo.repository.EmbargoConstants.*;
+import javax.jcr.ItemNotFoundException;
+import javax.jcr.Node;
+import javax.jcr.NodeIterator;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.SimpleCredentials;
+import javax.jcr.query.Query;
+import javax.jcr.query.QueryManager;
+import javax.jcr.query.QueryResult;
 
+import com.google.common.base.Strings;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.hippoecm.repository.api.HippoNodeType;
+import org.hippoecm.repository.api.HippoWorkspace;
+import org.hippoecm.repository.api.WorkflowContext;
+import org.hippoecm.repository.api.WorkflowException;
+import org.hippoecm.repository.api.WorkflowManager;
+import org.hippoecm.repository.ext.WorkflowImpl;
+import org.hippoecm.repository.util.JcrUtils;
+
+import org.onehippo.cms7.services.HippoServiceRegistry;
+
+import org.onehippo.forge.embargo.repository.EmbargoConstants;
+import org.onehippo.forge.embargo.repository.EmbargoUtils;
+
+import org.onehippo.repository.scheduling.RepositoryJob;
+import org.onehippo.repository.scheduling.RepositoryJobExecutionContext;
+import org.onehippo.repository.scheduling.RepositoryJobInfo;
+import org.onehippo.repository.scheduling.RepositoryJobSimpleTrigger;
+import org.onehippo.repository.scheduling.RepositoryScheduler;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_METHOD_NAME;
+import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_SUBJECT_ID;
+import static org.onehippo.forge.embargo.repository.EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME;
 
 public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow {
 
@@ -114,8 +133,8 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
 
-        if (handle.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
-            handle.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
+        if (handle.hasNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
+            handle.getNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
             internalWorkflowSession.save();
         }
     }
@@ -212,7 +231,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         private final String subjectId;
 
         public WorkflowJobInfo(final String subjectId, final String methodName) {
-            super(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, "embargo", WorkflowJob.class);
+            super(EMBARGO_SCHEDULE_REQUEST_NODE_NAME, "embargo", WorkflowJob.class);
             this.subjectId = subjectId;
             setAttribute(HIPPOSCHED_SUBJECT_ID, subjectId);
             setAttribute(HIPPOSCHED_METHOD_NAME, methodName);
@@ -223,7 +242,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
             final Node handle = EmbargoUtils.extractHandle(session.getNodeByIdentifier(subjectId));
             JcrUtils.ensureIsCheckedOut(handle);
             handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
-            final Node requestNode = handle.addNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, EmbargoConstants.EMBARGO_JOB);
+            final Node requestNode = handle.addNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME, EmbargoConstants.EMBARGO_JOB);
             // TODO mm is this one needed?
             requestNode.addMixin("mix:referenceable");
             return requestNode;
