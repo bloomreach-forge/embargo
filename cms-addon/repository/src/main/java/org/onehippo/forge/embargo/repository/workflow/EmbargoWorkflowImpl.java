@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,36 +18,45 @@ package org.onehippo.forge.embargo.repository.workflow;
 import java.rmi.RemoteException;
 import java.util.Calendar;
 
+import javax.jcr.ItemNotFoundException;
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
-import javax.jcr.nodetype.NodeType;
+import javax.jcr.query.Query;
+import javax.jcr.query.QueryManager;
+import javax.jcr.query.QueryResult;
+
+import com.google.common.base.Strings;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.hippoecm.repository.api.HippoNodeType;
 import org.hippoecm.repository.api.HippoWorkspace;
 import org.hippoecm.repository.api.WorkflowContext;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.api.WorkflowManager;
 import org.hippoecm.repository.ext.WorkflowImpl;
 import org.hippoecm.repository.util.JcrUtils;
+
 import org.onehippo.cms7.services.HippoServiceRegistry;
+
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
+
 import org.onehippo.repository.scheduling.RepositoryJob;
 import org.onehippo.repository.scheduling.RepositoryJobExecutionContext;
 import org.onehippo.repository.scheduling.RepositoryJobInfo;
 import org.onehippo.repository.scheduling.RepositoryJobSimpleTrigger;
 import org.onehippo.repository.scheduling.RepositoryScheduler;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_METHOD_NAME;
 import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_SUBJECT_ID;
+import static org.onehippo.forge.embargo.repository.EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME;
 
-/**
- * @version "$Id$"
- */
 public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow {
 
     private final static Logger log = LoggerFactory.getLogger(EmbargoWorkflowImpl.class);
@@ -59,7 +68,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     }
 
     @Override
-    public void addEmbargo(final String userId, final String subjectId, final String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, RemoteException {
+    public void addEmbargo(final String userId, final String subjectId, final String[] forcedEmbargoGroups) throws RepositoryException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
 
@@ -95,44 +104,12 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     }
 
     @Override
-    public void removeEmbargo(final String subjectId) throws WorkflowException, RepositoryException, RemoteException {
+    public void removeEmbargo(final String subjectId) throws RepositoryException {
         final WorkflowContext workflowContext = getWorkflowContext();
         final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
-
         final Node handle = EmbargoUtils.extractHandle(internalWorkflowSession.getNodeByIdentifier(subjectId));
-        if (!handle.isCheckedOut()) {
-            internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
-        }
-        //remove embargo:groups
-        if (handle.hasProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME)) {
-            handle.getProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME).remove();
-        }
-        //remove any embargo:request
-        if (handle.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
-            handle.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
-        }
-        //remove embargo mixin from handle
-        removeMixin(handle, EmbargoConstants.EMBARGO_MIXIN_NAME);
-
-        //remove embargo mixin from document(s)
-        for (Node documentNode : EmbargoUtils.getDocumentVariants(handle)) {
-            if (!documentNode.isCheckedOut()) {
-                internalWorkflowSession.getWorkspace().getVersionManager().checkout(documentNode.getPath());
-            }
-            removeMixin(documentNode, EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
-        }
-
+        EmbargoUtils.removeEmbargoForHandle(internalWorkflowSession, handle);
         internalWorkflowSession.save();
-    }
-
-    private void removeMixin(final Node handle, final String mixin) throws RepositoryException {
-        final NodeType[] mixinNodeTypes = handle.getMixinNodeTypes();
-        for (NodeType mixinNodeType : mixinNodeTypes) {
-            if (mixinNodeType.getName().equals(mixin)) {
-                handle.removeMixin(mixin);
-                return;
-            }
-        }
     }
 
     @Override
@@ -156,8 +133,8 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
             internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
         }
 
-        if (handle.hasNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
-            handle.getNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
+        if (handle.hasNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
+            handle.getNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME).remove();
             internalWorkflowSession.save();
         }
     }
@@ -171,23 +148,32 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
     public static class WorkflowJob implements RepositoryJob {
 
         private static final Logger log = LoggerFactory.getLogger(WorkflowJob.class);
+        public static final char[] PASSWORD = {};
 
         @Override
-        public void execute(final RepositoryJobExecutionContext context) throws RepositoryException {
+        public void execute(final RepositoryJobExecutionContext context) {
             Session session = null;
             String methodName = null;
             String subjectPath = null;
             try {
-                session = context.createSession(new SimpleCredentials("workflowuser", new char[]{}));
+                session = context.createSession(new SimpleCredentials("workflowuser", PASSWORD));
                 final String subjectId = context.getAttribute(HIPPOSCHED_SUBJECT_ID);
                 methodName = context.getAttribute(HIPPOSCHED_METHOD_NAME);
                 final Node subject = session.getNodeByIdentifier(subjectId);
                 subjectPath = subject.getPath();
-                final EmbargoWorkflow workflow = (EmbargoWorkflow)getWorkflowManager(session).getWorkflow("embargo", subject);
+                final EmbargoWorkflow workflow = (EmbargoWorkflow) getWorkflowManager(session).getWorkflow("embargo", subject);
                 if (METHOD_REMOVE_EMBARGO.equals(methodName)) {
                     workflow.removeEmbargo(subjectId);
                 } else {
                     log.warn("Unsupported method called on Embargo workflow: {} ", methodName);
+                }
+            } catch (ItemNotFoundException e) {
+                final String targetId = context.getAttribute(HIPPOSCHED_SUBJECT_ID);
+                final String removedAtticItemPath = removeAtticItem(session, targetId);
+                if (!Strings.isNullOrEmpty(removedAtticItemPath)) {
+                    log.info("Removed embargo request from deleted document (attic): {}", removedAtticItemPath);
+                } else {
+                    log.error("Node not found for embargo workflow operation {} on {}", new String[]{methodName, subjectPath}, e);
                 }
             } catch (RemoteException | WorkflowException | RepositoryException e) {
                 log.error("Execution of scheduled workflow operation {} on {} failed", new String[]{methodName, subjectPath}, e);
@@ -198,8 +184,44 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
             }
         }
 
+        private String removeAtticItem(final Session session, final String targetId) {
+            String removed = null;
+            try {
+                final QueryManager manager = session.getWorkspace().getQueryManager();
+                @SuppressWarnings("deprecation") final Query query = manager.createQuery("content/attic//element(*, " + EmbargoConstants.EMBARGO_JOB + ')', Query.XPATH);
+                final QueryResult execute = query.execute();
+                final NodeIterator nodes = execute.getNodes();
+                final boolean needSave = nodes.hasNext();
+                while (nodes.hasNext()) {
+                    final Node jobNode = nodes.nextNode();
+                    final Node handle = jobNode.getParent();
+                    if (removed == null && handle.isNodeType(HippoNodeType.NT_HANDLE) && handle.hasNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME)) {
+                        final Node requestNode = handle.getNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME);
+                        final String[] values = JcrUtils.getMultipleStringProperty(requestNode, "hipposched:attributeValues", ArrayUtils.EMPTY_STRING_ARRAY);
+                        for (String value : values) {
+                            if (targetId.equals(value)) {
+                                // store path of removed node
+                                final String path = jobNode.getPath();
+                                log.info("Removing embargo from node from attic: {}", path);
+                                jobNode.remove();
+                                removed = handle.getPath();
+                                break;
+                            }
+                        }
+                    }
+
+                }
+                if (needSave) {
+                    session.save();
+                }
+            } catch (RepositoryException e) {
+                log.error("Error removing embargo nodes", e);
+            }
+            return removed;
+        }
+
         private static WorkflowManager getWorkflowManager(final Session session) throws RepositoryException {
-            return ((HippoWorkspace)session.getWorkspace()).getWorkflowManager();
+            return ((HippoWorkspace) session.getWorkspace()).getWorkflowManager();
         }
 
     }
@@ -209,7 +231,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
         private final String subjectId;
 
         public WorkflowJobInfo(final String subjectId, final String methodName) {
-            super(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, "embargo", WorkflowJob.class);
+            super(EMBARGO_SCHEDULE_REQUEST_NODE_NAME, "embargo", WorkflowJob.class);
             this.subjectId = subjectId;
             setAttribute(HIPPOSCHED_SUBJECT_ID, subjectId);
             setAttribute(HIPPOSCHED_METHOD_NAME, methodName);
@@ -220,7 +242,7 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
             final Node handle = EmbargoUtils.extractHandle(session.getNodeByIdentifier(subjectId));
             JcrUtils.ensureIsCheckedOut(handle);
             handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
-            final Node requestNode = handle.addNode(EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME, EmbargoConstants.EMBARGO_JOB);
+            final Node requestNode = handle.addNode(EMBARGO_SCHEDULE_REQUEST_NODE_NAME, EmbargoConstants.EMBARGO_JOB);
             // TODO mm is this one needed?
             requestNode.addMixin("mix:referenceable");
             return requestNode;
