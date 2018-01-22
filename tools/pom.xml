@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.onehippo.forge.embargo</groupId>
     <artifactId>embargo</artifactId>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>3.0.2</version>
   </parent>
 
   <name>Hippo Embargo Plugin Tools</name>
