@@ -20,6 +20,32 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="3.0.2">
+        <p class="smallinfo">
+          Released: 22 Januari 2018
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-110">HIPFORGE-110</a><br/>
+            Remove embargo trigger node from (deleted) documents in attic.
+          </li>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-133">HIPFORGE-132</a><br/>
+            While getting the document variants from a handle, do not check for mix:referenceble because it can be
+            missing from draft variant, causing embargo mixins to be present on draft only.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="3.0.1">
+        <p class="smallinfo">
+          Released: 17 Januari 2017
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-11">HIPFORGE-11</a><br/>
+            Use the Hippo 11 style translations for the Embargo workflow name.<br/>
+            <span class="note">Note:</span> when deploying this version, make sure the repository bootstraps by setting
+            <code>-Drepo.bootstrap=true</code>.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="3.0.1">
         <p class="smallinfo">
           Released: 17 Januari 2017

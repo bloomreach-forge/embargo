@@ -20,8 +20,16 @@
   <skin>
     <groupId>org.onehippo.forge.mavenskin</groupId>
     <artifactId>forge-maven-skin</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
   </skin>
+
+  <custom>
+    <hippoSkin>
+      <gitHub>
+        <projectId>onehippo-forge/embargo</projectId>
+      </gitHub>
+    </hippoSkin>
+  </custom>
 
   <publishDate format="d MMMM yyyy" />
 
