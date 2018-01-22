@@ -30,7 +30,6 @@ import javax.jcr.nodetype.NodeType;
 import javax.jcr.query.Query;
 import javax.jcr.version.VersionManager;
 
-import org.apache.jackrabbit.JcrConstants;
 import org.hippoecm.repository.api.HippoNodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,15 +174,7 @@ public final class EmbargoUtils {
         List<Node> documentNodes = new ArrayList<Node>();
         while (nodeIterator.hasNext()) {
             final Node documentNode = nodeIterator.nextNode();
-            /*
-                HIPFORGE-132:
-                draft version of newly created documents don't get JcrConstants.MIX_REFERENCEABLE,
-                and  in those cases EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME doesn't get removed,
-
-
-            */
-            if (documentNode.getName().equals(documentHandleNode.getName()) &&
-                    (documentNode.isNodeType(JcrConstants.MIX_REFERENCEABLE) || documentNode.isNodeType(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME))) {
+            if (documentNode.getName().equals(documentHandleNode.getName())) {
                 documentNodes.add(documentNode);
             }
         }
