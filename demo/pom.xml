@@ -12,7 +12,7 @@
   <description>embargodemo</description>
   <groupId>org.onehippo.forge.embargo</groupId>
   <artifactId>embargodemo</artifactId>
-  <version>3.0.2-SNAPSHOT</version>
+  <version>3.0.2</version>
   <packaging>pom</packaging>
 
   <properties>
