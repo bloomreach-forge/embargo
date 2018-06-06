@@ -26,7 +26,7 @@
   <name>Hippo Embargo Plugin</name>
   <groupId>org.onehippo.forge.embargo</groupId>
   <artifactId>embargo</artifactId>
-  <version>2.1.7-SNAPSHOT</version>
+  <version>2.1.7</version>
   <packaging>pom</packaging>
   <url>http://forge.onehippo.org/gf/project/embargo/</url>
 
