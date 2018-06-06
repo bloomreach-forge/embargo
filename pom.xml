@@ -62,28 +62,19 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/branches/2.1.x</connection>
-    <developerConnection>scm:svn:https://forge.onehippo.org/svn/embargo/embargo/branches/2.1.x</developerConnection>
-    <url>https://forge.onehippo.org/svn/embargo/embargo/branches/2.1.x</url>
+    <connection>scm:git:git@github.com:onehippo-forge/embargo.git</connection>
+    <developerConnection>scm:git:git@github.com:onehippo-forge/embargo.git</developerConnection>
+    <url>https://github.com/onehippo-forge/embargo.git</url>
   </scm>
-
-  <ciManagement>
-    <system>Hudson</system>
-    <url>http://hudson.onehippo.org/job/Hippo%20Forge%20Embargo%20Plugin%20Trunk/</url>
-  </ciManagement>
 
   <distributionManagement>
     <repository>
+      <name>Hippo Maven 2 Repository</name>
+      <id>hippo-maven2-forge</id>
+      <url>https://maven.onehippo.com/content/repositories/forge-releases/</url>
       <uniqueVersion>false</uniqueVersion>
-      <id>embargo-maven-repo</id>
-      <url>svn:https://forge.onehippo.org/svn/embargo/maven2</url>
     </repository>
   </distributionManagement>
-
-  <issueManagement>
-    <system>Hippo Forge</system>
-    <url>http://forge.onehippo.org/gf/project/embargo/tracker/</url>
-  </issueManagement>
 
   <licenses>
     <license>
