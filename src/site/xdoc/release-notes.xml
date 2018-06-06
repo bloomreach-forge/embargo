@@ -39,18 +39,6 @@
           Released: 17 Januari 2017
         </p>
         <ul>
-          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-11">HIPFORGE-11</a><br/>
-            Use the Hippo 11 style translations for the Embargo workflow name.<br/>
-            <span class="note">Note:</span> when deploying this version, make sure the repository bootstraps by setting
-            <code>-Drepo.bootstrap=true</code>.
-          </li>
-        </ul>
-      </subsection>
-      <subsection name="3.0.1">
-        <p class="smallinfo">
-          Released: 17 Januari 2017
-        </p>
-        <ul>
           <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1421">HIPPLUG-1421</a><br/>
             Use the Hippo 11 style translations for the Embargo workflow name.<br/>
             <span class="note">Note:</span> when deploying this version, make sure the repository bootstraps by setting
