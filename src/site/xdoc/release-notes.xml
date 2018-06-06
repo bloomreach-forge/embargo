@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  Copyright 2013-2016 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,6 +21,20 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="2.1.7">
+        <p class="smallinfo">
+          Released: 6 June 2018
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-168">HIPFORGE-168</a><br/>
+            Back porting both <a href="https://issues.onehippo.com/browse/HIPFORGE-110">HIPFORGE-110</a> and
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-132">HIPFORGE-132</a> from the Hippo 11 version to the Hippo 10.2 version.<br/>
+            - Remove embargo trigger node from (deleted) documents in attic.<br/>
+            - While getting the document variants from a handle, do not check for mix:referenceble because it can be
+            missing from draft variant, causing embargo mixins to be present on draft only.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.1.6">
         <p class="smallinfo">
           Released: 2 June 2016
