@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 Hippo B.V. (http://www.onehippo.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.onehippo.forge.embargo.repository.modules;
 
 import java.rmi.RemoteException;
@@ -9,8 +25,6 @@ import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
-
-import com.google.common.base.Strings;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.api.JackrabbitSession;
@@ -34,6 +48,8 @@ import org.onehippo.repository.security.Group;
 import org.onehippo.repository.security.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Strings;
 
 public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurableDaemonModule {
 
@@ -92,27 +108,16 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
                 final Node subject = getSubject(event);
                 final Node handle = EmbargoUtils.extractHandle(subject);
                 //NOTE:  folders have no handle so those should be filtered out:
-                if (handle == null && !"createGalleryItem".equals(event.action())) {
+                final String action = event.action();
+                if (handle == null && !"createGalleryItem".equals(action)) {
                     return;
                 }
-                if ("add".equals(event.action()) || "createGalleryItem".equals(event.action()) || "copyTo".equals(event.action())) {
-                    final User user = getUser(u);
-                    if (user == null) {
-                        return;
+                if ("add".equals(action) || "createGalleryItem".equals(action) || "copyTo".equals(action)) {
+                    if (isValidEmbargoUser(u)) {
+                        setEmbargoHandle(event, subject);
                     }
-                    final Iterable<Group> memberships = user.getMemberships();
-                    boolean embargoUser = false;
-                    for (Group membership : memberships) {
-                        if (embargoGroups.contains(membership.getId())) {
-                            embargoUser = true;
-                            break;
-                        }
-
-                    }
-                    if (!embargoUser) {
-                        return;
-                    }
-                    setEmbargoWorkflow(event, subject);
+                } else if ("commitEditableInstance".equals(action)) {
+                    setEmbargoVariants(event, subject);
                 }
             } catch (Exception e) {
                 log.error("Embargo workflow error", e);
@@ -120,12 +125,29 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         }
     }
 
+    private boolean isValidEmbargoUser(final String u) throws RepositoryException {
+        final User user = getUser(u);
+        if (user == null) {
+            return false;
+        }
+        final Iterable<Group> memberships = user.getMemberships();
+        boolean embargoUser = false;
+        for (Group membership : memberships) {
+            if (embargoGroups.contains(membership.getId())) {
+                embargoUser = true;
+                break;
+            }
+
+        }
+        return embargoUser;
+    }
+
 
     public User getUser(final String user) {
         try {
-            final JackrabbitSession session = (JackrabbitSession)SessionDecorator.unwrap(this.session);
-            final RepositoryImpl repository = (RepositoryImpl)session.getRepository();
-            final HippoSecurityManager securityManager = (HippoSecurityManager)repository.getSecurityManager();
+            final JackrabbitSession session = (JackrabbitSession) SessionDecorator.unwrap(this.session);
+            final RepositoryImpl repository = (RepositoryImpl) session.getRepository();
+            final HippoSecurityManager securityManager = (HippoSecurityManager) repository.getSecurityManager();
             final SecurityServiceImpl securityService = new SecurityServiceImpl(securityManager, session);
             return securityService.getUser(user);
         } catch (RepositoryException e) {
@@ -134,7 +156,18 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         return null;
     }
 
-    public void setEmbargoWorkflow(final HippoWorkflowEvent event, final Node subject) throws WorkflowException, RemoteException {
+    public void setEmbargoVariants(final HippoWorkflowEvent event, final Node subject) throws WorkflowException, RemoteException {
+        try {
+            final EmbargoWorkflow embargoWorkflow = getWorkflow(subject, "embargo");
+            if (embargoWorkflow != null) {
+                embargoWorkflow.addEmbargoVariants(event.user(), subject.getIdentifier(), null);
+            }
+        } catch (RepositoryException e) {
+            log.error("Unable to get node with id: {}", event.subjectId(), e);
+        }
+    }
+
+    public void setEmbargoHandle(final HippoWorkflowEvent event, final Node subject) throws WorkflowException, RemoteException {
         try {
             if (sleepTime > 0) {
                 try {
@@ -145,7 +178,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
             }
             final EmbargoWorkflow embargoWorkflow = getWorkflow(subject, "embargo");
             if (embargoWorkflow != null) {
-                embargoWorkflow.addEmbargo(event.user(), subject.getIdentifier(), null);
+                embargoWorkflow.addEmbargoHandle(event.user(), subject.getIdentifier(), null);
             }
         } catch (RepositoryException e) {
             log.error("Unable to get node with id: {}", event.subjectId(), e);
@@ -177,11 +210,11 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
     }
 
     private EmbargoWorkflow getWorkflow(final Node node, final String category) throws RepositoryException {
-        final WorkflowManager workflowManager = ((HippoWorkspace)node.getSession().getWorkspace()).getWorkflowManager();
-        final Node canonicalNode = ((HippoNode)node).getCanonicalNode();
+        final WorkflowManager workflowManager = ((HippoWorkspace) node.getSession().getWorkspace()).getWorkflowManager();
+        final Node canonicalNode = ((HippoNode) node).getCanonicalNode();
         final Workflow workflow = workflowManager.getWorkflow(category, canonicalNode);
         if (workflow instanceof EmbargoWorkflow) {
-            return (EmbargoWorkflow)workflow;
+            return (EmbargoWorkflow) workflow;
         }
         return null;
     }
