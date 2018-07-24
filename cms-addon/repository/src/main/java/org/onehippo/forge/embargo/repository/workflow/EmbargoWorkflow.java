@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-18 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import org.hippoecm.repository.api.WorkflowException;
 /**
  * @version $Id$
  */
-public interface EmbargoWorkflow extends Workflow, IWorkflowInvoker{
+public interface EmbargoWorkflow extends Workflow, IWorkflowInvoker {
 
     /**
      * Adds the embargo to the current document. The user ID used to fetch the group of the user and mark the document
@@ -42,10 +42,15 @@ public interface EmbargoWorkflow extends Workflow, IWorkflowInvoker{
      */
     void addEmbargo(String userId, String subjectId, String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, RemoteException;
 
+    void addEmbargoHandle(String userId, String subjectId, String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, RemoteException;
+
+    void addEmbargoVariants(String userId, String subjectId, String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, RemoteException;
+
     void removeEmbargo(String subjectId) throws WorkflowException, RepositoryException, RemoteException;
 
     void scheduleRemoveEmbargo(String subjectId, Calendar publicationDate) throws WorkflowException, RepositoryException, RemoteException;
 
     void cancelSchedule(String subjectId) throws WorkflowException, RepositoryException, RemoteException;
+
 
 }

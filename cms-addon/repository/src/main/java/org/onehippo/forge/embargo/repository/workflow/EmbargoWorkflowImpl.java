@@ -28,8 +28,6 @@ import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 
-import com.google.common.base.Strings;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.hippoecm.repository.api.HippoNodeType;
 import org.hippoecm.repository.api.HippoWorkspace;
@@ -38,20 +36,18 @@ import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.api.WorkflowManager;
 import org.hippoecm.repository.ext.WorkflowImpl;
 import org.hippoecm.repository.util.JcrUtils;
-
 import org.onehippo.cms7.services.HippoServiceRegistry;
-
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
-
 import org.onehippo.repository.scheduling.RepositoryJob;
 import org.onehippo.repository.scheduling.RepositoryJobExecutionContext;
 import org.onehippo.repository.scheduling.RepositoryJobInfo;
 import org.onehippo.repository.scheduling.RepositoryJobSimpleTrigger;
 import org.onehippo.repository.scheduling.RepositoryScheduler;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Strings;
 
 import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_METHOD_NAME;
 import static org.hippoecm.repository.quartz.HippoSchedJcrConstants.HIPPOSCHED_SUBJECT_ID;
@@ -85,21 +81,78 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
 
             //Set embargo mixin on handle & add group information
             handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
-            handle.setProperty(
-                    EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME,
-                    userEmbargoEnabledGroups);
+            handle.setProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME, userEmbargoEnabledGroups);
 
             //Set embargo mixin on the document
-            for (Node documentNode : EmbargoUtils.getDocumentVariants(handle)) {
-                if (!documentNode.isCheckedOut()) {
-                    internalWorkflowSession.getWorkspace().getVersionManager().checkout(documentNode.getPath());
-                }
-                documentNode.addMixin(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
-            }
+            addVariantsMixin(internalWorkflowSession, handle);
 
             internalWorkflowSession.save();
         } else {
             log.info("Trying to set the embargo on a document for user: {} who is not in any embargo enabled groups.", userId);
+        }
+    }
+
+    @Override
+    public void addEmbargoHandle(final String userId, final String subjectId, final String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, RemoteException {
+        final WorkflowContext workflowContext = getWorkflowContext();
+        final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
+        final Node handle = EmbargoUtils.extractHandle(internalWorkflowSession.getNodeByIdentifier(subjectId));
+        if (!handle.isCheckedOut()) {
+            internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
+        }
+
+        String[] userEmbargoEnabledGroups = ArrayUtils.isEmpty(forcedEmbargoGroups) ?
+                EmbargoUtils.getCurrentUserEmbargoEnabledGroups(internalWorkflowSession, userId) :
+                forcedEmbargoGroups;
+
+        if (userEmbargoEnabledGroups.length > 0) {
+
+            //Set embargo mixin on handle & add group information
+            handle.addMixin(EmbargoConstants.EMBARGO_MIXIN_NAME);
+            handle.setProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME, userEmbargoEnabledGroups);
+            internalWorkflowSession.save();
+        } else {
+            log.info("Trying to set the embargo on a document for user: {} who is not in any embargo enabled groups.", userId);
+        }
+    }
+
+    @Override
+    public void addEmbargoVariants(final String userId, final String subjectId, final String[] forcedEmbargoGroups) throws WorkflowException, RepositoryException, RemoteException {
+        final WorkflowContext workflowContext = getWorkflowContext();
+        final Session internalWorkflowSession = workflowContext.getInternalWorkflowSession();
+        final Node handle = EmbargoUtils.extractHandle(internalWorkflowSession.getNodeByIdentifier(subjectId));
+        // check if embargo handle:
+        if (!handle.isNodeType(EmbargoConstants.EMBARGO_MIXIN_NAME)) {
+            // not an embargo handle
+            log.debug("Not an embargo handle {}", handle.getPath());
+            return;
+        }
+        if (!handle.isCheckedOut()) {
+            internalWorkflowSession.getWorkspace().getVersionManager().checkout(handle.getPath());
+        }
+        String[] userEmbargoEnabledGroups = ArrayUtils.isEmpty(forcedEmbargoGroups) ?
+                EmbargoUtils.getCurrentUserEmbargoEnabledGroups(internalWorkflowSession, userId) :
+                forcedEmbargoGroups;
+
+        if (userEmbargoEnabledGroups.length > 0) {
+            addVariantsMixin(internalWorkflowSession, handle);
+            internalWorkflowSession.save();
+        } else {
+            log.info("Trying to set the embargo on a document for user: {} who is not in any embargo enabled groups.", userId);
+        }
+    }
+
+    private void addVariantsMixin(final Session internalWorkflowSession, final Node handle) throws RepositoryException {
+        for (Node documentNode : EmbargoUtils.getDocumentVariants(handle)) {
+            if (documentNode.isNodeType(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME)) {
+                log.debug("Already embargo document: {}", documentNode.getPath());
+                continue;
+            }
+
+            if (!documentNode.isCheckedOut()) {
+                internalWorkflowSession.getWorkspace().getVersionManager().checkout(documentNode.getPath());
+            }
+            documentNode.addMixin(EmbargoConstants.EMBARGO_DOCUMENT_MIXIN_NAME);
         }
     }
 
@@ -188,7 +241,8 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
             String removed = null;
             try {
                 final QueryManager manager = session.getWorkspace().getQueryManager();
-                @SuppressWarnings("deprecation") final Query query = manager.createQuery("content/attic//element(*, " + EmbargoConstants.EMBARGO_JOB + ')', Query.XPATH);
+                @SuppressWarnings("deprecation")
+                final Query query = manager.createQuery("content/attic//element(*, " + EmbargoConstants.EMBARGO_JOB + ')', Query.XPATH);
                 final QueryResult execute = query.execute();
                 final NodeIterator nodes = execute.getNodes();
                 final boolean needSave = nodes.hasNext();
