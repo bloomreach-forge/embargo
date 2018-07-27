@@ -22,7 +22,7 @@
   <sv:property sv:name="hipposys:className" sv:type="String">
     <sv:value>org.onehippo.forge.embargo.repository.modules.EmbargoWorkflowEventsProcessingModule</sv:value>
   </sv:property>
-  <sv:property sv:name="hipposys:cmsonly" sv:type="true">
+  <sv:property sv:name="hipposys:cmsonly" sv:type="Boolean">
     <sv:value>true</sv:value>
   </sv:property>
   <sv:node sv:name="hippo:moduleconfig">
