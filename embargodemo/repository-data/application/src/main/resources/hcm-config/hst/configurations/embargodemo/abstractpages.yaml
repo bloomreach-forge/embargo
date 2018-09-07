@@ -1,0 +1,4 @@
+definitions:
+  config:
+    /hst:hst/hst:configurations/embargodemo/hst:abstractpages:
+      jcr:primaryType: hst:pages

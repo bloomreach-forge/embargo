@@ -1,0 +1,6 @@
+definitions:
+  config:
+    /hippo:namespaces/embargodemo:
+      jcr:primaryType: hipposysedit:namespace
+      jcr:mixinTypes: ['mix:referenceable']
+      jcr:uuid: 24ba21bf-61db-46e6-8176-6a8e0bb0c5c4

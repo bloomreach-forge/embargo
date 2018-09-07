@@ -1,4 +1,17 @@
 /content:
   jcr:primaryType: hippostd:folder
   jcr:mixinTypes: ['mix:referenceable']
-  hippostd:foldertype: [new-folder, new-document]
+  jcr:uuid: ed307dfc-5774-4ac7-9feb-79b57e058bb2
+  hippostd:foldertype: [new-document, new-folder]
+  /gallery:
+    jcr:primaryType: hippogallery:stdImageGallery
+    jcr:mixinTypes: ['mix:referenceable']
+    jcr:uuid: 37aa21b2-d5dd-4ac2-9e1c-9cb0f82dd099
+    hippostd:foldertype: [new-image-folder]
+    hippostd:gallerytype: ['hippogallery:imageset']
+  /assets:
+    jcr:primaryType: hippogallery:stdAssetGallery
+    jcr:mixinTypes: ['mix:referenceable']
+    jcr:uuid: 64eb45b7-5bc5-458b-86cf-274652390358
+    hippostd:foldertype: [new-file-folder]
+    hippostd:gallerytype: ['hippogallery:exampleAssetSet']
