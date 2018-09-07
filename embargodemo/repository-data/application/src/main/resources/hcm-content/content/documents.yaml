@@ -1,0 +1,5 @@
+/content/documents:
+  jcr:primaryType: hippostd:folder
+  jcr:mixinTypes: ['hippo:named', 'mix:referenceable']
+  hippostd:foldertype: [new-folder, new-translated-folder]
+  hippo:name: 'Documents'

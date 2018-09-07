@@ -1,0 +1,4 @@
+/content:
+  jcr:primaryType: hippostd:folder
+  jcr:mixinTypes: ['mix:referenceable']
+  hippostd:foldertype: [new-folder, new-document]

@@ -13,14 +13,13 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>11.2.7</version>
+    <version>12.4.1</version>
   </parent>
 
   <name>Hippo Embargo Plugin</name>
@@ -62,6 +61,11 @@
       <name>Marijan Milicevic</name>
       <id>jhoffman</id>
       <email>marijan.milicevic@bloomreach.com</email>
+    </developer>
+    <developer>
+      <name>Saimir Muco</name>
+      <id>smuco</id>
+      <email>saimir.muco@bloomreach.com</email>
     </developer>
   </developers>
 
@@ -226,6 +230,7 @@
   <modules>
     <module>cms-addon</module>
     <module>tools</module>
+    <module>embargodemo</module>
   </modules>
 
   <profiles>

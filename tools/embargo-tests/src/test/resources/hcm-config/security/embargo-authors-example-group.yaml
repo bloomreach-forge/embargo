@@ -1,0 +1,7 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:groups/embargo-authors-example-group:
+      jcr:primaryType: hipposys:group
+      hipposys:members: [embargo-author]
+      hipposys:securityprovider: internal
+      hipposys:system: true
