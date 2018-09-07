@@ -1,0 +1,16 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:domains/preview-documents/hippo-document/filter-embargo:
+      jcr:primaryType: hipposys:facetrule
+      hipposys:equals: false
+      hipposys:facet: nodetype
+      hipposys:filter: false
+      hipposys:type: Name
+      hipposys:value: embargo:document
+    /hippo:configuration/hippo:domains/live-documents/hippo-document/filter-embargo:
+      jcr:primaryType: hipposys:facetrule
+      hipposys:equals: false
+      hipposys:facet: nodetype
+      hipposys:filter: false
+      hipposys:type: Name
+      hipposys:value: embargo:document

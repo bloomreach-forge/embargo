@@ -1,0 +1,12 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:domains/hippodocuments/embargo:
+      jcr:primaryType: hipposys:authrole
+      hipposys:groups: [embargo-editors-example-group, embargo-authors-example-group,
+        admin]
+      hipposys:role: embargo
+    /hippo:configuration/hippo:domains/hippofolders/embargo:
+      jcr:primaryType: hipposys:authrole
+      hipposys:groups: [embargo-editors-example-group, embargo-authors-example-group,
+        admin]
+      hipposys:role: embargo
