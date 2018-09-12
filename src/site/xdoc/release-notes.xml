@@ -21,6 +21,16 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="2.1.8">
+        <p class="smallinfo">
+          Released: 24 July 2018
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-186">HIPFORGE-186</a>
+            Add embargo:document mixin at a later stage in the document workflow, to avoid other mixins being removed.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.1.7">
         <p class="smallinfo">
           Released: 6 June 2018
