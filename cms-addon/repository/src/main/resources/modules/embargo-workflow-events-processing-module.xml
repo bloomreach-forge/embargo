@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2016 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2016-2018 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,6 +21,9 @@
   </sv:property>
   <sv:property sv:name="hipposys:className" sv:type="String">
     <sv:value>org.onehippo.forge.embargo.repository.modules.EmbargoWorkflowEventsProcessingModule</sv:value>
+  </sv:property>
+  <sv:property sv:name="hipposys:cmsonly" sv:type="Boolean">
+    <sv:value>true</sv:value>
   </sv:property>
   <sv:node sv:name="hippo:moduleconfig">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">

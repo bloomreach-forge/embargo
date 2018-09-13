@@ -530,108 +530,64 @@
       <sv:value>20152</sv:value>
     </sv:property>
   </sv:node>
-  <sv:node sv:name="embargo-events-workflow">
+
+  <sv:node sv:name="embargo-events-workflow-deletion">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
     </sv:property>
-    <sv:property sv:name="hippo:contentresource" sv:type="String">
-      <sv:value>workflow/events-embargo-workflow.xml</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:configuration/hippo:workflows</sv:value>
+    <sv:property sv:name="hippo:contentdelete" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:workflows/events-embargo</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>20200</sv:value>
     </sv:property>
-    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
-      <sv:value>true</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>2.1.4</sv:value>
-    </sv:property>
   </sv:node>
 
-  <sv:node sv:name="embargo-events-document-copy">
+  <sv:node sv:name="embargo-events-document-copy-deletion">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>30200.1</sv:value>
     </sv:property>
-    <sv:property sv:name="hippo:contentresource" sv:type="String">
-      <sv:value>workflow/events-embargo-document-copy.xml</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:configuration/hippo:workflows</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
-      <sv:value>true</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>2.1.4</sv:value>
+    <sv:property sv:name="hippo:contentdelete" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:workflows/events-embargo-copy</sv:value>
     </sv:property>
   </sv:node>
 
-  <sv:node sv:name="embargo-events-gallery-workflow">
+  <sv:node sv:name="embargo-events-gallery-workflow-deletion">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
     </sv:property>
-    <sv:property sv:name="hippo:contentresource" sv:type="String">
-      <sv:value>workflow/events-embargo-gallery-workflow.xml</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:configuration/hippo:workflows</sv:value>
+    <sv:property sv:name="hippo:contentdelete" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:workflows/events-embargo-gallery</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>20200</sv:value>
     </sv:property>
-    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
-      <sv:value>true</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>2.1.4</sv:value>
-    </sv:property>
   </sv:node>
 
-  <sv:node sv:name="embargo-events-gallery-copy">
+  <sv:node sv:name="embargo-events-gallery-copy-deletion">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>30200.2</sv:value>
     </sv:property>
-    <sv:property sv:name="hippo:contentresource" sv:type="String">
-      <sv:value>workflow/events-embargo-gallery-copy.xml</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:configuration/hippo:workflows</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
-      <sv:value>true</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>2.1.4</sv:value>
+    <sv:property sv:name="hippo:contentdelete" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:workflows/events-embargo-gallery-copy</sv:value>
     </sv:property>
   </sv:node>
 
-  <sv:node sv:name="embargo-events-assets-workflow">
+  <sv:node sv:name="embargo-events-assets-workflow-deletion">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
       <sv:value>hippo:initializeitem</sv:value>
     </sv:property>
-    <sv:property sv:name="hippo:contentresource" sv:type="String">
-      <sv:value>workflow/events-embargo-assets-workflow.xml</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:configuration/hippo:workflows</sv:value>
+    <sv:property sv:name="hippo:contentdelete" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:workflows/events-embargo-assets</sv:value>
     </sv:property>
     <sv:property sv:name="hippo:sequence" sv:type="Double">
       <sv:value>20200</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:reloadonstartup" sv:type="Boolean">
-      <sv:value>true</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:version" sv:type="String">
-      <sv:value>2.1.4</sv:value>
     </sv:property>
   </sv:node>
 

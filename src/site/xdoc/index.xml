@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2013-2016 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@
         </subsection>
         <subsection name="Project status">
           <p>
-            The latest version of the embargo plugin is running on Hippo 11.1.
+            The latest version of the embargo plugin is running on Hippo 11.
             The table below shows against which versions the plugin is developed.
           </p>
           <table border="1" cellpadding="0" cellspacing="5">
@@ -46,8 +46,8 @@
                <th>Hippo Release</th>
              </tr>
               <tr>
-                <td>3.0.x</td>
-                <td>11.1.x</td>
+                <td>3.x</td>
+                <td>11.x</td>
               </tr>
               <tr>
                 <td>2.1.x</td>
@@ -68,8 +68,8 @@
             </tbody>
           </table>
           <p>
-            See the <a href="https://issues.onehippo.com/browse/HIPPLUG/component/13944">Hippo JIRA</a>
-            for a list of bugs and feature requests.
+            See the <a href="https://issues.onehippo.com/browse/HIPFORGE">Hippo JIRA</a>
+            for a list of bugs and feature requests, in its Embargo Component.
           </p>
         </subsection>
         <subsection name="Screenshots">
