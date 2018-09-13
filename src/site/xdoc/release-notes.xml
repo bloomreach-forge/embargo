@@ -21,6 +21,17 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="2.1.9 Unreleased">
+        <p class="smallinfo">
+          Released: TDB
+        </p>
+        <ul>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-189">HIPFORGE-189</a><br/>
+            Mark the EmbargoWorkflowEventsProcessingModule at /hippo:configuration/hippo:modules/embargo-workflow-events-processing-module.xml
+            as 'cmsonly' to prevent  errors on site-only nodes.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.1.8">
         <p class="smallinfo">
           Released: 24 July 2018
