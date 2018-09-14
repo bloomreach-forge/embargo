@@ -9,13 +9,3 @@ definitions:
         operation: add
         type: string
         value: [embargo]
-    /hippo:configuration/hippo:workflows/events-embargo-assets:
-      .meta:delete: true
-    /hippo:configuration/hippo:workflows/events-embargo-gallery:
-      .meta:delete: true
-    /hippo:configuration/hippo:workflows/events-embargo:
-      .meta:delete: true
-    /hippo:configuration/hippo:workflows/events-embargo-copy:
-      .meta:delete: true
-    /hippo:configuration/hippo:workflows/events-embargo-gallery-copy:
-      .meta:delete: true

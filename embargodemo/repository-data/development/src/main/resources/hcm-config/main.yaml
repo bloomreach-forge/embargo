@@ -15,9 +15,13 @@ definitions:
       hipposys:members:
         operation: add
         type: string
-        value: [editor]
+        value: [editor, embargo-editor]
     /hippo:configuration/hippo:groups/webmaster:
       hipposys:members:
         operation: add
         type: string
         value: [editor]
+    /hippo:configuration/hippo:groups/embargo-editors-example-group:
+      hipposys:members: [embargo-editor]
+    /hippo:configuration/hippo:groups/embargo-authors-example-group:
+      hipposys:members: [admin]
