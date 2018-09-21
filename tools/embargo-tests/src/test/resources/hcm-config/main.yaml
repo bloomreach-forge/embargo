@@ -14,3 +14,7 @@ definitions:
         operation: add
         type: string
         value: [embargo-author]
+    /hippo:configuration/hippo:groups/embargo-editors-example-group:
+      hipposys:members: [embargo-editor]
+    /hippo:configuration/hippo:groups/embargo-authors-example-group:
+      hipposys:members: [embargo-author]
