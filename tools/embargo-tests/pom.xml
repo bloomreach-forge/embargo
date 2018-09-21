@@ -89,7 +89,12 @@
       <type>pom</type>
     </dependency>
 
-
+    <dependency>
+      <groupId>org.onehippo.cms7.hst.dependencies</groupId>
+      <artifactId>hst-repository-dependencies</artifactId>
+      <scope>test</scope>
+      <type>pom</type>
+    </dependency>
     <!--    Maven: org.onehippo.cms7:hippo-repository-config:2.26.14-->
 
     <!-- test dependencies -->
