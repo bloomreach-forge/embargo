@@ -20,6 +20,16 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="4.0.0">
+        <p class="smallinfo">
+          Released: TBD
+        </p>
+        <ul>
+          <li>
+            Upgraded to Hippo 12
+          </li>
+        </ul>
+      </subsection>
       <subsection name="3.1.0">
         <p class="smallinfo">
           Released: TBD

@@ -230,7 +230,6 @@
   <modules>
     <module>cms-addon</module>
     <module>tools</module>
-    <module>embargodemo</module>
   </modules>
 
   <profiles>
