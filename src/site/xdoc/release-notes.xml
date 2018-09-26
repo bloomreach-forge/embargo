@@ -32,7 +32,7 @@
       </subsection>
       <subsection name="3.1.0">
         <p class="smallinfo">
-          Released: TBD
+          Released: 13 Sep 2018
         </p>
         <ul>
           <li><a href="https://issues.onehippo.com/browse/HIPFORGE-185">HIPFORGE-185</a><br/>
@@ -42,6 +42,10 @@
           <li><a href="https://issues.onehippo.com/browse/HIPFORGE-186">HIPFORGE-186</a><br/>
             In the module listening for events as 'embargo user', add the embargo:document mixin at later stage to the
             document variants, avoiding errors related to disappearing mixins (probably race condition).
+          </li>
+          <li><a href="https://issues.onehippo.com/browse/HIPFORGE-189">HIPFORGE-189</a><br/>
+            Mark the EmbargoWorkflowEventsProcessingModule at /hippo:configuration/hippo:modules/embargo-workflow-events-processing-module.xml
+            as 'cmsonly' to prevent  errors on site-only nodes.
           </li>
         </ul>
       </subsection>

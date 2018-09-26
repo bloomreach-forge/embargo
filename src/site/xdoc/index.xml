@@ -36,7 +36,7 @@
         </subsection>
         <subsection name="Project status">
           <p>
-            The latest version of the embargo plugin is running on Hippo 11.1.
+            The latest version of the embargo plugin is running on Hippo 12.
             The table below shows against which versions the plugin is developed.
           </p>
           <table border="1" cellpadding="0" cellspacing="5">
@@ -50,8 +50,8 @@
                 <td>12.x</td>
               </tr>
               <tr>
-                <td>3.0.x</td>
-                <td>11.1.x</td>
+                <td>3.x</td>
+                <td>11.x</td>
               </tr>
               <tr>
                 <td>2.1.x</td>
@@ -72,8 +72,8 @@
             </tbody>
           </table>
           <p>
-            See the <a href="https://issues.onehippo.com/browse/HIPPLUG/component/13944">Hippo JIRA</a>
-            for a list of bugs and feature requests.
+            See the <a href="https://issues.onehippo.com/browse/HIPFORGE">Hippo JIRA</a>
+            for a list of bugs and feature requests, in its Embargo Component.
           </p>
         </subsection>
         <subsection name="Screenshots">
