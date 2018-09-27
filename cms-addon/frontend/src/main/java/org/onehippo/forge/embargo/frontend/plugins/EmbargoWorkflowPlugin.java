@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -280,7 +280,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
             });
 
         } else {
-            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, new PackageResourceReference(getClass(), "lock_add.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
+            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -288,6 +288,11 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                     final String userID = getJcrSession().getUserID();
                     workflow.addEmbargo(userID, getSubjectId(), null);
                     return null;
+                }
+
+                @Override
+                protected Component getIcon(final String id) {
+                    return HippoIcon.fromSprite(id, Icon.LOCKED);
                 }
             });
         }
