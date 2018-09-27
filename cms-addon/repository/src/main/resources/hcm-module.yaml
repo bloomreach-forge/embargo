@@ -1,6 +1,5 @@
 group:
   name: hippo-forge
   after: hippo-cms
-project:
-  name: embargo
+project: embargo
 module: embargo-repository-config-application
