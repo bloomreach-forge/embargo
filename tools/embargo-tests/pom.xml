@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.onehippo.forge.embargo</groupId>
     <artifactId>embargo-tools</artifactId>
-    <version>3.1.1-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
   </parent>
 
   <name>Hippo Embargo Plugin Tests</name>
@@ -28,6 +28,31 @@
   <artifactId>embargo-tests</artifactId>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.onehippo.forge.embargo</groupId>
+      <artifactId>embargo-addon-frontend</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-test</artifactId>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.easymock</groupId>
@@ -49,33 +74,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-cms-engine</artifactId>
-      <version>${hippo.cms.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-cms-api</artifactId>
-      <version>${hippo.cms.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-cms-test</artifactId>
-      <version>${hippo.cms.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.onehippo.forge.embargo</groupId>
-      <artifactId>embargo-addon-frontend</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.onehippo.forge.embargo</groupId>
       <artifactId>embargo-addon-repository</artifactId>
       <version>${project.version}</version>
@@ -89,18 +87,12 @@
       <type>pom</type>
     </dependency>
 
-
-    <!--    Maven: org.onehippo.cms7:hippo-repository-config:2.26.14-->
-
-    <!-- test dependencies -->
-<!--
     <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-repository-engine</artifactId>
-      <version>${hippo.repository.version}</version>
+      <groupId>org.onehippo.cms7.hst.dependencies</groupId>
+      <artifactId>hst-repository-dependencies</artifactId>
       <scope>test</scope>
+      <type>pom</type>
     </dependency>
--->
 
     <dependency>
       <groupId>org.onehippo.cms7</groupId>

@@ -79,6 +79,24 @@
               Rebuild your project. After startup, you should have the embargo workflow and an example embargo-enabled usergroup.
             </p>
           </li>
+          <li>
+            <p>
+              Hippo 12 - Update project hcm-module.yaml
+            </p>
+            <p>
+              In the project repository-data/application module (repository-data/application/src/main/resources/hcm-module.yaml),
+              make sure your project configuration is bootstrapped after the group hippo-forge. It should look like the following:
+            </p>
+            <pre>
+              group:
+              name: ...
+              after: [hippo-cms, hippo-forge]
+              project: ...
+              module: ...
+
+            </pre>
+
+          </li>
         </ol>
       </subsection>
       <subsection name="HST additional">

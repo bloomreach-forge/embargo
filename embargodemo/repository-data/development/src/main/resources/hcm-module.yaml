@@ -1,0 +1,6 @@
+group: 
+  name: embargodemo
+project: embargodemo
+module: 
+  name: embargodemo-repository-data-development
+  after: embargodemo-repository-data-application

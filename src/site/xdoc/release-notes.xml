@@ -20,6 +20,20 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="4.0.0">
+        <p class="smallinfo">
+          Released: TBD
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-193">HIPFORGE-193</a><br/>
+            Upgrade to Hippo 12.
+          </li>
+          <li>
+            Fix a bug where the lock icon didn't show in the "Embargo | Set" menu item for embargo-editors and embargo-authors.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="3.1.0">
         <p class="smallinfo">
           Released: 13 Sep 2018

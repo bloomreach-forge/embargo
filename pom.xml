@@ -20,27 +20,22 @@
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>11.2.7</version>
+    <version>12.5.0</version>
   </parent>
 
   <name>Hippo Embargo Plugin</name>
   <groupId>org.onehippo.forge.embargo</groupId>
   <artifactId>embargo</artifactId>
-  <version>3.1.1-SNAPSHOT</version>
+  <version>4.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <url>https://github.com/onehippo-forge/embargo</url>
 
   <properties>
-    <extension.wagon-svn.version>1.9</extension.wagon-svn.version>
     <junit.version>4.10</junit.version>
 
-    <maven.plugin.dependency.version>2.8</maven.plugin.dependency.version>
     <maven.plugin.site.version>3.6</maven.plugin.site.version>
     <maven.plugin.jxr.version>2.2</maven.plugin.jxr.version>
-    <maven.plugin.rat.version>0.9.RAT125</maven.plugin.rat.version>
-
-    <java.version>1.8</java.version>
-  </properties>
+ </properties>
 
   <developers>
     <developer>
@@ -62,6 +57,11 @@
       <name>Marijan Milicevic</name>
       <id>jhoffman</id>
       <email>marijan.milicevic@bloomreach.com</email>
+    </developer>
+    <developer>
+      <name>Saimir Muco</name>
+      <id>smuco</id>
+      <email>saimir.muco@bloomreach.com</email>
     </developer>
   </developers>
 
@@ -126,13 +126,21 @@
         <groupId>org.onehippo.cms7</groupId>
         <artifactId>hippo-repository-connector</artifactId>
         <version>${hippo.repository.version}</version>
-        <scope>test</scope>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-api</artifactId>
+        <version>${hippo.jackrabbit.version}</version>
+        <scope>provided</scope>
       </dependency>
 
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${slf4j.version}</version>
+        <scope>provided</scope>
       </dependency>
 
       <dependency>
@@ -167,13 +175,6 @@
 
   <build>
     <defaultGoal>package</defaultGoal>
-    <extensions>
-      <extension>
-        <groupId>org.jvnet.wagon-svn</groupId>
-        <artifactId>wagon-svn</artifactId>
-        <version>${extension.wagon-svn.version}</version>
-      </extension>
-    </extensions>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -189,7 +190,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven.plugin.javadoc.version}</version>
         <configuration>
           <aggregate>true</aggregate>
           <source>1.8</source>
