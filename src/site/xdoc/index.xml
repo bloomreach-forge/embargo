@@ -37,16 +37,17 @@
         <subsection name="Project status">
           <p>
             The latest version of the embargo plugin is running on Hippo 12.
-            The table below shows against which versions the plugin is developed.
+            The table below shows for which Hippo versions the plugin is available.
+            See also the <a href="release-notes.html">release notes</a>.
           </p>
           <table border="1" cellpadding="0" cellspacing="5">
             <tbody>
               <tr>
-               <th>Plugin</th>
+               <th>Embargo Plugin</th>
                <th>Hippo Release</th>
              </tr>
               <tr>
-                <td>4.0.x</td>
+                <td>4.x</td>
                 <td>12.x</td>
               </tr>
               <tr>
@@ -54,7 +55,7 @@
                 <td>11.x</td>
               </tr>
               <tr>
-                <td>2.1.x</td>
+                <td>2.x</td>
                 <td>10.x</td>
               </tr>
               <tr>
