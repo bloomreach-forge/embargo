@@ -12,7 +12,7 @@
   <description>Hippo Embargo Plugin Demo</description>
   <groupId>org.onehippo.forge.embargo</groupId>
   <artifactId>embargodemo</artifactId>
-  <version>4.0.0</version>
+  <version>4.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <!-- 
