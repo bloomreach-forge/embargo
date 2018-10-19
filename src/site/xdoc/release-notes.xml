@@ -30,6 +30,9 @@
             Upgrade to Hippo 12.
           </li>
           <li>
+            UI improvements in the document set/remove Embargo dialogs.
+          </li>
+          <li>
             Fix a bug where the lock icon didn't show in the "Embargo | Set" menu item for embargo-editors and embargo-authors.
           </li>
         </ul>
