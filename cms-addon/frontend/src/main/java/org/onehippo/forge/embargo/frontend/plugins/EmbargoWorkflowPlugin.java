@@ -195,7 +195,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
 
             @Override
             protected IDialogService.Dialog createRequestDialog() {
-                return new ScheduleDialog(this, new PropertyModel<>(this, "date"),"reschedule-removal-embargo-text");
+                return new ScheduleDialog(this, new PropertyModel<>(this, "date"),"schedule-removal-embargo-title");
             }
 
             @Override

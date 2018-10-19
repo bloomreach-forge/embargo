@@ -17,11 +17,14 @@ package org.onehippo.forge.embargo.frontend.plugins;
 
 import java.util.List;
 
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.util.value.IValueMap;
 import org.hippoecm.addon.workflow.StdWorkflow;
 import org.hippoecm.frontend.dialog.Dialog;
@@ -34,15 +37,27 @@ public class SetEmbargoDialog extends Dialog<List<String>> {
 
     private static final Logger log = LoggerFactory.getLogger(SetEmbargoDialog.class);
 
+    private static final CssResourceReference CSS = new CssResourceReference(SetEmbargoDialog.class, "SetEmbargoDialog.css");
+
     private static final long serialVersionUID = 1L;
 
     private StdWorkflow<EmbargoWorkflow> action;
 
     public SetEmbargoDialog(StdWorkflow<EmbargoWorkflow> action, IModel<List<String>> selectedEmbargoGroups, List<String> availableEmbargoGroups) {
         super(selectedEmbargoGroups);
-        add(new CheckBoxMultipleChoice<>("checkboxes", selectedEmbargoGroups, availableEmbargoGroups));
         add(new Label("text", new ResourceModel("select-embargo-groups-text")));
+        final CheckBoxMultipleChoice<String> embargoGroups = new CheckBoxMultipleChoice<>("checkboxes", selectedEmbargoGroups, availableEmbargoGroups);
+        embargoGroups.setPrefix("<div>");
+        embargoGroups.setSuffix("</div>");
+        add(embargoGroups);
         this.action = action;
+    }
+
+    @Override
+    public void renderHead(final IHeaderResponse response) {
+        super.renderHead(response);
+
+        response.render(CssHeaderItem.forReference(CSS));
     }
 
     @Override

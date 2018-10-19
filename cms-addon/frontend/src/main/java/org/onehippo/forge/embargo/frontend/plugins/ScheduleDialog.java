@@ -50,7 +50,7 @@ public class ScheduleDialog extends Dialog<Date> {
         minimum.set(Calendar.MILLISECOND, 0);
         // if you want to round upwards, the following ought to be executed: minimum.add(Calendar.MINUTE, 1);
         dateModel.setObject(minimum.getTime());
-        add(new Label("question", new ResourceModel("schedule-depublish-text")));
+        add(new Label("text", new ResourceModel("schedule-depublish-text")));
         YuiDateTimeField ydtf = new YuiDateTimeField("value", dateModel);
         ydtf.add(new FutureDateValidator());
         add(ydtf);
