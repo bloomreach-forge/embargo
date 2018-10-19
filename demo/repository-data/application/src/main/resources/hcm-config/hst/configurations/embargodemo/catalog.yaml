@@ -1,0 +1,6 @@
+definitions:
+  config:
+    /hst:hst/hst:configurations/embargodemo/hst:catalog:
+      jcr:primaryType: hst:catalog
+      /embargodemo-catalog:
+        jcr:primaryType: hst:containeritempackage

@@ -1,0 +1,8 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:users/embargo-editor:
+      jcr:primaryType: hipposys:user
+      hipposys:active: true
+      hipposys:password: embargo-editor
+      hipposys:passwordlastmodified: 2013-06-11T14:38:46.901+02:00
+      hipposys:securityprovider: internal

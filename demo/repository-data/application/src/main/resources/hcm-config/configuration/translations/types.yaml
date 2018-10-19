@@ -1,0 +1,48 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:translations/hippo:types/embargodemo:newsdocument:
+      jcr:primaryType: hipposys:resourcebundles
+      /en:
+        jcr:primaryType: hipposys:resourcebundle
+        embargodemo:author: Author
+        embargodemo:content: Content
+        embargodemo:date: Date
+        embargodemo:image: Image
+        embargodemo:introduction: Introduction
+        embargodemo:location: Location
+        embargodemo:source: Source
+        embargodemo:title: Title
+        jcr:name: News Item
+      /nl:
+        jcr:primaryType: hipposys:resourcebundle
+        embargodemo:author: Auteur
+        embargodemo:content: Inhoud
+        embargodemo:date: Datum
+        embargodemo:image: Afbeelding
+        embargodemo:introduction: Introductie
+        embargodemo:location: Locatie
+        embargodemo:source: Bron
+        embargodemo:title: Titel
+        jcr:name: Nieuwsbericht
+      /de:
+        jcr:primaryType: hipposys:resourcebundle
+        embargodemo:author: Verfasser
+        embargodemo:content: Inhalt
+        embargodemo:date: Datum
+        embargodemo:image: Abbildung
+        embargodemo:introduction: Einführung
+        embargodemo:location: Standort
+        embargodemo:source: Quelle
+        embargodemo:title: Titel
+        jcr:name: News
+      /fr:
+        jcr:primaryType: hipposys:resourcebundle
+        embargodemo:author: Auteur
+        embargodemo:content: Contenu
+        embargodemo:date: Date
+        embargodemo:image: Image
+        embargodemo:introduction: Introduction
+        embargodemo:location: Lieu
+        embargodemo:source: Source
+        embargodemo:title: Titre
+        jcr:name: Message d'info

@@ -1,0 +1,5 @@
+group: 
+  name: embargodemo
+  after: hippo-cms
+project: embargodemo
+module: embargodemo-repository-data-webfiles

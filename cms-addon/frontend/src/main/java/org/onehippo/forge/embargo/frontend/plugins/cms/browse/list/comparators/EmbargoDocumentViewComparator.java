@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,9 @@ import org.hippoecm.frontend.plugins.standards.list.comparators.NodeComparator;
 import org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.resolvers.EmbargoDocumentView;
 
 /**
- * @version $Id$
+ * Comparator between EmbargoDocumentView resolvers.
  */
 public abstract class EmbargoDocumentViewComparator extends NodeComparator {
-    private static final long serialVersionUID = 1L;
 
     @Override
     public int compare(JcrNodeModel o1, JcrNodeModel o2) {

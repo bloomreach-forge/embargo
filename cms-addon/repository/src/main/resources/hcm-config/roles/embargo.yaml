@@ -1,0 +1,6 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:roles/embargo:
+      jcr:primaryType: hipposys:role
+      hipposys:privileges: ['hippo:embargo']
+      hipposys:roles: []

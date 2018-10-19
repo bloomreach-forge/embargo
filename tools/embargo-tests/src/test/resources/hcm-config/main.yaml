@@ -1,0 +1,20 @@
+definitions:
+  namespace:
+    embargotest:
+      uri: http://forge.onehippo.org/jcr/embargotest/nt/1.0
+      cnd: namespaces/embargotest.cnd
+  config:
+    /hippo:configuration/hippo:groups/editor:
+      hipposys:members:
+        operation: add
+        type: string
+        value: [editor, embargo-editor]
+    /hippo:configuration/hippo:groups/author:
+      hipposys:members:
+        operation: add
+        type: string
+        value: [embargo-author]
+    /hippo:configuration/hippo:groups/embargo-editors-example-group:
+      hipposys:members: [embargo-editor]
+    /hippo:configuration/hippo:groups/embargo-authors-example-group:
+      hipposys:members: [embargo-author]

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,21 +22,22 @@ import java.util.Date;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.Session;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.request.resource.PackageResourceReference;
 import org.hippoecm.addon.workflow.StdWorkflow;
 import org.hippoecm.addon.workflow.WorkflowDescriptorModel;
 import org.hippoecm.frontend.dialog.IDialogService;
-import org.hippoecm.frontend.model.JcrNodeModel;
 import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
+import org.hippoecm.frontend.plugins.standards.icon.HippoIcon;
 import org.hippoecm.frontend.service.IEditorManager;
 import org.hippoecm.frontend.service.render.RenderPlugin;
 import org.hippoecm.frontend.session.UserSession;
+import org.hippoecm.frontend.skin.Icon;
 import org.hippoecm.repository.api.WorkflowDescriptor;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
@@ -45,12 +46,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @version $Id$
+ * Plugin for the menu
  */
 public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowPlugin.class);
-    private static final long serialVersionUID = 1L;
 
     public EmbargoWorkflowPlugin(final IPluginContext context, IPluginConfig config) {
         super(context, config);
@@ -72,11 +72,6 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                 if (node.getPath().equals(handlePath) || node.getPath().equals(path)) {
                     createMenu(mode);
                 }
-                // TODO CHeck whether is visible check is required
-                //if (EmbargoUtils.isVisibleInPreview(documentNode)) {
-
-
-                //}
             }
         } catch (RepositoryException ex) {
             log.error(ex.getMessage(), ex);
@@ -113,22 +108,25 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
 
     private void addCancelScheduledUnembargoOption() {
         StringResourceModel nameModel = new StringResourceModel("cancel-scheduled-unembargo-label", this, null);
-        add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", nameModel, new PackageResourceReference(getClass(), "cancel_schedule.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-            private static final long serialVersionUID = 1L;
+        add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
 
             @Override
             protected String execute(EmbargoWorkflow workflow) throws Exception {
                 workflow.cancelSchedule(getSubjectId());
                 return null;
             }
+
+            @Override
+            protected Component getIcon(final String id) {
+                return HippoIcon.fromSprite(id, Icon.MINUS_CIRCLE_CLOCK);
+            }
         });
     }
 
     private void addRescheduleUnembargoOption() {
         StringResourceModel nameModel = new StringResourceModel("reschedule-unembargo-label", this, null);
-        add(new StdWorkflow<EmbargoWorkflow>("rescheduledUnembargo", nameModel, new PackageResourceReference(getClass(), "clock_delete.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-            private static final long serialVersionUID = 1L;
-            public Date date = new Date();
+        add(new StdWorkflow<EmbargoWorkflow>("rescheduledUnembargo", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
+            private Date date = new Date();
 
             @Override
             protected IDialogService.Dialog createRequestDialog() {
@@ -154,8 +152,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                         log.error("Error while retrieving embargo schedule", e);
                     }
 
-                    return new ScheduleDialog(this, new JcrNodeModel(node),
-                            new PropertyModel<>(this, "date"), getEditorManager(), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
+                    return new ScheduleDialog(this, new PropertyModel<>(this, "date"),"reschedule-removal-embargo-title");
                 }
 
                 return null;
@@ -173,7 +170,10 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                 return null;
             }
 
-
+            @Override
+            protected Component getIcon(final String id) {
+                return HippoIcon.fromSprite(id, Icon.CHECK_CIRCLE_CLOCK);
+            }
         });
     }
 
@@ -185,20 +185,12 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
 
     private void addScheduleUnembargoOption() {
         final String name = new StringResourceModel("schedule-unembargo-label", this, null).getString();
-        add(new StdWorkflow<EmbargoWorkflow>("scheduleUnembargo", Model.of(name), new PackageResourceReference(getClass(), "clock_delete.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-            private static final long serialVersionUID = 1L;
+        add(new StdWorkflow<EmbargoWorkflow>("scheduleUnembargo", Model.of(name), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
             public Date date = new Date();
 
             @Override
             protected IDialogService.Dialog createRequestDialog() {
-                final WorkflowDescriptorModel workflowDescriptorModel = (WorkflowDescriptorModel)getDefaultModel();
-                try {
-                    return new ScheduleDialog(this, new JcrNodeModel(workflowDescriptorModel.getNode()),
-                            new PropertyModel<Date>(this, "date"), getEditorManager(), "reschedule-removal-embargo-title", "reschedule-removal-embargo-text");
-                } catch (RepositoryException e) {
-                    log.error("Error crating ScheduleDialog", e);
-                }
-                return null;
+                return new ScheduleDialog(this, new PropertyModel<>(this, "date"),"schedule-removal-embargo-title");
             }
 
             @Override
@@ -221,19 +213,27 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                 return null;
             }
 
+            @Override
+            protected Component getIcon(final String id) {
+                return HippoIcon.fromSprite(id, Icon.MINUS_CIRCLE_CLOCK);
+            }
 
         });
     }
 
     private void addRemoveEmbargoOption() {
         StringResourceModel nameModel = new StringResourceModel("remove-embargo-label", this, null);
-        add(new StdWorkflow<EmbargoWorkflow>("remove", nameModel, new PackageResourceReference(getClass(), "lock_break.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-            private static final long serialVersionUID = 1L;
+        add(new StdWorkflow<EmbargoWorkflow>("remove", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
 
             @Override
             protected String execute(EmbargoWorkflow workflow) throws Exception {
                 workflow.removeEmbargo(getSubjectId());
                 return null;
+            }
+
+            @Override
+            protected Component getIcon(final String id) {
+                return HippoIcon.fromSprite(id, Icon.UNLOCKED);
             }
         });
     }
@@ -242,8 +242,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
         final IModel<String> nameModel = new StringResourceModel("set-embargo-label", this, null);
         if (EmbargoUtils.isAdminUser(getJcrSession(), getJcrSession().getUserID())) {
 
-            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, new PackageResourceReference(getClass(), "lock_add.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-                private static final long serialVersionUID = 1L;
+            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
                 final ArrayList<String> selectedEmbargoGroups = new ArrayList<>();
                 final IModel selectedEmbargoGroupsModel = new Model<>(selectedEmbargoGroups);
 
@@ -253,9 +252,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                     return new SetEmbargoDialog(
                             this,
                             selectedEmbargoGroupsModel,
-                            EmbargoUtils.getAllEmbargoEnabledGroups(getJcrSession()),
-                            "select-embargo-groups-title",
-                            "select-embargo-groups-text");
+                            EmbargoUtils.getAllEmbargoEnabledGroups(getJcrSession()));
                 }
 
                 @Override
@@ -268,17 +265,26 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                     }
                     return null;
                 }
+
+                @Override
+                protected Component getIcon(final String id) {
+                    return HippoIcon.fromSprite(id, Icon.LOCKED);
+                }
             });
 
         } else {
-            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, new PackageResourceReference(getClass(), "lock_add.png"), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-                private static final long serialVersionUID = 1L;
+            add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
 
                 @Override
                 protected String execute(EmbargoWorkflow workflow) throws Exception {
                     final String userID = getJcrSession().getUserID();
                     workflow.addEmbargo(userID, getSubjectId(), null);
                     return null;
+                }
+
+                @Override
+                protected Component getIcon(final String id) {
+                    return HippoIcon.fromSprite(id, Icon.LOCKED);
                 }
             });
         }

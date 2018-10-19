@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" xmlns:esv="http://www.onehippo.org/jcr/xmlimport" sv:name="embargo-editors-example-group" esv:merge="combine">
-  <sv:property sv:name="hipposys:members" sv:type="String" esv:merge="override" sv:multiple="true">
-    <sv:value>embargo-editor</sv:value>
-    <sv:value>editor</sv:value>
-  </sv:property>
-</sv:node>

@@ -1,0 +1,9 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:domains/workflow/hippo-workflowcategory/type-embargo-workflowcategory:
+      jcr:primaryType: hipposys:facetrule
+      hipposys:equals: false
+      hipposys:facet: nodename
+      hipposys:filter: true
+      hipposys:type: Name
+      hipposys:value: embargo

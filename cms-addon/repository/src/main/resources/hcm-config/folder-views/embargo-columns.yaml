@@ -1,0 +1,18 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:frontend/cms/cms-folder-views/hippogallery:stdAssetGallery/embargoColumns:
+      jcr:primaryType: frontend:plugin
+      column.id: ${cluster.id}.columns
+      plugin.class: org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.EmbargoListColumnProviderPlugin
+    /hippo:configuration/hippo:frontend/cms/cms-folder-views/hippostd:folder/embargoColumns:
+      jcr:primaryType: frontend:plugin
+      column.id: ${cluster.id}.columns
+      plugin.class: org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.EmbargoListColumnProviderPlugin
+    /hippo:configuration/hippo:frontend/cms/cms-folder-views/hippogallery:stdImageGallery/embargoColumns:
+      jcr:primaryType: frontend:plugin
+      column.id: ${cluster.id}.columns
+      plugin.class: org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.EmbargoListColumnProviderPlugin
+    /hippo:configuration/hippo:frontend/cms/cms-search-views/text/embargoColumns:
+      jcr:primaryType: frontend:plugin
+      column.id: ${cluster.id}.columns
+      plugin.class: org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.EmbargoListColumnProviderPlugin

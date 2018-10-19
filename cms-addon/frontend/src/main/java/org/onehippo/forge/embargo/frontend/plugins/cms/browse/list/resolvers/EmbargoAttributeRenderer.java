@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,9 @@ import org.hippoecm.frontend.model.JcrNodeModel;
 import org.hippoecm.frontend.plugins.standards.list.resolvers.AbstractNodeRenderer;
 
 /**
- * @version $Id$
+ * Reenderer for one of the attributes in the document list view
  */
 public abstract class EmbargoAttributeRenderer extends AbstractNodeRenderer {
-
-    private static final long serialVersionUID = 1L;
 
     @Override
     protected Component getViewer(String id, final Node node) throws RepositoryException {
@@ -40,7 +38,6 @@ public abstract class EmbargoAttributeRenderer extends AbstractNodeRenderer {
 
     class EmbargoDocumentViewModel extends AbstractReadOnlyModel<String> {
 
-        private static final long serialVersionUID = 1L;
         EmbargoDocumentView embargoDocumentView;
 
         public EmbargoDocumentViewModel(Node node) {

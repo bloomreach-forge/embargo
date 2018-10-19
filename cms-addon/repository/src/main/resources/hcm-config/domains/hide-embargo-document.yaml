@@ -1,0 +1,9 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:domains/hippodocuments/hippo-document/hide-embargo-document:
+      jcr:primaryType: hipposys:facetrule
+      hipposys:equals: false
+      hipposys:facet: nodetype
+      hipposys:filter: false
+      hipposys:type: Name
+      hipposys:value: embargo:document

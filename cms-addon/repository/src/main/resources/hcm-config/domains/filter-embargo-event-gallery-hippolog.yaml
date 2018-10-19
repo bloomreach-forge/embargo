@@ -1,0 +1,9 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:domains/hippolog/hippolog-item/filter-embargo-event-gallery:
+      jcr:primaryType: hipposys:facetrule
+      hipposys:equals: false
+      hipposys:facet: hippolog:category
+      hipposys:filter: false
+      hipposys:type: String
+      hipposys:value: events-embargo-gallery

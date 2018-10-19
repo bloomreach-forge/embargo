@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,42 +23,37 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.util.value.IValueMap;
-import org.hippoecm.addon.workflow.AbstractWorkflowDialog;
 import org.hippoecm.addon.workflow.FutureDateValidator;
 import org.hippoecm.addon.workflow.StdWorkflow;
+import org.hippoecm.frontend.dialog.Dialog;
 import org.hippoecm.frontend.dialog.DialogConstants;
-import org.hippoecm.frontend.model.JcrNodeModel;
 import org.hippoecm.frontend.plugins.yui.datetime.YuiDateTimeField;
-import org.hippoecm.frontend.service.IEditorManager;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ScheduleDialog extends AbstractWorkflowDialog {
-    @SuppressWarnings("unused")
-    private final static String SVN_ID = "$Id$";
+public class ScheduleDialog extends Dialog<Date> {
 
     private static final Logger log = LoggerFactory.getLogger(ScheduleDialog.class);
-    private static final long serialVersionUID = 1L;
 
-    final String title;
+    private String title;
+    private StdWorkflow<EmbargoWorkflow> action;
 
-
-    public ScheduleDialog(StdWorkflow<EmbargoWorkflow> action, JcrNodeModel nodeModel, IModel<Date> dateModel, IEditorManager editorMgr, final String title, final String text) {
-        super(dateModel, action);
-
+    public ScheduleDialog(StdWorkflow<EmbargoWorkflow> action, IModel<Date> dateModel, final String title) {
+        super(dateModel);
         Calendar minimum = Calendar.getInstance();
         minimum.setTime(dateModel.getObject());
         minimum.set(Calendar.SECOND, 0);
         minimum.set(Calendar.MILLISECOND, 0);
         // if you want to round upwards, the following ought to be executed: minimum.add(Calendar.MINUTE, 1);
         dateModel.setObject(minimum.getTime());
-        add(new Label("question", new ResourceModel("schedule-depublish-text")));
+        add(new Label("text", new ResourceModel("schedule-depublish-text")));
         YuiDateTimeField ydtf = new YuiDateTimeField("value", dateModel);
         ydtf.add(new FutureDateValidator());
         add(ydtf);
         setFocusOnCancel();
         this.title = title;
+        this.action = action;
     }
 
     @Override
@@ -69,5 +64,14 @@ public class ScheduleDialog extends AbstractWorkflowDialog {
     @Override
     public IValueMap getProperties() {
         return DialogConstants.SMALL;
+    }
+
+    @Override
+    protected void onOk() {
+        try {
+            action.invokeWorkflow();
+        } catch (Exception e) {
+            log.error("error invoking wf action", e);
+        }
     }
 }

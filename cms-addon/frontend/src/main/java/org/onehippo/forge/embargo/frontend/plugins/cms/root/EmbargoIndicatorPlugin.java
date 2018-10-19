@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,18 +23,16 @@ import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.hippoecm.frontend.service.render.RenderPlugin;
 
 /**
- * @version $Id$
+ * Indicator showing red side color for embargo users
  */
 public class EmbargoIndicatorPlugin extends RenderPlugin {
 
     private static final CssResourceReference EMBARGO_INDICATOR_CSS = new CssResourceReference(EmbargoIndicatorPlugin.class, "EmbargoIndicatorPlugin.css");
-    private static final long serialVersionUID = 1L;
+
     public EmbargoIndicatorPlugin(IPluginContext context, IPluginConfig config) {
         super(context, config);
         context.registerService(this, EmbargoIndicatorPlugin.class.getName());
-
     }
-
 
     @Override
     public void renderHead(final IHeaderResponse response) {

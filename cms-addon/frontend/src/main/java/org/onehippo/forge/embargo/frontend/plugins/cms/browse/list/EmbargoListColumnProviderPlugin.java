@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,11 +36,10 @@ import org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.resolvers.Emb
 import org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.resolvers.EmbargoDocumentView;
 
 /**
- * @version $Id$
+ * Plugin showing embargo related columns in the document list view
  */
 public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderPlugin {
 
-    private static final long serialVersionUID = 1L;
     private static final CssResourceReference EMBARGO_PROVIDER_CSS = new CssResourceReference(EmbargoListColumnProviderPlugin.class, "style.css");
 
     public EmbargoListColumnProviderPlugin(IPluginContext context, IPluginConfig config) {
@@ -50,7 +49,6 @@ public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderP
     @Override
     public IHeaderContributor getHeaderContributor() {
         return new IHeaderContributor() {
-            private static final long serialVersionUID = 1L;
             @Override
             public void renderHead(final IHeaderResponse response) {
                 response.render(CssHeaderItem.forReference(EMBARGO_PROVIDER_CSS));
@@ -70,7 +68,6 @@ public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderP
         //Groups
         ListColumn<Node> column = new ListColumn<>(new ClassResourceModel("doclisting-embargo-groups", getClass()), "embargo-groups");
         column.setComparator(new EmbargoDocumentViewComparator() {
-            private static final long serialVersionUID = -4617312936280189361L;
 
             @Override
             protected int compare(EmbargoDocumentView view1, EmbargoDocumentView view2) {
@@ -79,7 +76,6 @@ public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderP
         });
         column.setCssClass("doclisting-embargo-groups");
         column.setRenderer(new EmbargoAttributeRenderer() {
-            private static final long serialVersionUID = -1485899011687542362L;
 
             @Override
             protected String getObject(EmbargoDocumentView embargoDocumentView) {
@@ -92,7 +88,6 @@ public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderP
         //Expiration date
         column = new ListColumn<>(new ClassResourceModel("doclisting-embargo-expiration-date", getClass()), "embargo-expiration-date");
         column.setComparator(new EmbargoDocumentViewComparator() {
-            private static final long serialVersionUID = -4617312936280189361L;
 
             @Override
             protected int compare(EmbargoDocumentView view1, EmbargoDocumentView view2) {
@@ -101,7 +96,6 @@ public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderP
         });
         column.setCssClass("doclisting-expiration-date");
         column.setRenderer(new EmbargoAttributeRenderer() {
-            private static final long serialVersionUID = -1485899011687542362L;
 
             @Override
             protected String getObject(EmbargoDocumentView embargoDocumentView) {

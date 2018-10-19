@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.resolvers;
 import java.util.Calendar;
 
 import javax.jcr.Node;
-import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Value;
 import javax.jcr.nodetype.NodeType;
@@ -27,25 +26,25 @@ import javax.jcr.nodetype.NodeTypeManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.wicket.model.IDetachable;
+
 import org.hippoecm.frontend.model.JcrNodeModel;
 import org.hippoecm.frontend.model.event.IObservable;
 import org.hippoecm.frontend.model.event.IObservationContext;
 import org.hippoecm.frontend.model.event.Observable;
-import org.hippoecm.repository.HippoStdNodeType;
 import org.hippoecm.repository.api.HippoNodeType;
+
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @version $Id$
+ * Resolver for one of the columns in the document list view
  */
 public class EmbargoDocumentView implements IObservable, IDetachable {
 
-    private static final long serialVersionUID = 1L;
-
-    static final Logger log = LoggerFactory.getLogger(EmbargoDocumentView.class);
+    private static final Logger log = LoggerFactory.getLogger(EmbargoDocumentView.class);
 
     private JcrNodeModel nodeModel;
     private Observable observable;

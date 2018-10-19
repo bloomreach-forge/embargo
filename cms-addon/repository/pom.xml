@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.onehippo.forge.embargo</groupId>
     <artifactId>embargo-addons</artifactId>
-    <version>3.1.0</version>
+    <version>4.0.0</version>
   </parent>
 
   <name>Hippo Embargo Plugin Addons Repository</name>
@@ -46,24 +46,21 @@
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
       <artifactId>hippo-repository-engine</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
       <artifactId>hippo-cms-api</artifactId>
-      <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
       <artifactId>hippo-repository-connector</artifactId>
-      <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.apache.jackrabbit</groupId>
       <artifactId>jackrabbit-api</artifactId>
-      <version>2.10.1</version>
-      <scope>provided</scope>
     </dependency>
 
   </dependencies>
@@ -80,18 +77,8 @@
         <filtering>false</filtering>
         <directory>src/main/java</directory>
         <includes>
-          <include>**/*.html</include>
-          <include>**/*.js</include>
-          <include>**/*.css</include>
-          <include>**/*.png</include>
-          <include>**/*.jpg</include>
-          <include>**/*.gif</include>
           <include>**/*.properties</include>
-          <include>**/*.xml</include>
         </includes>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
       </resource>
     </resources>
 

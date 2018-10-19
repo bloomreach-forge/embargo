@@ -1,0 +1,7 @@
+/content/gallery/embargodemo:
+  jcr:primaryType: hippogallery:stdImageGallery
+  jcr:mixinTypes: ['hippo:named', 'mix:referenceable']
+  hippo:name: Hippo Embargo Plugin Demo
+  hippostd:foldertype: [new-image-folder]
+  hippostd:gallerytype: ['hippogallery:imageset']
+

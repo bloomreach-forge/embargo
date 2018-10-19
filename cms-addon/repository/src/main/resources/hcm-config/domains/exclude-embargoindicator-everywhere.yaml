@@ -1,0 +1,9 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:domains/everywhere/all-nodes/exclude-embargoindicator:
+      jcr:primaryType: hipposys:facetrule
+      hipposys:equals: false
+      hipposys:facet: plugin.class
+      hipposys:filter: true
+      hipposys:type: String
+      hipposys:value: org.onehippo.forge.embargo.frontend.plugins.cms.root.EmbargoIndicatorPlugin

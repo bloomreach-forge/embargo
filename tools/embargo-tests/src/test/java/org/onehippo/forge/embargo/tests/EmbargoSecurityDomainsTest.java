@@ -52,7 +52,7 @@ import static org.junit.Assume.assumeTrue;
 /**
  * @version $Id: EmbargoSecurityDomainsTest.java 84 2013-05-27 09:01:12Z mchatzidakis $
  */
-public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
+public class EmbargoSecurityDomainsTest extends org.onehippo.repository.testutils.RepositoryTestCase {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoSecurityDomainsTest.class);
     private Session adminSession;
@@ -77,6 +77,24 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
         editor = server.login(TestConstants.EDITOR_CREDENTIALS);
         embargoEditor = server.login(TestConstants.EMBARGO_EDITOR_CREDENTIALS);
         embargoAuthor = server.login(TestConstants.EMBARGO_AUTHOR_CREDENTIALS);
+    }
+
+    /**
+     * Test repository connection with admin credentials .. assuming everything goes well
+     */
+    @Test
+    public void testConnectToRepository() {
+        Session localSession = null;
+        try {
+            localSession = server.login(TestConstants.ADMIN_CREDENTIALS);
+        } catch (RepositoryException e) {
+            log.error("Can't login to hippo repository", e);
+        } finally {
+            if (localSession != null) {
+                localSession.logout();
+            }
+        }
+        Assert.assertNotNull(localSession);
     }
 
     /**
@@ -113,24 +131,6 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
     public void testEditorRightsToEmbargo() throws Exception {
         final boolean b = editor.itemExists("/hippo:configuration/hippo:workflows/embargo");
         assertFalse(b);
-    }
-
-    /**
-     * Test repository connection with admin credentials .. assuming everything goes well
-     */
-    @Test
-    public void testConnectToRepository() {
-        Session localSession = null;
-        try {
-            localSession = server.login(TestConstants.ADMIN_CREDENTIALS);
-        } catch (RepositoryException e) {
-            log.error("Can't login to hippo repository", e);
-        } finally {
-            if (localSession != null) {
-                localSession.logout();
-            }
-        }
-        Assert.assertNotNull(localSession);
     }
 
     /**
@@ -328,15 +328,15 @@ public class EmbargoSecurityDomainsTest extends RepositoryTestCase {
 
         //creating a calendar object which removes embargo 10 seconds in the future
 
-        final Calendar tenSecondFuture = Calendar.getInstance();
-        tenSecondFuture.add(Calendar.SECOND, 10);
+        final Calendar scheduledTime = Calendar.getInstance();
+        scheduledTime.add(Calendar.SECOND, 2);
 
-        embargoEditorsEmbargoWorkflow.scheduleRemoveEmbargo(subjectId, tenSecondFuture);
+        embargoEditorsEmbargoWorkflow.scheduleRemoveEmbargo(subjectId, scheduledTime);
 
         assertFalse(editor.itemExists(editorDocumentLocation));
 
-        //wait 11 seconds just to be sure
-        Thread.sleep(11000);
+        //wait 3 seconds just to be sure
+        Thread.sleep(3000);
 
         assertTrue(embargoEditor.itemExists(editorDocumentLocation));
         assertTrue(editor.itemExists(editorDocumentLocation));
