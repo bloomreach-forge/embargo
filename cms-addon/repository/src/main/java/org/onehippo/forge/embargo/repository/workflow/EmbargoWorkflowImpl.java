@@ -57,7 +57,6 @@ public class EmbargoWorkflowImpl extends WorkflowImpl implements EmbargoWorkflow
 
     private final static Logger log = LoggerFactory.getLogger(EmbargoWorkflowImpl.class);
 
-    private static final long serialVersionUID = 1L;
     public static final String METHOD_REMOVE_EMBARGO = "removeEmbargo";
 
     public EmbargoWorkflowImpl() throws RemoteException {

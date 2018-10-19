@@ -28,7 +28,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.request.resource.PackageResourceReference;
 import org.hippoecm.addon.workflow.StdWorkflow;
 import org.hippoecm.addon.workflow.WorkflowDescriptorModel;
 import org.hippoecm.frontend.dialog.IDialogService;
@@ -47,12 +46,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @version $Id$
+ * Plugin for the menu
  */
 public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
 
     private static Logger log = LoggerFactory.getLogger(EmbargoWorkflowPlugin.class);
-    private static final long serialVersionUID = 1L;
 
     public EmbargoWorkflowPlugin(final IPluginContext context, IPluginConfig config) {
         super(context, config);
@@ -111,7 +109,6 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
     private void addCancelScheduledUnembargoOption() {
         StringResourceModel nameModel = new StringResourceModel("cancel-scheduled-unembargo-label", this, null);
         add(new StdWorkflow<EmbargoWorkflow>("cancelScheduledUnembargo", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-            private static final long serialVersionUID = 1L;
 
             @Override
             protected String execute(EmbargoWorkflow workflow) throws Exception {
@@ -129,7 +126,6 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
     private void addRescheduleUnembargoOption() {
         StringResourceModel nameModel = new StringResourceModel("reschedule-unembargo-label", this, null);
         add(new StdWorkflow<EmbargoWorkflow>("rescheduledUnembargo", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-            private static final long serialVersionUID = 1L;
             private Date date = new Date();
 
             @Override
@@ -190,7 +186,6 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
     private void addScheduleUnembargoOption() {
         final String name = new StringResourceModel("schedule-unembargo-label", this, null).getString();
         add(new StdWorkflow<EmbargoWorkflow>("scheduleUnembargo", Model.of(name), getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-            private static final long serialVersionUID = 1L;
             public Date date = new Date();
 
             @Override
@@ -229,7 +224,6 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
     private void addRemoveEmbargoOption() {
         StringResourceModel nameModel = new StringResourceModel("remove-embargo-label", this, null);
         add(new StdWorkflow<EmbargoWorkflow>("remove", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-            private static final long serialVersionUID = 1L;
 
             @Override
             protected String execute(EmbargoWorkflow workflow) throws Exception {
@@ -249,7 +243,6 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
         if (EmbargoUtils.isAdminUser(getJcrSession(), getJcrSession().getUserID())) {
 
             add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-                private static final long serialVersionUID = 1L;
                 final ArrayList<String> selectedEmbargoGroups = new ArrayList<>();
                 final IModel selectedEmbargoGroupsModel = new Model<>(selectedEmbargoGroups);
 
@@ -281,7 +274,6 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
 
         } else {
             add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
-                private static final long serialVersionUID = 1L;
 
                 @Override
                 protected String execute(EmbargoWorkflow workflow) throws Exception {

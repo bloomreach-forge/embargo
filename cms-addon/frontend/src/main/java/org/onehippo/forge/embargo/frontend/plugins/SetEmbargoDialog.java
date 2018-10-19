@@ -39,8 +39,6 @@ public class SetEmbargoDialog extends Dialog<List<String>> {
 
     private static final CssResourceReference CSS = new CssResourceReference(SetEmbargoDialog.class, "SetEmbargoDialog.css");
 
-    private static final long serialVersionUID = 1L;
-
     private StdWorkflow<EmbargoWorkflow> action;
 
     public SetEmbargoDialog(StdWorkflow<EmbargoWorkflow> action, IModel<List<String>> selectedEmbargoGroups, List<String> availableEmbargoGroups) {

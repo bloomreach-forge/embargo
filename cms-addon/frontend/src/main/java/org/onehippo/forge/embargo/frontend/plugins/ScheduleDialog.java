@@ -33,11 +33,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ScheduleDialog extends Dialog<Date> {
-    @SuppressWarnings("unused")
-    private final static String SVN_ID = "$Id$";
 
     private static final Logger log = LoggerFactory.getLogger(ScheduleDialog.class);
-    private static final long serialVersionUID = 1L;
 
     private String title;
     private StdWorkflow<EmbargoWorkflow> action;
