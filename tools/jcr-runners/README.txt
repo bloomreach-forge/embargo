@@ -23,4 +23,4 @@
 # run app
 sh jcr-runner/bin/jcr-runner
 
-# More info: https://onehippo-forge.github.io/jcr-runner
+# More info: https://bloomreach-forge.github.io/jcr-runner
