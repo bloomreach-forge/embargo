@@ -16,29 +16,14 @@
 
 package org.onehippo.forge.embargo.repository.modules;
 
-import java.rmi.RemoteException;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.jcr.Node;
-import javax.jcr.Property;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import javax.jcr.Value;
-
+import com.google.common.base.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.api.JackrabbitSession;
-import org.hippoecm.repository.api.HippoNode;
-import org.hippoecm.repository.api.HippoWorkspace;
-import org.hippoecm.repository.api.Workflow;
-import org.hippoecm.repository.api.WorkflowException;
-import org.hippoecm.repository.api.WorkflowManager;
-import org.hippoecm.repository.decorating.SessionDecorator;
+import org.hippoecm.repository.api.*;
 import org.hippoecm.repository.jackrabbit.RepositoryImpl;
 import org.hippoecm.repository.security.HippoSecurityManager;
 import org.hippoecm.repository.security.service.SecurityServiceImpl;
-import org.onehippo.cms7.services.HippoServiceRegistry;
-import org.onehippo.cms7.services.eventbus.HippoEventBus;
+import org.onehippo.cms7.services.eventbus.HippoEventListenerRegistry;
 import org.onehippo.cms7.services.eventbus.Subscribe;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
@@ -49,7 +34,10 @@ import org.onehippo.repository.security.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Strings;
+import javax.jcr.*;
+import java.rmi.RemoteException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurableDaemonModule {
 
@@ -86,7 +74,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
     @Override
     protected void doInitialize(final Session session) throws RepositoryException {
         this.session = session;
-        HippoServiceRegistry.registerService(this, HippoEventBus.class);
+        HippoEventListenerRegistry.get().register(this);
     }
 
     @Subscribe
@@ -145,7 +133,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
 
     public User getUser(final String user) {
         try {
-            final JackrabbitSession session = (JackrabbitSession) SessionDecorator.unwrap(this.session);
+            final JackrabbitSession session = (JackrabbitSession) this.session;
             final RepositoryImpl repository = (RepositoryImpl) session.getRepository();
             final HippoSecurityManager securityManager = (HippoSecurityManager) repository.getSecurityManager();
             final SecurityServiceImpl securityService = new SecurityServiceImpl(securityManager, session);
@@ -222,6 +210,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
 
     @Override
     protected void doShutdown() {
-        HippoServiceRegistry.unregisterService(this, HippoEventBus.class);
+        HippoEventListenerRegistry.get().unregister(this);
+
     }
 }
