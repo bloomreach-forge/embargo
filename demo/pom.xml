@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>12.5.0</version>
+    <version>13.4.0-1</version>
   </parent>
 
   <name>Hippo Embargo Plugin Demo</name>
@@ -65,7 +65,7 @@
 
     <embargo.plugin.version>${project.version}</embargo.plugin.version>
 
-    <essentials.version>4.5.0</essentials.version>
+    <essentials.version>13.4.0</essentials.version>
     <jsp-api.version>2.2</jsp-api.version>
     <taglibs.version>1.2.5</taglibs.version>
     <xalan.version>2.7.2</xalan.version>

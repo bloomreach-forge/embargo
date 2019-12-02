@@ -170,10 +170,10 @@
     </init-param>
   </servlet>
 
-  <servlet>
-    <servlet-name>PingServlet</servlet-name>
-    <servlet-class>org.hippoecm.hst.servlet.HstPingServlet</servlet-class>
-  </servlet>
+  <filter>
+    <filter-name>PingFilter</filter-name>
+    <filter-class>org.hippoecm.hst.container.PingFilter</filter-class>
+  </filter>
 
   <servlet-mapping>
     <servlet-name>BinariesServlet</servlet-name>
@@ -205,10 +205,11 @@
     <url-pattern>/resources/*</url-pattern>
   </servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>PingServlet</servlet-name>
+  <filter-mapping>
+    <filter-name>PingFilter</filter-name>
     <url-pattern>/ping/*</url-pattern>
-  </servlet-mapping>
+    <dispatcher>REQUEST</dispatcher>
+  </filter-mapping>
 
   <security-constraint>
     <web-resource-collection>

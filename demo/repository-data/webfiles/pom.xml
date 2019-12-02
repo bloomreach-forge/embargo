@@ -21,12 +21,6 @@
       <type>war</type>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.onehippo.cms7.hst.dependencies</groupId>
-      <artifactId>hst-client-dependencies</artifactId>
-      <type>pom</type>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
 
   <build>
