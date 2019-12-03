@@ -26,7 +26,7 @@
   <name>Hippo Embargo Plugin</name>
   <groupId>org.onehippo.forge.embargo</groupId>
   <artifactId>embargo</artifactId>
-  <version>4.0.0</version>
+  <version>4.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <url>https://github.com/bloomreach-forge/embargo</url>
 
