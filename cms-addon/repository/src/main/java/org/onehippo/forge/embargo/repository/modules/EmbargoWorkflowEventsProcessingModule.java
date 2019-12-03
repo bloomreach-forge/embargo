@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2018-2019 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.onehippo.forge.embargo.repository.modules;
 
-import com.google.common.base.Strings;
+import java.rmi.RemoteException;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.jcr.Node;
+import javax.jcr.Property;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.Value;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.jackrabbit.api.JackrabbitSession;
-import org.hippoecm.repository.api.*;
+
+import org.hippoecm.repository.api.HippoNode;
+import org.hippoecm.repository.api.HippoWorkspace;
+import org.hippoecm.repository.api.Workflow;
+import org.hippoecm.repository.api.WorkflowException;
+import org.hippoecm.repository.api.WorkflowManager;
 import org.hippoecm.repository.jackrabbit.RepositoryImpl;
 import org.hippoecm.repository.security.HippoSecurityManager;
 import org.hippoecm.repository.security.service.SecurityServiceImpl;
+
 import org.onehippo.cms7.services.eventbus.HippoEventListenerRegistry;
 import org.onehippo.cms7.services.eventbus.Subscribe;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
@@ -31,17 +45,17 @@ import org.onehippo.repository.events.HippoWorkflowEvent;
 import org.onehippo.repository.modules.AbstractReconfigurableDaemonModule;
 import org.onehippo.repository.security.Group;
 import org.onehippo.repository.security.User;
+
+import com.google.common.base.Strings;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.jcr.*;
-import java.rmi.RemoteException;
-import java.util.HashSet;
-import java.util.Set;
-
+@SuppressWarnings("unused")
 public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurableDaemonModule {
 
     private static final Logger log = LoggerFactory.getLogger(EmbargoWorkflowEventsProcessingModule.class);
+
     public static final String EMBARGO_GROUPS = "embargoGroups";
     public static final String EMBARGO_WAIT_TIME = "waitTime";
     public static final long DEFAULT_WAIT_TIME = 500L;
@@ -130,7 +144,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         return embargoUser;
     }
 
-
+    @SuppressWarnings("WeakerAccess")
     public User getUser(final String user) {
         try {
             final JackrabbitSession session = (JackrabbitSession) this.session;
@@ -144,6 +158,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         return null;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public void setEmbargoVariants(final HippoWorkflowEvent event, final Node subject) throws WorkflowException, RemoteException {
         try {
             final EmbargoWorkflow embargoWorkflow = getWorkflow(subject, "embargo");
@@ -155,6 +170,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         }
     }
 
+    @SuppressWarnings("WeakerAccess")
     public void setEmbargoHandle(final HippoWorkflowEvent event, final Node subject) throws WorkflowException, RemoteException {
         try {
             if (sleepTime > 0) {
@@ -211,6 +227,5 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
     @Override
     protected void doShutdown() {
         HippoEventListenerRegistry.get().unregister(this);
-
     }
 }
