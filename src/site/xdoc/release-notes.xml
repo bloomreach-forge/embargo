@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2013-2019 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,7 +20,23 @@
   </properties>
   <body>
     <section name="Release Notes">
-      <subsection name="4.0.0">
+      <subsection name="5.0.0">
+        <p class="smallinfo">
+          Released: 4 November 2019
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-326">HIPFORGE-326</a><br/>
+            Upgrade to Bloomreach Experience Manager 13.
+          </li>
+          <li>
+            Restructure the Maven modules; change the artifacts’ groupId to 'org.bloomreach.forge.embargo' (so renaming
+            hippo to bloomreach) and simplify the artifactIds. This requires to revisit <a href="install.html">the
+            installation page</a> when upgrading.
+          </li>
+        </ul>
+      </subsection>
+       <subsection name="4.0.0">
         <p class="smallinfo">
           Released: 19 October 2018
         </p>
