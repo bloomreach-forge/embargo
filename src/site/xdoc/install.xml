@@ -47,18 +47,26 @@
       <subsection name="Installation in CMS/Repository">
         <ol>
           <li>
-            <p>Add these two dependency to the pom.xml of your <i>cms</i> module:</p>
+            <p>Add this property to the &lt;properties&gt; section of the root pom.xml:
+              <source><![CDATA[<properties>
+  <bloomreach.forge.embargo.version>version</bloomreach.forge.embargo.version>
+</properties>]]></source>
+              Select the correct version for your project, see the <a href="release-notes.html">release notes</a>.
+            </p>
+          </li>
+          <li>
+            <p>Add these two dependency to the pom.xml of your cms module (or cms-dependencies on 13 and up):</p>
             <source><![CDATA[
 <dependency>
   <groupId>org.bloomreach.forge.embargo</groupId>
   <artifactId>embargo-cms</artifactId>
-  <version>...</version>
+  <version>${bloomreach.forge.embargo.version}</version>
 </dependency>]]></source>
             <source><![CDATA[
 <dependency>
   <groupId>org.bloomreach.forge.embargo</groupId>
   <artifactId>embargo-repository</artifactId>
-  <version>...</version>
+  <version>${bloomreach.forge.embargo.version}</version>
 </dependency>]]></source>
             <div class="alert alert-info">
               Note: before version 5.0.0, the artifacts' coordinates were <code>org.onehippo.forge.embargo:embargo-addon-frontend</code>
