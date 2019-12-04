@@ -3,24 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.onehippo.forge.embargo</groupId>
+    <groupId>org.bloomreach.forge.embargo</groupId>
     <artifactId>embargodemo</artifactId>
-    <version>4.0.0</version>
+    <version>5.0.0</version>
   </parent>
   <artifactId>embargodemo-cms</artifactId>
   <packaging>war</packaging>
-  <name>Hippo Embargo Plugin Demo CMS</name>
-  <description>Hippo Embargo Plugin Demo CMS</description>
+  <name>Bloomreach Embargo Plugin Demo CMS</name>
+  <description>Bloomreach Embargo Plugin Demo CMS</description>
   <dependencies>
     <dependency>
-      <groupId>org.onehippo.cms7.hst.dependencies</groupId>
-      <artifactId>hst-repository-dependencies</artifactId>
-      <type>pom</type>
-    </dependency>
-    <dependency>
-      <groupId>org.onehippo.cms7.hst.dependencies</groupId>
-      <artifactId>hst-cms-dependencies</artifactId>
-      <type>pom</type>
+      <groupId>org.onehippo.cms7.hst.toolkit-resources.addon</groupId>
+      <artifactId>hst-addon-hcm-site</artifactId>
     </dependency>
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
@@ -28,20 +22,12 @@
       <type>pom</type>
     </dependency>
     <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-addon-channel-manager-frontend</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-addon-channel-manager-repository</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.onehippo.forge.embargo</groupId>
+      <groupId>org.bloomreach.forge.embargo</groupId>
       <artifactId>embargodemo-repository-data-application</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.onehippo.forge.embargo</groupId>
+      <groupId>org.bloomreach.forge.embargo</groupId>
       <artifactId>embargodemo-repository-data-webfiles</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -63,12 +49,12 @@
     </dependency>
     <!-- embargo dependencies -->
     <dependency>
-      <groupId>org.onehippo.forge.embargo</groupId>
-      <artifactId>embargo-addon-frontend</artifactId>
+      <groupId>org.bloomreach.forge.embargo</groupId>
+      <artifactId>embargo-cms</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.onehippo.forge.embargo</groupId>
-      <artifactId>embargo-addon-repository</artifactId>
+      <groupId>org.bloomreach.forge.embargo</groupId>
+      <artifactId>embargo-repository</artifactId>
     </dependency>
     <!-- -->
   </dependencies>

@@ -1,7 +1,0 @@
-group: 
-  name: hippo-forge
-  after: hippo-cms
-project: embargo
-module:
-  name: embargotest-repository-data-application
-  after: embargo-repository-config-application

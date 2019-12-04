@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2015-2018 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2015-2019 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,21 +20,21 @@
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>12.5.0</version>
+    <version>13.4.0-1</version>
   </parent>
 
-  <name>Hippo Embargo Plugin</name>
-  <groupId>org.onehippo.forge.embargo</groupId>
+  <name>Bloomreach Embargo Plugin</name>
+  <groupId>org.bloomreach.forge.embargo</groupId>
   <artifactId>embargo</artifactId>
-  <version>4.0.0</version>
+  <version>5.0.0</version>
   <packaging>pom</packaging>
   <url>https://github.com/bloomreach-forge/embargo</url>
 
   <properties>
     <junit.version>4.10</junit.version>
 
-    <maven.plugin.site.version>3.6</maven.plugin.site.version>
-    <maven.plugin.jxr.version>2.2</maven.plugin.jxr.version>
+    <maven.plugin.site.version>3.7</maven.plugin.site.version>
+    <maven.plugin.jxr.version>3.0.0</maven.plugin.jxr.version>
  </properties>
 
   <developers>
@@ -185,13 +185,11 @@
   </build>
 
   <reporting>
-    <outputDirectory>target/site</outputDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <aggregate>true</aggregate>
           <source>1.8</source>
           <links>
             <link>http://download.oracle.com/javase/6/docs/api</link>
@@ -224,8 +222,9 @@
   </reporting>
 
   <modules>
-    <module>cms-addon</module>
-    <module>tools</module>
+    <module>cms</module>
+    <module>repository</module>
+    <module>tests</module>
   </modules>
 
   <profiles>

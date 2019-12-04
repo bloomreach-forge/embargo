@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.onehippo.forge.embargo</groupId>
+    <groupId>org.bloomreach.forge.embargo</groupId>
     <artifactId>embargodemo-repository-data</artifactId>
-    <version>4.0.0</version>
+    <version>5.0.0</version>
   </parent>
 
-  <name>Hippo Embargo Plugin Demo Repository Data For Development</name>
-  <description>Hippo Embargo Plugin Demo Repository Data For Development</description>
+  <name>Bloomreach Embargo Plugin Demo Repository Data For Development</name>
+  <description>Bloomreach Embargo Plugin Demo Repository Data For Development</description>
   <artifactId>embargodemo-repository-data-development</artifactId>
 
   <build>

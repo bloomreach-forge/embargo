@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2013-2019 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -47,70 +47,53 @@
       <subsection name="Installation in CMS/Repository">
         <ol>
           <li>
-            <p>Add these two dependency to the pom.xml of your <i>cms</i> module:</p>
-            <source><![CDATA[
-<dependency>
-  <groupId>org.onehippo.forge.embargo</groupId>
-  <artifactId>embargo-addon-frontend</artifactId>
-  <version>...</version>
-</dependency>]]></source>
+            <p>Add this property to the &lt;properties&gt; section of the root pom.xml:
+              <source><![CDATA[<properties>
+  <bloomreach.forge.embargo.version>version</bloomreach.forge.embargo.version>
+</properties>]]></source>
+              Select the correct version for your project, see the <a href="release-notes.html">release notes</a>.
+            </p>
           </li>
           <li>
-            <p>Add these two dependency to the pom.xml of your <i>cms</i> module:</p>
+            <p>Add these two dependency to the pom.xml of your cms module (or cms-dependencies on 13 and up):</p>
             <source><![CDATA[
 <dependency>
-  <groupId>org.onehippo.forge.embargo</groupId>
-  <artifactId>embargo-addon-repository</artifactId>
-  <version>...</version>
+  <groupId>org.bloomreach.forge.embargo</groupId>
+  <artifactId>embargo-cms</artifactId>
+  <version>${bloomreach.forge.embargo.version}</version>
 </dependency>]]></source>
+            <source><![CDATA[
+<dependency>
+  <groupId>org.bloomreach.forge.embargo</groupId>
+  <artifactId>embargo-repository</artifactId>
+  <version>${bloomreach.forge.embargo.version}</version>
+</dependency>]]></source>
+            <div class="alert alert-info">
+              Note: before version 5.0.0, the artifacts' coordinates were <code>org.onehippo.forge.embargo:embargo-addon-frontend</code>
+              and <code>org.onehippo.forge.embargo:embargo-addon-repository</code>, respectively.
+            </div>
           </li>
           <li>
-            <p>In case you're upgrading from version 1.01.05 it's advised to also include:</p>
+            <p>
+              Bloomreach 13 and up: add bootstrapping dependency to 'bloomreach-forge'.
+            </p>
+            <p>
+              In the project repository-data/application module (repository-data/application/src/main/resources/hcm-module.yaml),
+              make sure your project configuration is bootstrapped after the group 'bloomreach-forge':
+            </p>
             <source><![CDATA[
-<dependency>
-  <groupId>org.onehippo.forge.embargo</groupId>
-  <artifactId>embargo-addon-repository-updaters</artifactId>
-  <version>...</version>
-</dependency>]]></source>
-
+group:
+  name: ...
+  after: [hippo-cms, bloomreach-forge]
+project: ...
+module: ...]]></source>
           </li>
           <li>
             <p>
               Rebuild your project. After startup, you should have the embargo workflow and an example embargo-enabled usergroup.
             </p>
           </li>
-          <li>
-            <p>
-              Hippo 12 - Update project hcm-module.yaml
-            </p>
-            <p>
-              In the project repository-data/application module (repository-data/application/src/main/resources/hcm-module.yaml),
-              make sure your project configuration is bootstrapped after the group hippo-forge. It should look like the following:
-            </p>
-            <pre>
-              group:
-              name: ...
-              after: [hippo-cms, hippo-forge]
-              project: ...
-              module: ...
-
-            </pre>
-
-          </li>
         </ol>
-      </subsection>
-      <subsection name="HST additional">
-        <ul>
-          <li>
-            <p>
-              In your hst-config.properties add the following property to you file (7.7 &amp; 7.8):
-            </p>
-            <pre>cms.preview.security.delegation.enabled = true</pre>
-            <p>
-              On default this property is set on false and is needed for the HST to successfully merge sessions to enable preview mode.
-            </p>
-          </li>
-        </ul>
       </subsection>
     </section>
   </body>

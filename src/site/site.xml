@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2013-2017 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2013-2019 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
   <skin>
     <groupId>org.bloomreach.forge.mavenskin</groupId>
     <artifactId>forge-maven-skin</artifactId>
-    <version>3.0.1</version>
+    <version>3.1.1</version>
   </skin>
 
   <custom>
@@ -44,7 +44,6 @@
       <item name="Installation" href="install.html" />
       <item name="User/groups configuration" href="embargo-groups.html" />
       <item name="Usage" href="usage.html" />
-      <item name="Integration" href="plugin-integration.html" />
     </menu>
 
     <menu ref="reports" />
