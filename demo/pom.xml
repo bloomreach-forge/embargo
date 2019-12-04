@@ -8,9 +8,9 @@
     <version>13.4.0-1</version>
   </parent>
 
-  <name>Hippo Embargo Plugin Demo</name>
-  <description>Hippo Embargo Plugin Demo</description>
-  <groupId>org.onehippo.forge.embargo</groupId>
+  <name>Bloomreach Embargo Plugin Demo</name>
+  <description>Bloomreach Embargo Plugin Demo</description>
+  <groupId>org.bloomreach.forge.embargo</groupId>
   <artifactId>embargodemo</artifactId>
   <version>5.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -90,15 +90,15 @@
     <dependencies>
 
       <dependency>
-        <groupId>org.onehippo.forge.embargo</groupId>
-        <artifactId>embargo-addon-frontend</artifactId>
+        <groupId>org.bloomreach.forge.embargo</groupId>
+        <artifactId>embargo-cms</artifactId>
         <version>${embargo.plugin.version}</version>
         <scope>runtime</scope>
       </dependency>
 
       <dependency>
-        <groupId>org.onehippo.forge.embargo</groupId>
-        <artifactId>embargo-addon-repository</artifactId>
+        <groupId>org.bloomreach.forge.embargo</groupId>
+        <artifactId>embargo-repository</artifactId>
         <version>${embargo.plugin.version}</version>
         <scope>runtime</scope>
       </dependency>

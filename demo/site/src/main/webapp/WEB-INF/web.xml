@@ -6,8 +6,8 @@
          id="site">
 
 
-  <display-name>Hippo Embargo Plugin Demo site</display-name>
-  <description>Hippo Embargo Plugin Demo site</description>
+  <display-name>Bloomreach Embargo Plugin Demo site</display-name>
+  <description>Bloomreach Embargo Plugin Demo site</description>
 
   <jsp-config>
     <jsp-property-group>

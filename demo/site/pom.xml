@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.onehippo.forge.embargo</groupId>
+    <groupId>org.bloomreach.forge.embargo</groupId>
     <artifactId>embargodemo</artifactId>
     <version>5.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>embargodemo-site</artifactId>
   <packaging>war</packaging>
-  <name>Hippo Embargo Plugin Demo Site</name>
-  <description>Hippo Embargo Plugin Demo Site</description>
+  <name>Bloomreach Embargo Plugin Demo Site</name>
+  <description>Bloomreach Embargo Plugin Demo Site</description>
   <dependencies>
     <dependency>
       <groupId>javax.servlet.jsp</groupId>

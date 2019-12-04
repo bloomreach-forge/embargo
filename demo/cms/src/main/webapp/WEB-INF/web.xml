@@ -6,8 +6,8 @@
          id="cms">
 
   <!-- General configuration -->
-  <display-name>Hippo Embargo Plugin Demo CMS</display-name>
-  <description>Hippo Embargo Plugin Demo CMS</description>
+  <display-name>Bloomreach Embargo Plugin Demo CMS</display-name>
+  <description>Bloomreach Embargo Plugin Demo CMS</description>
 
   <context-param>
     <description>The address of the repository</description>
