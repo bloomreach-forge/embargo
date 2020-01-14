@@ -105,6 +105,9 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
                     return;
                 }
                 // check if can set embargo
+                if (EmbargoUtils.getCurrentUserEmbargoEnabledGroups(session, u).length <= 0) {
+                    return;
+                }
                 final Node subject = getSubject(event);
                 final Node handle = EmbargoUtils.extractHandle(subject);
                 //NOTE:  folders have no handle so those should be filtered out:
