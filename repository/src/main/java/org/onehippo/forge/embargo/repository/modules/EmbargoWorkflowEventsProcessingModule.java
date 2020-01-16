@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2019 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2018-2020 Hippo B.V. (http://www.onehippo.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,10 +106,13 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
                 if (Strings.isNullOrEmpty(u)) {
                     return;
                 }
+
                 // check if can set embargo
                 if (EmbargoUtils.getCurrentUserEmbargoEnabledGroups(session, u).length <= 0) {
+                    log.debug("Not setting embargo on subject {} as user {} is not in any embargo enabled groups.", event.subjectPath(), u);
                     return;
                 }
+
                 final Node subject = getSubject(event);
                 final Node handle = EmbargoUtils.extractHandle(subject);
                 //NOTE:  folders have no handle so those should be filtered out:
