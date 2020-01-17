@@ -25,17 +25,16 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
 
+import com.google.common.base.Strings;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.jackrabbit.api.JackrabbitSession;
 
 import org.hippoecm.repository.api.HippoNode;
 import org.hippoecm.repository.api.HippoWorkspace;
 import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.api.WorkflowManager;
-import org.hippoecm.repository.jackrabbit.RepositoryImpl;
-import org.hippoecm.repository.security.HippoSecurityManager;
-import org.hippoecm.repository.security.service.SecurityServiceImpl;
+import org.hippoecm.repository.impl.WorkspaceDecorator;
 
 import org.onehippo.cms7.services.eventbus.HippoEventListenerRegistry;
 import org.onehippo.cms7.services.eventbus.Subscribe;
@@ -45,8 +44,6 @@ import org.onehippo.repository.events.HippoWorkflowEvent;
 import org.onehippo.repository.modules.AbstractReconfigurableDaemonModule;
 import org.onehippo.repository.security.Group;
 import org.onehippo.repository.security.User;
-
-import com.google.common.base.Strings;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -153,14 +150,11 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
     @SuppressWarnings("WeakerAccess")
     public User getUser(final String user) {
         try {
-            final JackrabbitSession session = (JackrabbitSession) this.session;
-            final RepositoryImpl repository = (RepositoryImpl) session.getRepository();
-            final HippoSecurityManager securityManager = (HippoSecurityManager) repository.getSecurityManager();
-            final SecurityServiceImpl securityService = new SecurityServiceImpl(securityManager, session);
-            return securityService.getUser(user);
+            return ((WorkspaceDecorator) session.getWorkspace()).getSecurityService().getUser(user);
         } catch (RepositoryException e) {
-            log.error("Error obtaining security manager", e);
+            log.error("Error obtaining user", e);
         }
+
         return null;
     }
 
