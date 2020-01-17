@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2013-2019 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,7 +20,18 @@
   </properties>
   <body>
     <section name="Release Notes">
-      <subsection name="4.0.0">
+      <subsection name="4.1.0">
+        <p class="smallinfo">
+          Released: x January 2020
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-331">HIPFORGE-331</a><br/>
+            Prevent false activity items and logging about setting embargo.
+          </li>
+        </ul>
+      </subsection>
+       <subsection name="4.0.0">
         <p class="smallinfo">
           Released: 19 October 2018
         </p>
