@@ -38,6 +38,7 @@ import org.hippoecm.repository.impl.WorkspaceDecorator;
 
 import org.onehippo.cms7.services.eventbus.HippoEventListenerRegistry;
 import org.onehippo.cms7.services.eventbus.Subscribe;
+import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
 import org.onehippo.repository.events.HippoWorkflowEvent;
@@ -97,7 +98,6 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         }
         if (event.success() && "workflow".equals(event.category())) {
 
-
             try {
                 final String u = event.user();
                 if (Strings.isNullOrEmpty(u)) {
@@ -122,7 +122,9 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
                         setEmbargoHandle(event, subject);
                     }
                 } else if ("commitEditableInstance".equals(action)) {
-                    setEmbargoVariants(event, subject);
+                    if (handle.isNodeType(EmbargoConstants.EMBARGO_MIXIN_NAME)) {
+                        setEmbargoVariants(event, subject);
+                    }
                 }
             } catch (Exception e) {
                 log.error("Embargo workflow error", e);
