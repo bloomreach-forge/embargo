@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  Copyright 2013-2019 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2013-2020 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -22,14 +22,14 @@
     <section name="Release Notes">
       <subsection name="5.1.0">
         <p class="smallinfo">
-          Released: x January 2020
+          Released: 20 January 2020
         </p>
         <ul>
           <li>EmbargoWorkflowEventsProcessingModule#getUser was broken in 5.0.0, breaking the functionality regarding
             automatically putting embargo on documents.</li>
           <li>
             <a href="https://issues.onehippo.com/browse/HIPFORGE-331">HIPFORGE-331</a><br/>
-            Prevent false activity items and logging about setting embargo.
+            Prevent false activity stream items and loggings about setting embargo.
           </li>
           <li>
             Slight changes in the mark-up of the activity items, placing words 'handle' and 'document' outside the bold area.
@@ -54,12 +54,12 @@
       </subsection>
       <subsection name="4.1.0">
         <p class="smallinfo">
-          Released: x January 2020
+          Released: 20 January 2020
         </p>
         <ul>
           <li>
             <a href="https://issues.onehippo.com/browse/HIPFORGE-331">HIPFORGE-331</a><br/>
-            Prevent false activity items and logging about setting embargo.
+            Prevent false activity stream items and loggings about setting embargo.
           </li>
         </ul>
       </subsection>
