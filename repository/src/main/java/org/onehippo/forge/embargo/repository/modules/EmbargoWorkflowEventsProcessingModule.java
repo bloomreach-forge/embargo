@@ -152,6 +152,9 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
     @SuppressWarnings("WeakerAccess")
     public User getUser(final String user) {
         try {
+            // TODO in 14.x this is expected be:
+            // SecurityService securityService = HippoServiceRegistry.getService(SecurityService.class);
+            // return securityService.getUser(user);
             return ((WorkspaceDecorator) session.getWorkspace()).getSecurityService().getUser(user);
         } catch (RepositoryException e) {
             log.error("Error obtaining user", e);
