@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2015-2019 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2015-2020 Hippo B.V. (http://www.onehippo.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
   <name>Bloomreach Embargo Plugin</name>
   <groupId>org.bloomreach.forge.embargo</groupId>
   <artifactId>embargo</artifactId>
-  <version>5.0.0</version>
+  <version>5.1.0</version>
   <packaging>pom</packaging>
   <url>https://github.com/bloomreach-forge/embargo</url>
 
