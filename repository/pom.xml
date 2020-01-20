@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.bloomreach.forge.embargo</groupId>
     <artifactId>embargo</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.1.0</version>
   </parent>
 
   <name>Bloomreach Embargo Plugin Repository</name>
