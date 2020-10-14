@@ -47,6 +47,10 @@
                <th>Bloomreach Release</th>
              </tr>
               <tr>
+                <td>6.x</td>
+                <td>14.x</td>
+              </tr>
+              <tr>
                 <td>5.x</td>
                 <td>13.x</td>
               </tr>
