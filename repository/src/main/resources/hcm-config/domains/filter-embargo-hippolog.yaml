@@ -1,9 +1,9 @@
 definitions:
   config:
-    /hippo:configuration/hippo:domains/hippolog/hippolog-item/filter-embargo:
+    /hippo:configuration/hippo:domains/defaultread/domain-hippolog/filter-embargo:
       jcr:primaryType: hipposys:facetrule
       hipposys:equals: false
-      hipposys:facet: hippolog:category
-      hipposys:filter: false
+      hipposys:facet: hippolog:workflowCategory
+      hipposys:filter: true
       hipposys:type: String
       hipposys:value: embargo

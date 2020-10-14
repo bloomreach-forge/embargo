@@ -2,4 +2,5 @@ definitions:
   config:
     /hippo:configuration/hippo:groups/embargo-authors-example-group:
       jcr:primaryType: hipposys:group
+      hipposys:system: true
       hipposys:securityprovider: internal

@@ -115,13 +115,6 @@ definitions:
           hipposys:filter: false
           hipposys:type: Name
           hipposys:value: frontend:plugin
-        /include-embargoindicator:
-          jcr:primaryType: hipposys:facetrule
-          hipposys:equals: true
-          hipposys:facet: plugin.class
-          hipposys:filter: false
-          hipposys:type: String
-          hipposys:value: org.onehippo.forge.embargo.frontend.plugins.cms.root.EmbargoIndicatorPlugin
       /hippolog-item:
         jcr:primaryType: hipposys:domainrule
         /type-hippolog-item:

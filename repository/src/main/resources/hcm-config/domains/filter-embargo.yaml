@@ -1,34 +1,13 @@
 definitions:
   config:
-    /hippo:configuration/hippo:domains/defaultwrite/hippo-handle/filter-embargo:
+    /hippo:configuration/hippo:domains/non-publishable-readwrite/non-publishable-domain/hide-embargo-document:
       jcr:primaryType: hipposys:facetrule
       hipposys:equals: false
       hipposys:facet: nodetype
       hipposys:filter: false
       hipposys:type: Name
-      hipposys:value: embargo:handle
-    /hippo:configuration/hippo:domains/defaultread/hippo-handle/filter-embargo:
-      jcr:primaryType: hipposys:facetrule
-      hipposys:equals: false
-      hipposys:facet: nodetype
-      hipposys:filter: false
-      hipposys:type: Name
-      hipposys:value: embargo:handle
-    /hippo:configuration/hippo:domains/hippogallery/hippogallery-exampleassetset/filter-embargo:
-      jcr:primaryType: hipposys:facetrule
-      hipposys:equals: false
-      hipposys:facet: nodetype
-      hipposys:filter: false
-      hipposys:type: Name
-      hipposys:value: embargo:handle
-    /hippo:configuration/hippo:domains/hippogallery/hippogallery-exampleimageset/filter-embargo:
-      jcr:primaryType: hipposys:facetrule
-      hipposys:equals: false
-      hipposys:facet: nodetype
-      hipposys:filter: false
-      hipposys:type: Name
-      hipposys:value: embargo:handle
-    /hippo:configuration/hippo:domains/hippogallery/hippogallery-imageset/filter-embargo:
+      hipposys:value: embargo:document
+    /hippo:configuration/hippo:domains/non-publishable-readwrite/non-publishable-domain/hide-embargo-handle:
       jcr:primaryType: hipposys:facetrule
       hipposys:equals: false
       hipposys:facet: nodetype

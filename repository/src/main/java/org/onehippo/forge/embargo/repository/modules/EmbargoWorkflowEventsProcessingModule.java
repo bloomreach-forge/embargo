@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2020 Bloomreach (https://www.bloomreach.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,17 +25,13 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
 
-import com.google.common.base.Strings;
-
 import org.apache.commons.lang.StringUtils;
-
 import org.hippoecm.repository.api.HippoNode;
 import org.hippoecm.repository.api.HippoWorkspace;
 import org.hippoecm.repository.api.Workflow;
 import org.hippoecm.repository.api.WorkflowException;
 import org.hippoecm.repository.api.WorkflowManager;
-import org.hippoecm.repository.impl.WorkspaceDecorator;
-
+import org.onehippo.cms7.services.HippoServiceRegistry;
 import org.onehippo.cms7.services.eventbus.HippoEventListenerRegistry;
 import org.onehippo.cms7.services.eventbus.Subscribe;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
@@ -43,11 +39,12 @@ import org.onehippo.forge.embargo.repository.EmbargoUtils;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
 import org.onehippo.repository.events.HippoWorkflowEvent;
 import org.onehippo.repository.modules.AbstractReconfigurableDaemonModule;
-import org.onehippo.repository.security.Group;
+import org.onehippo.repository.security.SecurityService;
 import org.onehippo.repository.security.User;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Strings;
 
 @SuppressWarnings("unused")
 public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurableDaemonModule {
@@ -137,10 +134,10 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
         if (user == null) {
             return false;
         }
-        final Iterable<Group> memberships = user.getMemberships();
+        final Set<String> memberships = user.getMemberships();
         boolean embargoUser = false;
-        for (Group membership : memberships) {
-            if (embargoGroups.contains(membership.getId())) {
+        for (String membership : memberships) {
+            if (embargoGroups.contains(membership)) {
                 embargoUser = true;
                 break;
             }
@@ -152,10 +149,8 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
     @SuppressWarnings("WeakerAccess")
     public User getUser(final String user) {
         try {
-            // TODO in 14.x this is expected be:
-            // SecurityService securityService = HippoServiceRegistry.getService(SecurityService.class);
-            // return securityService.getUser(user);
-            return ((WorkspaceDecorator) session.getWorkspace()).getSecurityService().getUser(user);
+             SecurityService securityService = HippoServiceRegistry.getService(SecurityService.class);
+             return securityService.getUser(user);
         } catch (RepositoryException e) {
             log.error("Error obtaining user", e);
         }

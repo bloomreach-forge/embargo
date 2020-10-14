@@ -1,9 +1,9 @@
 definitions:
   config:
-    /hippo:configuration/hippo:domains/frontendconfig/frontend-plugins/exclude-embargocolumns:
+    /hippo:configuration/hippo:domains/frontend-config/frontend-config/exclude-embargocolumns:
       jcr:primaryType: hipposys:facetrule
       hipposys:equals: false
       hipposys:facet: plugin.class
-      hipposys:filter: false
+      hipposys:filter: true
       hipposys:type: String
       hipposys:value: org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.EmbargoListColumnProviderPlugin
