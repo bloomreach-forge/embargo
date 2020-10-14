@@ -1,48 +1,48 @@
 definitions:
   config:
-    /hippo:configuration/hippo:translations/hippo:types/embargodemo:newsdocument:
+    /hippo:configuration/hippo:translations/hippo:types/demo:newsdocument:
       jcr:primaryType: hipposys:resourcebundles
       /en:
         jcr:primaryType: hipposys:resourcebundle
-        embargodemo:author: Author
-        embargodemo:content: Content
-        embargodemo:date: Date
-        embargodemo:image: Image
-        embargodemo:introduction: Introduction
-        embargodemo:location: Location
-        embargodemo:source: Source
-        embargodemo:title: Title
+        demo:author: Author
+        demo:content: Content
+        demo:date: Date
+        demo:image: Image
+        demo:introduction: Introduction
+        demo:location: Location
+        demo:source: Source
+        demo:title: Title
         jcr:name: News Item
       /nl:
         jcr:primaryType: hipposys:resourcebundle
-        embargodemo:author: Auteur
-        embargodemo:content: Inhoud
-        embargodemo:date: Datum
-        embargodemo:image: Afbeelding
-        embargodemo:introduction: Introductie
-        embargodemo:location: Locatie
-        embargodemo:source: Bron
-        embargodemo:title: Titel
+        demo:author: Auteur
+        demo:content: Inhoud
+        demo:date: Datum
+        demo:image: Afbeelding
+        demo:introduction: Introductie
+        demo:location: Locatie
+        demo:source: Bron
+        demo:title: Titel
         jcr:name: Nieuwsbericht
       /de:
         jcr:primaryType: hipposys:resourcebundle
-        embargodemo:author: Verfasser
-        embargodemo:content: Inhalt
-        embargodemo:date: Datum
-        embargodemo:image: Abbildung
-        embargodemo:introduction: Einführung
-        embargodemo:location: Standort
-        embargodemo:source: Quelle
-        embargodemo:title: Titel
+        demo:author: Verfasser
+        demo:content: Inhalt
+        demo:date: Datum
+        demo:image: Abbildung
+        demo:introduction: Einführung
+        demo:location: Standort
+        demo:source: Quelle
+        demo:title: Titel
         jcr:name: News
       /fr:
         jcr:primaryType: hipposys:resourcebundle
-        embargodemo:author: Auteur
-        embargodemo:content: Contenu
-        embargodemo:date: Date
-        embargodemo:image: Image
-        embargodemo:introduction: Introduction
-        embargodemo:location: Lieu
-        embargodemo:source: Source
-        embargodemo:title: Titre
+        demo:author: Auteur
+        demo:content: Contenu
+        demo:date: Date
+        demo:image: Image
+        demo:introduction: Introduction
+        demo:location: Lieu
+        demo:source: Source
+        demo:title: Titre
         jcr:name: Message d'info

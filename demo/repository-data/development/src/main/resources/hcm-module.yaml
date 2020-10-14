@@ -1,6 +1,7 @@
 group: 
-  name: embargodemo
-project: embargodemo
+  name: demo
+  after: hippo-cms
+project: demo
 module: 
-  name: embargodemo-repository-data-development
-  after: embargodemo-repository-data-application
+  name: demo-repository-data-development
+  after: demo-repository-data-application

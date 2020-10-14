@@ -1,6 +1,0 @@
-/content/documents:
-  .meta:order-before: gallery
-  jcr:primaryType: hippostd:folder
-  jcr:mixinTypes: ['mix:referenceable']
-  jcr:uuid: 2c21a29c-a5d1-4e84-aec4-594e5bf93b25
-  hippostd:foldertype: [new-folder, new-translated-folder]

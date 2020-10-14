@@ -3,22 +3,27 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.bloomreach.forge.embargo</groupId>
-    <artifactId>embargodemo-repository-data</artifactId>
+    <groupId>org.example</groupId>
+    <artifactId>demo-repository-data</artifactId>
     <version>5.1.1-SNAPSHOT</version>
   </parent>
 
-  <name>Bloomreach Embargo Plugin Demo Repository Data Web Files</name>
-  <description>Bloomreach Embargo Plugin Demo Repository Data Web Files</description>
-  <artifactId>embargodemo-repository-data-webfiles</artifactId>
+  <name>demo Repository Data Web Files</name>
+  <description>demo Repository Data Web Files</description>
+  <artifactId>demo-repository-data-webfiles</artifactId>
 
   <dependencies>
-    <!-- ARCHE-555 Add dependency on the site war for IntelliJ bean-definition code completion in ftl files -->
     <dependency>
-      <groupId>org.bloomreach.forge.embargo</groupId>
-      <artifactId>embargodemo-site</artifactId>
+      <groupId>org.example</groupId>
+      <artifactId>demo-components</artifactId>
       <version>${project.version}</version>
-      <type>war</type>
+      <type>jar</type>
+      <scope>provided</scope>
+    </dependency>
+    <!-- support ftl auto completion -->
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
       <scope>provided</scope>
     </dependency>
   </dependencies>

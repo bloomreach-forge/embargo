@@ -1,7 +1,0 @@
-/content/gallery/embargodemo:
-  jcr:primaryType: hippogallery:stdImageGallery
-  jcr:mixinTypes: ['hippo:named', 'mix:referenceable']
-  jcr:uuid: 6e34c856-f247-4f28-a073-2106adeebcf3
-  hippo:name: Bloomreach Embargo Plugin Demo
-  hippostd:foldertype: [new-image-folder]
-  hippostd:gallerytype: ['hippogallery:imageset']

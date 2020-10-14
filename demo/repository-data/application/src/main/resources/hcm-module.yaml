@@ -1,6 +1,6 @@
-group: 
-  name: embargodemo
+group:
+  name: demo
   after: [hippo-cms, bloomreach-forge]
-project: embargodemo
+project: demo
 module:
-  name: embargodemo-repository-data-application
+  name: demo-repository-data-application
