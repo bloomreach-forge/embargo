@@ -22,7 +22,7 @@
     <section name="Release Notes">
       <subsection name="6.0.0">
         <p class="smallinfo">
-          Released: XX October 2020
+          Released: 15 October 2020
         </p>
         <ul>
           <li>
@@ -30,7 +30,11 @@
             Upgrade to Bloomreach Experience Manager 14.
           </li>
           <li>
-            Embargo user indication has been removed.
+            Embargo user indication (left menu red background) has been removed.
+          </li>
+          <li>Module configuration node is now at
+            <pre>/hippo:configuration/hippo:modules/embargo-workflow-module</pre>
+            (the node used to be named <pre>embargo-workflow-events-processing-module.xml</pre>).
           </li>
         </ul>
       </subsection>

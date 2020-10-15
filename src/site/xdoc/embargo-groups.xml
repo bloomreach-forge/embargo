@@ -36,7 +36,8 @@
         <img src="images/embargo-domain-details.png" alt="Embargo domain details"/>
         <strong>NOTE:</strong>
         <p>To automatically put newly created documents under embargo, newly created groups needs to be added to "embargoGroups" (multi-value property) in:</p>
-        <pre>/hippo:configuration/hippo:modules/embargo-workflow-module</pre>
+        <pre>/hippo:configuration/hippo:modules/embargo-workflow-module</pre>.
+        <p>Note that before release 6.0.0 above node is named <pre>embargo-workflow-events-processing-module.xml</pre>.</p>
       </subsection>
 
     </section>
