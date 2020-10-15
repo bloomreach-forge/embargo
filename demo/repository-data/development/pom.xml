@@ -3,14 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.bloomreach.forge.embargo</groupId>
-    <artifactId>embargodemo-repository-data</artifactId>
-    <version>5.1.0</version>
+    <groupId>org.example</groupId>
+    <artifactId>demo-repository-data</artifactId>
+    <version>6.0.0</version>
   </parent>
 
-  <name>Bloomreach Embargo Plugin Demo Repository Data For Development</name>
-  <description>Bloomreach Embargo Plugin Demo Repository Data For Development</description>
-  <artifactId>embargodemo-repository-data-development</artifactId>
+  <name>demo Repository Data For Development</name>
+  <description>demo Repository Data For Development</description>
+  <artifactId>demo-repository-data-development</artifactId>
 
   <build>
     <defaultGoal>install</defaultGoal>

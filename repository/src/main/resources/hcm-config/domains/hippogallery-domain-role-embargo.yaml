@@ -1,6 +1,0 @@
-definitions:
-  config:
-    /hippo:configuration/hippo:domains/hippogallery/embargo:
-      jcr:primaryType: hipposys:authrole
-      hipposys:groups: [embargo-editors-example-group, embargo-authors-example-group]
-      hipposys:role: embargo

@@ -4,7 +4,7 @@ definitions:
       autoexport:modules:
         operation: add
         type: string
-        value: [repository-data/development]
+        value: [repository-data/development, 'repository-data/site-development:demo']
       autoexport:enabled: false
     /hippo:configuration/hippo:groups/author:
       hipposys:members:
@@ -15,13 +15,9 @@ definitions:
       hipposys:members:
         operation: add
         type: string
-        value: [editor, embargo-editor]
+        value: [editor]
     /hippo:configuration/hippo:groups/webmaster:
       hipposys:members:
         operation: add
         type: string
         value: [editor]
-    /hippo:configuration/hippo:groups/embargo-editors-example-group:
-      hipposys:members: [embargo-editor]
-    /hippo:configuration/hippo:groups/embargo-authors-example-group:
-      hipposys:members: [admin]

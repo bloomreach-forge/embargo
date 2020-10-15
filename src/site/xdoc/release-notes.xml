@@ -20,6 +20,24 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="6.0.0">
+        <p class="smallinfo">
+          Released: 15 October 2020
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-378">HIPFORGE-378</a><br/>
+            Upgrade to Bloomreach Experience Manager 14.
+          </li>
+          <li>
+            Embargo user indication (left menu red background) has been removed.
+          </li>
+          <li>Module configuration node is now at
+            <pre>/hippo:configuration/hippo:modules/embargo-workflow-module</pre>
+            (the node used to be named <pre>embargo-workflow-events-processing-module.xml</pre>).
+          </li>
+        </ul>
+      </subsection>
       <subsection name="5.1.0">
         <p class="smallinfo">
           Released: 20 January 2020

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2020 Bloomreach (https://www.bloomreach.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,38 +98,38 @@ public class EmbargoSecurityDomainsTest extends org.onehippo.repository.testutil
     }
 
     /**
-     * Test admin user for embargo node
+     * Test admin user for embargo role
      *
      * @throws Exception
      */
     @Test
     public void testAdminRightsToEmbargoWorkflow() throws Exception {
-        final boolean b = adminSession.itemExists("/hippo:configuration/hippo:workflows/embargo");
-        assertTrue(b);
+        final boolean b = adminSession.hasPermission(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH+"/demo", "hippo:embargo");
+        assertFalse(b);
     }
 
     /**
-     * Test embargo users (embargo-author and embargo-editor) for the embargo node
+     * Test embargo users (embargo-author and embargo-editor) for the embargo role
      *
      * @throws Exception
      */
     @Test
     public void testEmbargoUserRightsToEmbargoDomain() throws Exception {
-        final boolean a = embargoEditor.itemExists("/hippo:configuration/hippo:workflows/embargo");
+        final boolean a = embargoEditor.hasPermission(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH+"/demo", "hippo:embargo");
         assertTrue(a);
 
-        final boolean b = embargoAuthor.itemExists("/hippo:configuration/hippo:workflows/embargo");
+        final boolean b = embargoAuthor.hasPermission(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH+"/demo", "hippo:embargo");
         assertTrue(b);
     }
 
     /**
-     * Test editor for the embargo node
+     * Test editor for the embargo role
      *
      * @throws Exception
      */
     @Test
     public void testEditorRightsToEmbargo() throws Exception {
-        final boolean b = editor.itemExists("/hippo:configuration/hippo:workflows/embargo");
+        final boolean b = editor.hasPermission(TestConstants.CONTENT_DOCUMENTS_EMBARGODEMO_PATH+"/demo", "hippo:embargo");
         assertFalse(b);
     }
 

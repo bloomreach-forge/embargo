@@ -1,9 +1,16 @@
 definitions:
   config:
-    /hippo:configuration/hippo:domains/hippodocuments/hippo-document/hide-embargo-document:
+    /hippo:configuration/hippo:domains/content/content-domain/hide-embargo-document:
       jcr:primaryType: hipposys:facetrule
       hipposys:equals: false
       hipposys:facet: nodetype
       hipposys:filter: false
       hipposys:type: Name
       hipposys:value: embargo:document
+    /hippo:configuration/hippo:domains/content/content-domain/hide-embargo-handle:
+      jcr:primaryType: hipposys:facetrule
+      hipposys:equals: false
+      hipposys:facet: nodetype
+      hipposys:filter: false
+      hipposys:type: Name
+      hipposys:value: embargo:handle

@@ -1,0 +1,10 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:modules/embargo-workflow-module:
+      jcr:primaryType: hipposys:module
+      hipposys:className: org.onehippo.forge.embargo.repository.modules.EmbargoWorkflowEventsProcessingModule
+      hipposys:cmsonly: true
+      /hippo:moduleconfig:
+        jcr:primaryType: nt:unstructured
+        embargoGroups: [embargo-editors-example-group, embargo-authors-example-group]
+        waitTime: 500
