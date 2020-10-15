@@ -33,8 +33,8 @@
             Embargo user indication (left menu red background) has been removed.
           </li>
           <li>Module configuration node is now at
-            <pre>/hippo:configuration/hippo:modules/embargo-workflow-module</pre>
-            (the node used to be named <pre>embargo-workflow-events-processing-module.xml</pre>).
+            <code>/hippo:configuration/hippo:modules/embargo-workflow-module</code>
+            (the node used to be named <code>embargo-workflow-events-processing-module.xml</code>).
           </li>
         </ul>
       </subsection>
