@@ -27,7 +27,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <BloomReach-Release-Version>${hippo.release.version}</BloomReach-Release-Version>
+              <Bloomreach-Release-Version>${hippo.release.version}</Bloomreach-Release-Version>
               <Project-Version>${project.version}</Project-Version>
               <Project-Build>${buildNumber}</Project-Build>
             </manifestEntries>
