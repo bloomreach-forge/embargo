@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/bloomreach-forge/embargo.svg?branch=develop)](https://travis-ci.org/bloomreach-forge/embargo)
-
 # Embargo Plugin
 
 The embargo plugin allows you to put CMS documents, assets and images under embargo, that is, it adds a flag that sets 

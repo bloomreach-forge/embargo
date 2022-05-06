@@ -54,7 +54,7 @@ import static org.junit.Assume.assumeTrue;
  */
 public class EmbargoSecurityDomainsTest extends org.onehippo.repository.testutils.RepositoryTestCase {
 
-    private static Logger log = LoggerFactory.getLogger(EmbargoSecurityDomainsTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EmbargoSecurityDomainsTest.class);
     private Session adminSession;
     private Session embargoEditor;
     private Session embargoAuthor;
@@ -88,7 +88,7 @@ public class EmbargoSecurityDomainsTest extends org.onehippo.repository.testutil
         try {
             localSession = server.login(TestConstants.ADMIN_CREDENTIALS);
         } catch (RepositoryException e) {
-            log.error("Can't login to hippo repository", e);
+            LOG.error("Can't login to hippo repository", e);
         } finally {
             if (localSession != null) {
                 localSession.logout();
@@ -377,7 +377,7 @@ public class EmbargoSecurityDomainsTest extends org.onehippo.repository.testutil
                 }
             }
         } catch (RepositoryException e) {
-            log.error("Repository error", e);
+            LOG.error("Repository error", e);
         }
     }
 

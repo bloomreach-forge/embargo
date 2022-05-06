@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2018 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2013-2022 Bloomreach B.V. (http://www.bloomreach.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,12 @@ import javax.jcr.RepositoryException;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 import org.hippoecm.frontend.model.JcrNodeModel;
 import org.hippoecm.frontend.plugins.standards.list.resolvers.AbstractNodeRenderer;
 
 /**
- * Reenderer for one of the attributes in the document list view
+ * Renderer for one of the attributes in the document list view
  */
 public abstract class EmbargoAttributeRenderer extends AbstractNodeRenderer {
 
@@ -36,7 +36,7 @@ public abstract class EmbargoAttributeRenderer extends AbstractNodeRenderer {
 
     protected abstract String getObject(EmbargoDocumentView embargoDocumentView);
 
-    class EmbargoDocumentViewModel extends AbstractReadOnlyModel<String> {
+    class EmbargoDocumentViewModel implements IModel<String> {
 
         EmbargoDocumentView embargoDocumentView;
 
