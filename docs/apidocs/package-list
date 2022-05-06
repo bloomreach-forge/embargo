@@ -1,7 +1,0 @@
-org.onehippo.forge.embargo.frontend.plugins
-org.onehippo.forge.embargo.frontend.plugins.cms.browse.list
-org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.comparators
-org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.resolvers
-org.onehippo.forge.embargo.repository
-org.onehippo.forge.embargo.repository.modules
-org.onehippo.forge.embargo.repository.workflow
