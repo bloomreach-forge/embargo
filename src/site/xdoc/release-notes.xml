@@ -22,12 +22,12 @@
     <section name="Release Notes">
       <subsection name="7.0.0">
         <p class="smallinfo">
-          Released: May 2022
+          Released: 6 May 2022
         </p>
         <ul>
           <li>
             <a href="https://issues.onehippo.com/browse/HIPFORGE-421">HIPFORGE-421</a><br/>
-            Upgrade to Bloomreach Experience Manager 15. (Java 11, Wicket 9 support)
+            Upgrade to Bloomreach Experience Manager 15: build with Java 11, use Wicket 9, redo the demo.
           </li>
         </ul>
       </subsection>
