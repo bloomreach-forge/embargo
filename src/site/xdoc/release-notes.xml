@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  Copyright 2013-2020 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2013-2022 Bloomreach B.V. (http://www.bloomreach.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,6 +20,17 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="7.0.0">
+        <p class="smallinfo">
+          Released: May 2022
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/HIPFORGE-421">HIPFORGE-421</a><br/>
+            Upgrade to Bloomreach Experience Manager 15. (Java 11, Wicket 9 support)
+          </li>
+        </ul>
+      </subsection>
       <subsection name="6.0.0">
         <p class="smallinfo">
           Released: 15 October 2020
