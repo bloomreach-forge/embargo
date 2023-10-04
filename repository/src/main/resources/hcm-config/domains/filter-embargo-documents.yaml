@@ -1,16 +1,30 @@
 definitions:
   config:
-    /hippo:configuration/hippo:domains/preview-documents/hippo-document/filter-embargo:
+    /hippo:configuration/hippo:domains/preview-documents/hippo-document/hide-embargo-document:
       jcr:primaryType: hipposys:facetrule
       hipposys:equals: false
       hipposys:facet: nodetype
       hipposys:filter: false
       hipposys:type: Name
       hipposys:value: embargo:document
-    /hippo:configuration/hippo:domains/live-documents/hippo-document/filter-embargo:
+    /hippo:configuration/hippo:domains/preview-documents/hippo-document/hide-embargo-handle:
+      jcr:primaryType: hipposys:facetrule
+      hipposys:equals: false
+      hipposys:facet: nodetype
+      hipposys:filter: false
+      hipposys:type: Name
+      hipposys:value: embargo:handle
+    /hippo:configuration/hippo:domains/live-documents/hippo-document/hide-embargo-document:
       jcr:primaryType: hipposys:facetrule
       hipposys:equals: false
       hipposys:facet: nodetype
       hipposys:filter: false
       hipposys:type: Name
       hipposys:value: embargo:document
+    /hippo:configuration/hippo:domains/live-documents/hippo-document/hide-embargo-handle:
+      jcr:primaryType: hipposys:facetrule
+      hipposys:equals: false
+      hipposys:facet: nodetype
+      hipposys:filter: false
+      hipposys:type: Name
+      hipposys:value: embargo:handle
