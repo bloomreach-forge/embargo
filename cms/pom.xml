@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2013-2022 Bloomreach B.V. (http://www.bloomreach.com)
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.bloomreach.forge.embargo</groupId>
     <artifactId>embargo</artifactId>
-    <version>7.0.0</version>
+    <version>7.0.1</version>
   </parent>
 
   <name>Bloomreach Embargo Plugin CMS</name>

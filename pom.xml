@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2015-2022 Bloomreach B.V. (http://www.bloomreach.com)
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,21 +20,20 @@
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>15.0.0</version>
+    <version>15.4.0</version>
   </parent>
 
   <name>Bloomreach Embargo Plugin</name>
   <groupId>org.bloomreach.forge.embargo</groupId>
   <artifactId>embargo</artifactId>
-  <version>7.0.0</version>
+  <version>7.0.1</version>
   <packaging>pom</packaging>
   <url>https://github.com/bloomreach-forge/embargo</url>
 
   <properties>
     <junit.version>4.13.1</junit.version>
 
-    <maven.plugin.site.version>3.7</maven.plugin.site.version>
-    <maven.plugin.jxr.version>3.0.0</maven.plugin.jxr.version>
+    <maven.plugin.jxr.version>3.3.2</maven.plugin.jxr.version>
  </properties>
 
   <developers>
@@ -76,20 +75,15 @@
     <repository>
       <name>Hippo Maven 2 Repository</name>
       <id>hippo-maven2-forge</id>
-      <url>https://maven.onehippo.com/content/repositories/forge-releases/</url>
+      <url>https://maven.bloomreach.com/content/repositories/forge-releases/</url>
      <uniqueVersion>false</uniqueVersion>
     </repository>
   </distributionManagement>
 
   <issueManagement>
-    <system>Hippo JIRA</system>
-    <url>https://issues.onehippo.com/projects/HIPFORGE</url>
+    <system>JIRA</system>
+    <url>https://issues.onehippo.com/projects/FORGE</url>
   </issueManagement>
-
-  <ciManagement>
-    <system>Travic CI</system>
-    <url>https://travis-ci.org/bloomreach-forge/embargo</url>
-  </ciManagement>
 
   <licenses>
     <license>
@@ -164,12 +158,12 @@
     <repository>
       <id>hippo-maven2</id>
       <name>Hippo Maven 2</name>
-      <url>http://maven.onehippo.com/maven2</url>
+      <url>https://maven.bloomreach.com/maven2</url>
     </repository>
     <repository>
       <id>hippo-maven2-forge</id>
       <name>Hippo Maven 2 Forge Repositories</name>
-      <url>http://maven.onehippo.com/maven2-forge</url>
+      <url>https://maven.bloomreach.com/maven2-forge</url>
     </repository>
   </repositories>
 
@@ -179,7 +173,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>${maven.plugin.site.version}</version>
       </plugin>
     </plugins>
   </build>
@@ -190,10 +183,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <source>1.8</source>
-          <links>
-            <link>http://download.oracle.com/javase/6/docs/api</link>
-          </links>
+          <source>11</source>
         </configuration>
       </plugin>
       <plugin>

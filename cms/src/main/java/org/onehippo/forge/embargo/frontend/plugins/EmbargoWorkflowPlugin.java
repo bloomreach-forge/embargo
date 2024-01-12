@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2022 Bloomreach B.V. (http://www.bloomreach.com)
+ * Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.onehippo.forge.embargo.frontend.plugins;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -240,7 +241,12 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
 
     private void addSetEmbargoOption() {
         final IModel<String> nameModel = new StringResourceModel("set-embargo-label", this, null);
-        if (EmbargoUtils.isAdminUser(getJcrSession(), getJcrSession().getUserID())) {
+
+        final boolean isAdminUser = EmbargoUtils.isAdminUser(getJcrSession(), getJcrSession().getUserID());
+        final boolean multiSelectEnabled = getPluginConfig().getAsBoolean("multiSelectEnabled", false);
+        final String[] currentUserEmbargoEnabledGroups = EmbargoUtils.getCurrentUserEmbargoEnabledGroups(getJcrSession(), getJcrSession().getUserID());
+
+        if ( isAdminUser || (multiSelectEnabled && currentUserEmbargoEnabledGroups.length > 1)) {
 
             add(new StdWorkflow<EmbargoWorkflow>("set", nameModel, getPluginContext(), (WorkflowDescriptorModel)getDefaultModel()) {
                 final ArrayList<String> selectedEmbargoGroups = new ArrayList<>();
@@ -252,7 +258,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
                     return new SetEmbargoDialog(
                             this,
                             selectedEmbargoGroupsModel,
-                            EmbargoUtils.getAllEmbargoEnabledGroups(getJcrSession()));
+                            isAdminUser? EmbargoUtils.getAllEmbargoEnabledGroups(getJcrSession()) : List.of(currentUserEmbargoEnabledGroups));
                 }
 
                 @Override
