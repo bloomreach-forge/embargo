@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2013-2022 Bloomreach B.V. (http://www.bloomreach.com)
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,9 +14,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<!DOCTYPE document PUBLIC
-  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
-  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <document>
   <properties>
     <title>Screenshots</title>
@@ -26,8 +23,11 @@
       <subsection name="Set embargo">
         <p>This is the drop down menu used to set a document under embargo:</p>
         <img src="images/set-embargo.png" alt="Set embargo"/>
-        <p>If there are multiple groups for embargo you get a dialog to select them:</p>
+        <p>By default, if there are multiple groups for embargo and the user belongs to the admin group you get a dialog to select the desired groups:</p>
         <img src="images/groups-dialog.png" alt="Choose embargo groups"/>
+        <p>If the user doesn't belong to the admin group but belongs to more than one embargo groups upon document embargo all these groups get assigned. </p>
+        <p>Since version 7.0.1 a boolean property multiSelectEnabled is supported on the node /hippo:configuration/hippo:workflows/embargo/embargo-workflow/frontend:renderer
+          setting it to true will result to a selection dialogue for non-admin users that belong to multiple embargo groups. Similar to the admin selection but only for the groups they belong to.</p>
       </subsection>
       <subsection name="Remove embargo">
         <p>This is the drop down menu used to remove the embargo from a document. It can be done immediately or it can be scheduled:</p>

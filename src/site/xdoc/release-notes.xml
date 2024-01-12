@@ -1,6 +1,6 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2013-2022 Bloomreach B.V. (http://www.bloomreach.com)
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,6 +20,21 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="7.0.1">
+        <p class="smallinfo">
+          Released: 12 Jan 2024
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/FORGE-510">FORGE-510</a><br/>
+            Improve the embargo set by adding support for multi select for non admin users that belong to more than one embargo groups.
+          </li>
+          <li>
+            <a href="https://issues.onehippo.com/browse/FORGE-452">FORGE-452</a><br/>
+            Improve existing security domains for live and preview documents by excluding also the embargo:handle
+          </li>
+        </ul>
+      </subsection>
       <subsection name="7.0.0">
         <p class="smallinfo">
           Released: 6 May 2022
