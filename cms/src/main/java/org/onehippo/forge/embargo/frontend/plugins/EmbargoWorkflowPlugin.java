@@ -23,6 +23,7 @@ import java.util.List;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.wicket.Component;
 import org.apache.wicket.Session;
 import org.apache.wicket.model.IModel;
@@ -43,6 +44,7 @@ import org.hippoecm.repository.api.WorkflowDescriptor;
 import org.onehippo.forge.embargo.repository.EmbargoConstants;
 import org.onehippo.forge.embargo.repository.EmbargoUtils;
 import org.onehippo.forge.embargo.repository.workflow.EmbargoWorkflow;
+import org.onehippo.repository.security.JvmCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -244,7 +246,7 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
 
         final boolean isAdminUser = EmbargoUtils.isAdminUser(getJcrSession(), getJcrSession().getUserID());
         final boolean multiSelectEnabled = getPluginConfig().getAsBoolean("multiSelectEnabled", false);
-        final String[] currentUserEmbargoEnabledGroups = EmbargoUtils.getCurrentUserEmbargoEnabledGroups(getJcrSession(), getJcrSession().getUserID());
+        final String[] currentUserEmbargoEnabledGroups = getCurrentUserEmbargoEnabledGroups();
 
         if ( isAdminUser || (multiSelectEnabled && currentUserEmbargoEnabledGroups.length > 1)) {
 
@@ -298,6 +300,23 @@ public class EmbargoWorkflowPlugin extends RenderPlugin<WorkflowDescriptor> {
 
     private javax.jcr.Session getJcrSession() {
         return ((UserSession)Session.get()).getJcrSession();
+    }
+
+    private String[] getCurrentUserEmbargoEnabledGroups(){
+
+        javax.jcr.Session configSession = null;
+        try {
+            configSession = getJcrSession().getRepository().login(JvmCredentials.getCredentials("configuser"));
+            return EmbargoUtils.getCurrentUserEmbargoEnabledGroups(configSession, getJcrSession().getUserID());
+        } catch (RepositoryException e) {
+            log.error("Exception while trying to retrieve configuser session.", e);
+        } finally {
+            if(configSession!=null) {
+                configSession.logout();
+            }
+        }
+
+        return ArrayUtils.EMPTY_STRING_ARRAY;
     }
 
     /**
