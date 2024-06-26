@@ -218,7 +218,7 @@ public class EmbargoSecurityDomainsTest extends org.onehippo.repository.testutil
         final Node node = embargoEditorFolderNode.getSession().getNode(embargoEditorDocumentLocation);
         //source, target folder, name
         final Document document = adminFolderWorkflow.copy(new Document(node.getIdentifier()), new Document(embargoEditorFolderNode.getIdentifier()), TestConstants.TEST_DOCUMENT_NAME + "1");
-        assertTrue(embargoEditor.getNodeByIdentifier(document.getIdentity())!=null);
+        assertNotNull(embargoEditor.getNodeByIdentifier(document.getIdentity()));
 
     }
 

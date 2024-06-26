@@ -89,7 +89,7 @@ public class EmbargoWorkflowEventsProcessingModule extends AbstractReconfigurabl
     @Subscribe
     @SuppressWarnings("unused")
     public void handleEvent(final HippoWorkflowEvent event) {
-        if (embargoGroups == null || embargoGroups.size() == 0) {
+        if (embargoGroups == null || embargoGroups.isEmpty()) {
             log.warn("No embargo groups configured for Embargo workflow events processing module");
             return;
         }

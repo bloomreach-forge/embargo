@@ -20,6 +20,17 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="8.0.0">
+        <p class="smallinfo">
+          Released: X June 2024
+        </p>
+        <ul>
+          <li>
+            <a href="https://issues.onehippo.com/browse/FORGE-522">FORGE-522</a><br/>
+            Upgrade to Bloomreach Experience Manager 16: build with Java 16, use Wicket 10, redo the demo.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="7.0.2">
         <p class="smallinfo">
           Released: 15 Jan 2024
