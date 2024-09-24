@@ -36,8 +36,8 @@ public class ScheduleDialog extends Dialog<Date> {
 
     private static final Logger log = LoggerFactory.getLogger(ScheduleDialog.class);
 
-    private String title;
-    private StdWorkflow<EmbargoWorkflow> action;
+    private final String title;
+    private final StdWorkflow<EmbargoWorkflow> action;
 
     public ScheduleDialog(StdWorkflow<EmbargoWorkflow> action, IModel<Date> dateModel, final String title) {
         super(dateModel);

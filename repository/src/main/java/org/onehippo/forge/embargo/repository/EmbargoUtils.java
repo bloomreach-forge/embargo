@@ -39,7 +39,6 @@ import static org.onehippo.forge.embargo.repository.EmbargoConstants.EMBARGO_SCH
 import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT;
 import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME;
 
-
 public final class EmbargoUtils {
 
     public static final String[] EMPTY_ARRAY = {};

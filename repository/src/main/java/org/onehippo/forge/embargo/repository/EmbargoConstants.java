@@ -15,9 +15,7 @@
  */
 package org.onehippo.forge.embargo.repository;
 
-
 public final class EmbargoConstants {
-
     
     public static final String EMBARGO_JOB = "embargo:job";
     public static final String EMBARGO_MIXIN_NAME = "embargo:handle";
