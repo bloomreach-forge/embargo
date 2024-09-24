@@ -32,6 +32,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.onehippo.forge.embargo.repository.EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME;
 import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT;
@@ -46,7 +47,7 @@ public class EmbargoUtilsTest {
     public void testEmbargoGetExpirationDateAsNull() throws Exception {
         Node mockRootNode = createMock(Node.class);
         final Calendar embargoExpirationDate = EmbargoUtils.getEmbargoExpirationDate(mockRootNode);
-        assertEquals(null, embargoExpirationDate);
+        assertNull(embargoExpirationDate);
     }
 
     @Test
