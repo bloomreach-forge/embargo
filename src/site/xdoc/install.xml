@@ -31,7 +31,7 @@
         <p>Add this repository to your root pom.xml (if it has not already been defined in a parent pom):</p>
         <source><![CDATA[
 <repository>
-  <id>hippo-forge</id>
+  <id>bloomreach-forge</id>
   <name>Bloomreach Forge maven 2 repository.</name>
   <url>https://maven.bloomreach.com/maven2-forge/</url>
   <snapshots>

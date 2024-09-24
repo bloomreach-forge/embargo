@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"org.onehippo.forge.embargo.repository"},{"l":"org.onehippo.forge.embargo.tests"}]
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.onehippo.forge.embargo.repository"},{"l":"org.onehippo.forge.embargo.tests"}];updateSearchResults();
