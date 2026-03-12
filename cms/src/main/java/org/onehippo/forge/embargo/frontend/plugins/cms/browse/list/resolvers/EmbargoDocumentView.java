@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+ * Copyright 2024-2026 Bloomreach B.V. (http://www.bloomreach.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,8 @@ import javax.jcr.Value;
 import javax.jcr.nodetype.NodeType;
 import javax.jcr.nodetype.NodeTypeManager;
 
-import org.apache.commons.lang.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.wicket.model.IDetachable;
 
@@ -111,7 +112,7 @@ public class EmbargoDocumentView implements IObservable, IDetachable {
                             Value[] groups = handleNode.getProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME).getValues();
                             embargoGroups = new String[groups.length];
                             for (int i = 0; i < groups.length; i++) {
-                                embargoGroups[i] = new String(groups[i].getString());
+                                embargoGroups[i] = groups[i].getString();
                             }
                             joinedEmbargoGroups = StringUtils.join(embargoGroups, ',');
                         }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+ * Copyright 2024-2026 Bloomreach B.V. (http://www.bloomreach.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,8 @@ import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 
-import org.apache.commons.lang.ArrayUtils;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.hippoecm.repository.api.HippoNodeType;
 import org.hippoecm.repository.api.HippoWorkspace;
 import org.hippoecm.repository.api.WorkflowContext;
