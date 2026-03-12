@@ -22,6 +22,17 @@
     <section name="Release Notes">
       <subsection name="8.0.0">
         <p class="smallinfo">
+          Released: 12 Mar 2026
+        </p>
+        <ul>
+          <li>
+            <a href="https://bloomreach.atlassian.net/browse/FORGE-625">FORGE-625</a><br/>
+            Upgrade to Bloomreach Experience Manager 16.7+.
+          </li>
+        </ul>
+      </subsection>
+      <subsection name="8.0.0">
+        <p class="smallinfo">
           Released: 24 Sep 2024
         </p>
         <ul>
