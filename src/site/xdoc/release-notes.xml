@@ -10,7 +10,7 @@
 
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.                                       zzzzzzzzzzzzzz
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
@@ -20,6 +20,17 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="8.0.1">
+        <p class="smallinfo">
+          Released: 12 Mar 2026
+        </p>
+        <ul>
+          <li>
+            <a href="https://bloomreach.atlassian.net/browse/FORGE-625">FORGE-625</a><br/>
+            Upgrade to Bloomreach Experience Manager 16.7+.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="8.0.0">
         <p class="smallinfo">
           Released: 24 Sep 2024
@@ -118,7 +129,7 @@
           </li>
         </ul>
       </subsection>
-       <subsection name="4.0.0">
+      <subsection name="4.0.0">
         <p class="smallinfo">
           Released: 19 October 2018
         </p>
@@ -221,7 +232,7 @@
         </p>
         <ul>
           <li><a href="https://issues.onehippo.com/browse/HIPPLUG-1294">HIPPLUG-1294</a><br/>
-            	Changed columns width (columns were too wide).
+            Changed columns width (columns were too wide).
           </li>
         </ul>
       </subsection>
