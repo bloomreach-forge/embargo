@@ -1,0 +1,22 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:workflows/threepane/folder/frontend:renderer/embargoAll:
+      jcr:primaryType: frontend:plugin
+      plugin.class: org.onehippo.forge.embargo.frontend.plugins.EmbargoFolderWorkflowPlugin
+      wicket.id: ${item}
+    /hippo:configuration/hippo:workflows/threepane/folder-extended/frontend:renderer/embargoAll:
+      jcr:primaryType: frontend:plugin
+      plugin.class: org.onehippo.forge.embargo.frontend.plugins.EmbargoFolderWorkflowPlugin
+      wicket.id: ${item}
+    /hippo:configuration/hippo:workflows/threepane/folder-permissions/frontend:renderer/embargoAll:
+      jcr:primaryType: frontend:plugin
+      plugin.class: org.onehippo.forge.embargo.frontend.plugins.EmbargoFolderWorkflowPlugin
+      wicket.id: ${item}
+    /hippo:configuration/hippo:workflows/threepane/directory/frontend:renderer/embargoAll:
+      jcr:primaryType: frontend:plugin
+      plugin.class: org.onehippo.forge.embargo.frontend.plugins.EmbargoFolderWorkflowPlugin
+      wicket.id: ${item}
+    /hippo:configuration/hippo:workflows/threepane/directory-extended/frontend:renderer/embargoAll:
+      jcr:primaryType: frontend:plugin
+      plugin.class: org.onehippo.forge.embargo.frontend.plugins.EmbargoFolderWorkflowPlugin
+      wicket.id: ${item}
