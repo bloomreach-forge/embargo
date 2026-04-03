@@ -54,10 +54,16 @@ public class EmbargoDocumentView implements IObservable, IDetachable {
     private transient String[] embargoGroups;
     private transient String joinedEmbargoGroups;
     private transient Calendar expirationDate;
+    private transient boolean embargoed;
 
     public EmbargoDocumentView(JcrNodeModel nodeModel) {
         this.nodeModel = nodeModel;
         observable = new Observable(nodeModel);
+    }
+
+    public boolean isEmbargoed() {
+        load();
+        return embargoed;
     }
 
     public String[] getEmbargoGroups() {
@@ -77,7 +83,7 @@ public class EmbargoDocumentView implements IObservable, IDetachable {
 
     public void detach() {
         loaded = false;
-
+        embargoed = false;
         embargoGroups = null;
 
         nodeModel.detach();
@@ -108,6 +114,7 @@ public class EmbargoDocumentView implements IObservable, IDetachable {
                         }
                     }
                     if (handleNode != null) {
+                        embargoed = EmbargoUtils.isEmbargoed(handleNode);
                         if (handleNode.hasProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME)) {
                             Value[] groups = handleNode.getProperty(EmbargoConstants.EMBARGO_GROUP_PROPERTY_NAME).getValues();
                             embargoGroups = new String[groups.length];
