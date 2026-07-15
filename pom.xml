@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>17.0.0</version>
+    <version>17.1.1</version>
   </parent>
 
   <name>Bloomreach Embargo Plugin</name>
@@ -31,7 +31,7 @@
   <url>https://github.com/bloomreach-forge/embargo</url>
 
   <properties>
-    <maven.plugin.jxr.version>3.4.0</maven.plugin.jxr.version>
+    <maven.plugin.jxr.version>3.6.0</maven.plugin.jxr.version>
  </properties>
 
   <developers>
