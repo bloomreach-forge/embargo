@@ -13,6 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+.hippo-list-documents > tbody > tr > td.doclisting-embargo-status,
+.hippo-list-documents > thead > tr > th.doclisting-embargo-status {
+  width: 32px;
+  min-width: 32px;
+  text-align: center;
+  padding: 0;
+}
+
 .hippo-list-documents > tbody > tr > td.doclisting-embargo-groups, .hippo-list-documents > thead > tr > th.doclisting-embargo-groups {
   width: 280px;
   min-width: 160px;

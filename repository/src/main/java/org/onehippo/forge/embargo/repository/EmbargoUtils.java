@@ -61,6 +61,10 @@ public final class EmbargoUtils {
         return embargoEnabledUserGroups.toArray(new String[embargoEnabledUserGroups.size()]);
     }
 
+    public static boolean isEmbargoed(Node handleNode) throws RepositoryException {
+        return handleNode != null && handleNode.isNodeType(EmbargoConstants.EMBARGO_MIXIN_NAME);
+    }
+
     public static boolean isAdminUser(Session session, String userIdentity) {
         String[] allUserGroups = getAllUserGroups(session, userIdentity);
         for (final String allUserGroup : allUserGroups) {

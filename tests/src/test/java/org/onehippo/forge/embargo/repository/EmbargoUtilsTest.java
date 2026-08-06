@@ -34,6 +34,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.onehippo.forge.embargo.repository.EmbargoConstants.EMBARGO_MIXIN_NAME;
 import static org.onehippo.forge.embargo.repository.EmbargoConstants.EMBARGO_SCHEDULE_REQUEST_NODE_NAME;
 import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT;
 import static org.onehippo.forge.embargo.repository.EmbargoConstants.HIPPOSCHED_TRIGGERS_DEFAULT_PROPERTY_FIRETIME;
@@ -98,6 +99,29 @@ public class EmbargoUtilsTest {
         Node mockedeNode = new MockNode("/content");
         final Node[] documentVariants = EmbargoUtils.getDocumentVariants(mockedeNode);
         assertEquals(documentVariants.length, 0);
+    }
+
+    @Test
+    public void isEmbargoed_returnsTrue_whenHandleHasEmbargoMixin() throws Exception {
+        Node mockHandle = createMock(Node.class);
+        expect(mockHandle.isNodeType(EMBARGO_MIXIN_NAME)).andReturn(true);
+        replay(mockHandle);
+
+        assertTrue(EmbargoUtils.isEmbargoed(mockHandle));
+    }
+
+    @Test
+    public void isEmbargoed_returnsFalse_whenHandleLacksEmbargoMixin() throws Exception {
+        Node mockHandle = createMock(Node.class);
+        expect(mockHandle.isNodeType(EMBARGO_MIXIN_NAME)).andReturn(false);
+        replay(mockHandle);
+
+        assertFalse(EmbargoUtils.isEmbargoed(mockHandle));
+    }
+
+    @Test
+    public void isEmbargoed_returnsFalse_whenHandleIsNull() throws Exception {
+        assertFalse(EmbargoUtils.isEmbargoed(null));
     }
 
     @Test

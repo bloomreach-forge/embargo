@@ -34,6 +34,7 @@ import org.hippoecm.frontend.plugins.standards.list.ListColumn;
 import org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.comparators.EmbargoDocumentViewComparator;
 import org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.resolvers.EmbargoAttributeRenderer;
 import org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.resolvers.EmbargoDocumentView;
+import org.onehippo.forge.embargo.frontend.plugins.cms.browse.list.resolvers.EmbargoStatusIconRenderer;
 
 /**
  * Plugin showing embargo related columns in the document list view
@@ -58,7 +59,14 @@ public class EmbargoListColumnProviderPlugin extends AbstractListColumnProviderP
 
     @Override
     public List<ListColumn<Node>> getColumns() {
-        return new ArrayList<>();
+        List<ListColumn<Node>> columns = new ArrayList<>();
+
+        ListColumn<Node> statusColumn = new ListColumn<>(new ClassResourceModel("doclisting-embargo-status", getClass()), "embargo-status");
+        statusColumn.setCssClass("doclisting-embargo-status");
+        statusColumn.setRenderer(new EmbargoStatusIconRenderer());
+        columns.add(statusColumn);
+
+        return columns;
     }
 
     @Override

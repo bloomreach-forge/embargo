@@ -41,6 +41,11 @@
       </Policies>
     </RollingFile>
 
+    <!-- embargo-debug.log (no filter) -->
+    <File name="embargo-debug" fileName="${sys:catalina.base}/logs/embargo-debug.log" append="false">
+      <PatternLayout pattern="%d{HH:mm:ss} %-5p %t [%C{1}.%M:%L] %m%n"/>
+    </File>
+
     <!-- console -->
     <Console name="console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{dd.MM.yyyy HH:mm:ss} %-5p %t [%C{1}.%M:%L] %m%n"/>
@@ -146,6 +151,12 @@
 
     <!-- project logging -->
     <Logger name="org.example" level="debug"/>
+
+    <!-- embargo forge debugging -->
+    <Logger additivity="false" name="org.onehippo.forge.embargo" level="warn">
+      <AppenderRef ref="embargo-debug"/>
+      <AppenderRef ref="console"/>
+    </Logger>
 
     <Root level="warn">
       <AppenderRef ref="site"/>
